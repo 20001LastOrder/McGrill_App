@@ -1,0 +1,84 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "McGrill RESTFul Documentation",
+      "version": "1.0.0",
+      "title": "McGrill RESTFul Documentation",
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "host": "localhost:5000",
+    "basePath": "/v2",
+    "tags": [
+      {
+        "name": "User",
+        "description": "Operations about user"
+      },
+      {
+        "name": "Campus",
+        "description": "Operations about campus"
+      },
+      {
+        "name": "Delivery",
+        "description": "Operations about delivery"
+      }
+    ],
+    "schemes": [
+      "https"
+    ],
+    "paths": {
+      "/user/login": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Logs in a user to a session",
+          "description": "",
+          "operationId": "loginUser",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "username",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "password",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "default": {
+              "description": "successful operation"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "isServer": {
+            "type": "boolean"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      }
+    }
+  }

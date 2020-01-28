@@ -1,10 +1,13 @@
 const express = require('express');
+const router = express.Router();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const expressJWT = require('express-jwt');
 const userRouter = require('./route/user');
 const deliveryRouter = require('./route/delivery');
 const campusRouter = require('./route/campus');
+const swaggerUI = require('swagger-ui-express');
+const swaggerDoc = require('./swagger.json');
 
 require('dotenv').config();
 
@@ -29,6 +32,8 @@ connection.once('open', () => {
 app.use('/delivery', jwt, deliveryRouter);
 app.use('/campus', jwt, campusRouter);
 app.use('/user', jwt, userRouter);
+app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+app.use('/api/v1',router);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
