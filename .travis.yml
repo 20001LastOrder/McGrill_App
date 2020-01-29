@@ -1,0 +1,9 @@
+language: node_js
+
+env:
+  - NODE_ENV=development
+
+script:
+  - cd backend
+  - npm install
+  - npm test
