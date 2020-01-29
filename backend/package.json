@@ -2,10 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "jest --forceExit",
-    "start-dev": "node runners/dev.js"
   },
   "keywords": [],
   "author": "",
