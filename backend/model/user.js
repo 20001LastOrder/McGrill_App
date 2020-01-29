@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     }, 
     isServer: {
         type: Boolean, 
-        required: true
+        required: false
     }
 });
 

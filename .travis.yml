@@ -1,0 +1,15 @@
+dist: xenial
+language: node_js
+
+notifications:
+  slack: mcgrill:6f1Fhu7FfFqCt7rwq5bfxEFK
+  
+node_js:
+  v12.14.1
+env:
+  - NODE_ENV=development
+
+script:
+  - cd backend
+  - npm install
+  - npm test
