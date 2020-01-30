@@ -19,6 +19,10 @@ const jwt = expressJWT({secret: process.env.AXIOM_IV}).unless({path: ['/user/log
 app.use(cors());
 app.use(express.json());
 
+app.get("/", function(req, res) {
+    res.send("Hello World");
+});
+
 const uri = config['dburi'];
 mongoose.connect(uri, {
     useNewUrlParser: true, 
