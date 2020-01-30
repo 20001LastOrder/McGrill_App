@@ -34,7 +34,7 @@
         "tags": [
           "User"
         ],
-        "summary": "Find a user related to username",
+        "summary": "Find all users",
         "description": "",
         "operationId": "getUser",
         "produces": [
@@ -120,7 +120,7 @@
         ],
         "responses": {
           "default": {
-            "description": "successful operation with campus before"
+            "description": "successful operation with campus returned"
           }
         }
       }
