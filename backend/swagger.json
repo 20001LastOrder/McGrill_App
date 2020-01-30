@@ -61,7 +61,7 @@
         }
       }
     },
-    "/users/signup": {
+    "/user/signup": {
       "post": {
         "tags": [
           "User"
@@ -102,7 +102,7 @@
         ],
         "responses": {
           "default": {
-            "description": "successful operation"
+            "description": "successful operation with campus before"
           }
         }
       }
@@ -164,7 +164,7 @@
         "tags": [
           "Campus"
         ],
-        "summary": "Issue a new campus",
+        "summary": "Update a campus",
         "description": "",
         "operationId": "putCampus",
         "produces": [
@@ -177,6 +177,104 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/Campus"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/delivery/": {
+      "get": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "Find a delivery related to username",
+        "description": "",
+        "operationId": "findDeliveryByUser",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation with Delivery body returned"
+          }
+        }
+      }
+    },
+    "/delivery/issue/": {
+      "post": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "Issue a new delivery",
+        "description": "",
+        "operationId": "issueDelivery",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Delivery",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Delivery"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "delete a delivery",
+        "description": "",
+        "operationId": "deleteDelivery",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Delivery",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Delivery"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Delivery"
+        ],
+        "summary": "Update a delivery",
+        "description": "",
+        "operationId": "putDelivery",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Delivery",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Delivery"
             }
           }
         ],
