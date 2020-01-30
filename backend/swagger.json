@@ -29,6 +29,24 @@
     "https"
   ],
   "paths": {
+    "/user/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Find a user related to username",
+        "description": "",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation with user"
+          }
+        }
+      }
+    },
     "/user/login": {
       "get": {
         "tags": [
