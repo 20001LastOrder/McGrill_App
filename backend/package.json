@@ -30,5 +30,8 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
+  },
+  "engines": {
+    "node": "v10.14.0"
   }
 }
