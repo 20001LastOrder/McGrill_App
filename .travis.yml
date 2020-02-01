@@ -20,4 +20,4 @@ script:
   - npm run e2e
 
 after_failure:
-  - cat /home/travis/.npm/_logs/*.logs
+  - cat /home/travis/.npm/_logs/*.log
