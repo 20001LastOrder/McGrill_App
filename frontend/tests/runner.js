@@ -1,20 +1,9 @@
-const {spawn, exec} = require("child_process");
+const {spawn} = require("child_process");
 
+process.env.NODE_ENV = 'testing'
+const server = require('../scripts/start.js');
 
-function waitFotTime(time) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve('resolved');
-      }, time);
-    });
-  }
-
-(async()=>{
-    const server = exec('npm start', (error, stdout, stderr)=>{
-        console.log(stdout);
-    });
-
-    await waitFotTime(5000);
+server.ready.then(()=>{
     var isWin = process.platform === "win32";
     var slash;
     if(isWin){
@@ -32,8 +21,7 @@ function waitFotTime(time) {
     });
 
     testServer.on('exit', (code) => {
-        server.kill('SIGTERM');
+        server.close();
         process.exit(code);
     })
-    
-})();
+})

@@ -1,6 +1,5 @@
-Feature: Google Search
+Feature: Login Page
 
-Scenario: Searching Google
-    Given I open Google's Search Page
-    Then the title is "Google"
-    And the Google Search form exists
+Scenario: Login
+    Given I open login page
+    Then A login page is shown
