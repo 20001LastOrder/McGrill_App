@@ -19,4 +19,5 @@ script:
   - sleep 10
   - cd ..
   - cd frontend
+  - npm install
   - npm run e2e
