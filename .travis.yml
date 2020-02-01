@@ -8,8 +8,15 @@ node_js:
   v12.14.1
 env:
   - NODE_ENV=development
+addons: # get google-chrome-stable
+  chrome: stable
 
 script:
   - cd backend
   - npm install
   - npm test
+  - npm start &
+  - sleep 10
+  - cd ..
+  - cd frontend
+  - npm run e2e
