@@ -14,8 +14,6 @@ server.ready.then(()=>{
 
     const options = ['--require', 'tests/cucumber.conf.js', '--require', 'tests/featureDefinitions', '--format', 'node_modules/cucumber-pretty', 'tests/features']
     const cmd = '.' + slash + 'node_modules' + slash + '.bin' + slash + 'cucumber-js' 
-    console.log(cmd)
-    console.log(options)
     var testServer = spawn(cmd, options, { stdio: 'inherit', shell: true });
     testServer.on('error', function(err) {
         console.error(err);

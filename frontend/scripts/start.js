@@ -138,7 +138,6 @@ const { checkBrowsers } = require('react-dev-utils/browsersHelper');
       _resolve();
       
       //when testing we do not need to open browser
-      console.log(process.env.NODE_ENV);
       if(process.env.NODE_ENV !== 'testing'){
         openBrowser(urls.localUrlForBrowser);
       }
