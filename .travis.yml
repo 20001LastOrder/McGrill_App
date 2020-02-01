@@ -1,9 +1,6 @@
 dist: xenial
 language: node_js
 
-notifications:
-  slack: mcgrill:6f1Fhu7FfFqCt7rwq5bfxEFK
-  
 node_js:
   v12.14.1
 env:
@@ -21,3 +18,6 @@ script:
   - cd frontend
   - npm install
   - npm run e2e
+
+after_failure:
+  - cat /home/travis/.npm/_logs/*.logs
