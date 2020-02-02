@@ -15,7 +15,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-const jwt = expressJWT({secret: process.env.AXIOM_IV}).unless({path: ['/user/login', '/user/signup', '/restaurant/login', '/restaurant/login']});
+const jwt = expressJWT({secret: process.env.AXIOM_IV}).unless({path: ['/user/login', '/user/signup', '/restaurant/login', '/restaurant/signup']});
 
 app.use(cors());
 app.use(express.json());
