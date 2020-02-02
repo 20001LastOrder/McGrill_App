@@ -3,13 +3,24 @@ language: node_js
 
 notifications:
   slack: mcgrill:6f1Fhu7FfFqCt7rwq5bfxEFK
-  
+
 node_js:
   v12.14.1
 env:
   - NODE_ENV=development
+addons: # get google-chrome-stable
+  chrome: stable
 
 script:
   - cd backend
   - npm install
   - npm test
+  - npm start &
+  - sleep 10
+  - cd ..
+  - cd frontend
+  - npm install
+  - npm run e2e
+
+after_failure:
+  - cat /home/travis/.npm/_logs/*.log
