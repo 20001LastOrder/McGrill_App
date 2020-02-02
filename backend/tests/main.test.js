@@ -69,7 +69,7 @@ describe('Get /restaurant/login', () => {
     it('should login the restaurant and give back a token', async () => {
     const res = await request(server)
         .get('/restaurant/login')
-        .set('username', username).
+        .set('username', restaurant_username).
         set('password', restaurant_password).
         send();
     expect(res.statusCode).toEqual(200);
