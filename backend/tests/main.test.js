@@ -17,7 +17,7 @@ function clearDatabase(done){
 var username = 'user1';
 var password = '1234User1';
 
-describe('Post /signup', () => {
+describe('Post /user/signup', () => {
     it('should register a new user', async () => {
     const res = await request(server)
         .post('/user/signup')
@@ -33,7 +33,7 @@ describe('Post /signup', () => {
     })
 });
 
-describe('Get /login', () => {
+describe('Get /user/login', () => {
     it('should login the user and give back a token', async () => {
     const res = await request(server)
         .get('/user/login')
@@ -45,3 +45,34 @@ describe('Get /login', () => {
     })
 });
 
+
+var username = 'restaurant1';
+var password = '1234Restaurant1';
+
+describe('Post /restaurant/signup', () => {
+    it('should register a new restaurant', async () => {
+    const res = await request(server)
+        .post('/restaurant/signup')
+        .send({
+        'username': username,
+        'password': password,
+        });
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toHaveProperty('username');
+    expect(res.body['username']).toBe(username);
+    expect(res.body).toHaveProperty('password');
+    expect(res.body['password']).not.toBe(password);
+    })
+});
+
+describe('Get /restaurant/login', () => {
+    it('should login the restaurant and give back a token', async () => {
+    const res = await request(server)
+        .get('/restaurant/login')
+        .set('username', username).
+        set('password', password).
+        send();
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('token');
+    })
+});
