@@ -8,3 +8,6 @@
 1. run server: ```nodemon start```
 2. run test: ```npm test```
 ## Start Frontend: ```npm start``` at ./frontend
+
+Backend deployment: https://mcgrill-backend.herokuapp.com/  
+Frontend deployment: http://mcgrill.herokuapp.com/
