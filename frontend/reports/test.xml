@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="test"
+    errors="1" failures="0" hostname="" id="" package="test" skipped="1"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+    <system-err>
+      [0;31m  Error: An error occurred while retrieving a new session: &#34;Unable to create new service: ChromeDriverService&#34;[0m
+[0;90m       at endReadableNT (_stream_readable.js:1185:12)
+       at processTicksAndRejections (internal/process/task_queues.js:81:21)[0m
+    </system-err>
+  
+
+  
+    
+    <testcase
+      name="Guinea Pig Assert Title" classname="test">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>
