@@ -11,7 +11,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
@@ -116,7 +115,7 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My Favourites</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Orders</MenuItem>
+      <MenuItem onClick={event =>  window.location.href='/userorders'}>My Orders</MenuItem>
       <MenuItem onClick={event =>  window.location.href='/profilesettings'}>My Account</MenuItem>
     </Menu>
   );

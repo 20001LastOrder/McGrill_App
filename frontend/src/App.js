@@ -9,8 +9,8 @@ import Button from 'react-bootstrap/Button'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from 'axios';
-import UserProfile from './components/userprofile';
 import ProfileSettings from './components/profilesettings';
+
 
 
 export const Auth = {
@@ -144,8 +144,8 @@ function App() {
       <br/>
       <Route path="/login" component={Login} />
       <Route path="/signup" component={CreateAccount} />
-      <Route path="/userprofile" component={UserProfile} />
       <Route path="/profilesettings" component={ProfileSettings} />
+  
       <PrivateRoute path="/campus" component={CampusList} />
       <PrivateRoute path="/issue" exact component={Issue} />
       <PrivateRoute path="/issue/:id" component={Issue} />

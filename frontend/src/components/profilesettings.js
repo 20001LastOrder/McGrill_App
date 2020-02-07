@@ -16,7 +16,7 @@ export default class ProfileSettings extends Component {
             <Button variant="primary" size="lg">
                 Favourites
             </Button>
-            <Button variant="primary" size="lg">
+            <Button  onClick={event =>  window.location.href='/userorders'} variant="primary" size="lg">
                 My Order History
             </Button>
             <Button variant="primary" size="lg">
