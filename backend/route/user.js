@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 let User = require('../model/user');
 
@@ -42,5 +44,23 @@ router.route('/signup').post((req, res) => {
     });
     
 });
+
+router.route('/delete').delete((req, res) => {
+    User.findOne({username: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username}, (err, doc) => {
+        if(doc == null){
+            res.status(400).json("Something went wrong");
+            return;
+        }
+        if (!err && !doc.isServer) {
+            User.findOneAndRemove({_id: new mongoose.Types.ObjectId(req.body.id), username: doc.username})
+                  .then((doc) => {
+                      res.json(doc);
+                  })
+                  .catch(({err}) => {res.status(400).json(err)});
+        } else {
+            res.status(400).json(err);
+        }
+    });
+})
 
 module.exports = router;
