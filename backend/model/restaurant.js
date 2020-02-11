@@ -1,10 +1,7 @@
-import MenuItem from "./menuitem"
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
-
-
+const MenuItem = require('./menuitem').schema
 
 const RestaurantSchema = new Schema({
     username: {
