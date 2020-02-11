@@ -1,21 +1,31 @@
 const mongoose = require('mongoose');
+require('mongoose-type-email');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     username: {
-        type: String,
+        firstname: { type: String, required: true },
+        lastname: { type: String, required: true }
+    },
+    email: {
+        type: mongoose.SchemaTypes.Email,
         required: true,
-        trim: true,
-        minlength: 3,
         index: {
             unique: true,
         }
     },
     password: {
         type: String, 
-        required: true
+        trim: true,
+        minlength: 6,
+        required: true,
     }, 
+    address: {
+        Street: { type:String, required: true },
+        City:  { type:String, required: true },
+        Zip: { type: String, required: true }
+    },
     isServer: {
         type: Boolean, 
         required: false
