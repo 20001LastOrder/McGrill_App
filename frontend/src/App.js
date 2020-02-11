@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-rout
 import Navbar from './components/navbar';
 import CampusList from './components/campus';
 import CreateAccount from './components/signup';
+import UserSignup from './components/user_signup';
 import LinkButton from './components/linkbutton';
 import Issue from './components/issue';
 import Button from 'react-bootstrap/Button'
@@ -103,7 +104,7 @@ class Login extends React.Component {
                 />
           </div>
             <Button onClick={this.login}> Login </Button>
-            <LinkButton to='/signup'> Signup </LinkButton>
+            <LinkButton to='/user/signup'> Signup </LinkButton>
       </div>
     )
   }
@@ -141,7 +142,7 @@ function App() {
      <Navbar />
       <br/>
       <Route path="/login" component={Login} />
-      <Route path="/signup" component={CreateAccount} />
+      <Route path="/user/signup" component={UserSignup} />
       <PrivateRoute path="/campus" component={CampusList} />
       <PrivateRoute path="/issue" exact component={Issue} />
       <PrivateRoute path="/issue/:id" component={Issue} />
