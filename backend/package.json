@@ -18,6 +18,7 @@
     "gulp": "^4.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.9",
+    "mongoose-extend-schema": "^1.0.0",
     "mongoose-type-email": "^1.0.12",
     "swagger-jsdoc": "^3.5.0",
     "swagger-ui-express": "^4.1.3"

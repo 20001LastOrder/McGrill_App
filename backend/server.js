@@ -6,7 +6,6 @@ const expressJWT = require('express-jwt');
 const userRouter = require('./route/user');
 const restaurantRouter = require('./route/restaurant');
 const deliveryRouter = require('./route/delivery');
-const campusRouter = require('./route/campus');
 const config = require('./config')[process.env.NODE_ENV];
 const swaggerUI = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
@@ -36,7 +35,6 @@ connection.once('open', () => {
 });
 
 app.use('/delivery', jwt, deliveryRouter);
-app.use('/campus', jwt, campusRouter);
 app.use('/user', jwt, userRouter);
 app.use('/restaurant', jwt, restaurantRouter);
 app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));

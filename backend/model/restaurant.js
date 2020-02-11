@@ -1,13 +1,11 @@
-import MenuItem from "./menuitem"
+const MenuItem = require('./menuitem').schema
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
-
-
 const RestaurantSchema = new Schema({
-    username: {
+    restaurant_name: {
         type: String,
         required: true,
         trim: true,
@@ -20,12 +18,9 @@ const RestaurantSchema = new Schema({
         type: String, 
         required: true
     }, 
-    isServer: {
-        type: Boolean, 
-        required: false
-    },
     created_at: {
-        type:Date,default:new Date()
+        type:Date,
+        default: new Date()
     },
     menuitems: [MenuItem]
 });

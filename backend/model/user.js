@@ -5,8 +5,11 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     username: {
-        firstname: { type: String, required: true },
-        lastname: { type: String, required: true }
+        type: String, 
+        lowercase: true, 
+        trim: true,
+        minlength: 3,
+        required: true,
     },
     email: {
         type: mongoose.SchemaTypes.Email,
@@ -20,15 +23,15 @@ const UserSchema = new Schema({
         trim: true,
         minlength: 6,
         required: true,
-    }, 
-    address: {
-        Street: { type:String, required: true },
-        City:  { type:String, required: true },
-        Zip: { type: String, required: true }
     },
-    isServer: {
-        type: Boolean, 
-        required: false
+    address: {
+        street: { type:String, lowercase: true, required: true },
+        city:  { type:String, lowercase: true, required: true },
+        zip: { type: String, uppercase: true, required: true }
+    },
+    created_at: {
+        type:Date,
+        default: new Date()
     }
 });
 
@@ -51,5 +54,4 @@ UserSchema.methods.comparePassword = (function(candidatePassword, next) {
 });
 
 const User = mongoose.model('User', UserSchema);
-
 module.exports = User;
