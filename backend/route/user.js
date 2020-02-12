@@ -54,7 +54,7 @@ router.route('/delete').delete((req, res) => {
         if (!err && !doc.isServer) {
             User.findOneAndRemove({_id: new mongoose.Types.ObjectId(req.body.id), username: doc.username})
                   .then((doc) => {
-                      res.json(doc);
+                      res.status(200).json(doc);
                   })
                   .catch(({err}) => {res.status(400).json(err)});
         } else {
