@@ -24,7 +24,12 @@ const RestaurantSchema = new Schema({
     created_at: {
         type:Date,default:new Date()
     },
-    menuitems: [MenuItem]
+    menuitems: [
+        {
+            type : mongoose.schema.Types.ObjectId, 
+            ref: "MenuItem"
+        }
+    ]
 });
 
 RestaurantSchema.pre('save', function(next) {
