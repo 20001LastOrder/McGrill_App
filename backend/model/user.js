@@ -27,7 +27,7 @@ const UserSchema = new Schema({
     address: {
         street: { type:String, lowercase: true, required: true },
         city:  { type:String, lowercase: true, required: true },
-        zip: { type: String, uppercase: true, required: true }
+        zip: { type: String, lowercase: true, required: true }
     },
     created_at: {
         type:Date,
@@ -37,11 +37,13 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', function(next) {
     var user = this;
+    let now = Date.now();
     if (!user.isModified('password'))
         return next({description: 'password could not be reset'});
     bcrypt.hash(user.password, 10, function(err, hash) {
         if (err) return next(err);
         user.password = hash;
+        user.created_at = now;
         next();
     });
 });

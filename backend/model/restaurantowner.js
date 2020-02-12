@@ -9,7 +9,10 @@ const Restaurant = require('./restaurant').schema
 const UserSchema = require('./user').schema
 
 const RestaurantOwnerSchema = extendSchema(UserSchema, {
-    restaurant: [Restaurant],
+    restaurant: {
+        type: [Restaurant],
+        required: false
+    },
     restaurant_address: {
         street: { type:String, lowercase: true, required: true },
         city:  { type:String, lowercase: true, required: true },
@@ -22,5 +25,28 @@ const RestaurantOwnerSchema = extendSchema(UserSchema, {
     }
 })
 
-const RestaurantOwnerSchema = mongoose.model('RestaurantOwner', RestaurantOwnerSchema);
+RestaurantOwnerSchema.pre('save', function(next) {
+    var owner = this;
+    if (!owner.isModified('password'))
+        return next({description: 'password could not be reset'});
+    bcrypt.hash(owner.password, 10, function(err, hash) {
+        if (err) return next(err);
+        owner.password = hash;
+        next();
+    });
+});
+
+RestaurantOwnerSchema.methods.checkIsOwner = (function(next) {
+    if(!this.isOwner) return next({description: 'The user is not registered as a restaurant owner'});
+    next();
+});
+
+RestaurantOwnerSchema.methods.comparePassword = (function(candidatePassword, next) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return next(err);
+        next(null, isMatch);
+    });
+});
+
+const RestaurantOwner = mongoose.model('RestaurantOwner', RestaurantOwnerSchema);
 module.exports = RestaurantOwner;
