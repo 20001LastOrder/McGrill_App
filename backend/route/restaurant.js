@@ -26,7 +26,7 @@ router.route('/login').get((req, res) => {
                 if (!isMatch) return res.status(401).json("Password Not Correct");
                 console.log(isMatch)
                 let token = jsonwebtoken.sign({username: req.headers.username}, process.env.AXIOM_IV, {algorithm: 'HS256', expiresIn: 129600});
-                res.json({success: true, err: null, role: restaurant.isServer, token});
+                res.json({id: restaurant._id, success: true, err: null, role: restaurant.isServer, token});
             });
         } else {
             res.status(400).json(err);
