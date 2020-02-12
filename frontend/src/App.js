@@ -10,7 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from 'axios';
 import ProfileSettings from './components/profilesettings';
-
+import UserOrders from './components/userorders';
 
 
 export const Auth = {
@@ -145,7 +145,7 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={CreateAccount} />
       <Route path="/profilesettings" component={ProfileSettings} />
-  
+      <Route path="/userorders" component={UserOrders} />
       <PrivateRoute path="/campus" component={CampusList} />
       <PrivateRoute path="/issue" exact component={Issue} />
       <PrivateRoute path="/issue/:id" component={Issue} />
