@@ -6,10 +6,11 @@ let MenuItem = require('../model/menuitem');
 
 //take in restaurant Id as a param and body as a menuItem.
 router.route('/create').post((req, res) => {
-    return createMenuItemForRestaurant(req.params.restaurantId, req.body);
+    console.log(req.query.restaurantId);
+    return createMenuItemForRestaurant(req.query.restaurantId, req.body, res);
 });
 
-const createMenuItemForRestaurant = function (restaurantId, menuItem) {
+const createMenuItemForRestaurant = function (restaurantId, menuItem, res) {
     return new MenuItem(menuItem).save(function (err, doc) {
         if (err) res.status(400).json(err);
         else {
@@ -18,7 +19,7 @@ const createMenuItemForRestaurant = function (restaurantId, menuItem) {
                 restaurantId,
                 { $push: { menuitems: doc._id } },
                 { new: true, useFindAndModify: false }
-            );
+            ).then(() => res.status(200).json(doc));
         }
     });
 }
