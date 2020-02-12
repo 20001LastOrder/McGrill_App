@@ -7,6 +7,7 @@ const userRouter = require('./route/user');
 const restaurantRouter = require('./route/restaurant');
 const deliveryRouter = require('./route/delivery');
 const campusRouter = require('./route/campus');
+const menuItemRouter = require('./route/menuitem'); 
 const config = require('./config')[process.env.NODE_ENV];
 const swaggerUI = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
@@ -40,6 +41,7 @@ app.use('/campus', jwt, campusRouter);
 app.use('/user', jwt, userRouter);
 app.use('/restaurant', jwt, restaurantRouter);
 app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+app.use('/menu/item', jwt, menuItemRouter);
 app.use('/api/v1',router);
 
 
