@@ -76,3 +76,36 @@ describe('Get /restaurant/login', () => {
     expect(res.body).toHaveProperty('token');
     })
 });
+
+const sample_menu_item = {
+    "name" : "test_menu",
+    "description" : "test_desc",
+    "price": 123,
+    "sold_out": false,
+    "stock": 12,
+}
+
+async function createAndGetRestaurantIdPlusToken () {
+    res = await request(server)
+        .get('/restaurant/login')
+        .set('username', restaurant_username).
+        set('password', restaurant_password).
+        send();
+    let obj = {};
+    obj.id = res.body.id;
+    obj.token = res.body.token;
+    return obj;
+}
+
+describe('Create a Menu Item to a restaurant', () => {
+    it('should create a menu item for the passed in restaurant', async () => {
+        let obj = await createAndGetRestaurantIdPlusToken(); 
+        let id = obj.id;
+        let token = obj.token;
+        const res = await request(server)
+                .post('/menu/item/create?restaurantId='+id)
+                .set('Authorization',`Bearer ${token}`)
+                .send(sample_menu_item);
+        expect(res.statusCode).toEqual(200);
+    })
+});
