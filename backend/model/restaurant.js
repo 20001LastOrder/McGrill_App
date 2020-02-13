@@ -4,6 +4,15 @@ const Schema = mongoose.Schema;
 const MenuItem = require('./menuitem').schema
 
 const RestaurantSchema = new Schema({
+
+    restaurantName: {
+        type: String,
+	required: true,
+	trim: true,
+	index: {
+            unique: true,
+	}
+    },
     username: {
         type: String,
         required: true,
