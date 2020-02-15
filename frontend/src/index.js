@@ -5,9 +5,10 @@ import './index.css';
 import App from './App';
 import Sidebar from './components/sidebar'
 import HomePage from './components/homelayout'
+import RestoHome from './components/restoHome'
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<HomePage />, document.getElementById('root'));
+ReactDOM.render(<RestoHome />, document.getElementById('root'));
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 
