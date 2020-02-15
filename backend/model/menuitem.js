@@ -3,28 +3,17 @@ const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema;
 
 const MenuitemScheme = new Schema({
-    id: {
-        type: Number,
-        required: true,
-        index: {
-            unique: true
-        }
-    },
     name: {
         type: String, 
         required: true
     },
-    restaurantname: {
-        type: String,
-        required: true
-    },     
     description: {
         type: String, 
         default: ""
     },
     price: {
         type: Number,
-        required: true
+        required: false
     }, 
     sold_out: {
         type: Boolean, 

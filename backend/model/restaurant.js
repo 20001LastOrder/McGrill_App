@@ -1,8 +1,7 @@
-const MenuItem = require('./menuitem').schema
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
+const MenuItem = require('./menuitem').schema
 
 const RestaurantSchema = new Schema({
     restaurant_name: {
@@ -22,7 +21,12 @@ const RestaurantSchema = new Schema({
         type:Date,
         default: new Date()
     },
-    menuitems: [MenuItem]
+    menuitems: [
+        {
+            type : mongoose.Schema.Types.ObjectId, 
+            ref: "MenuItem"
+        }
+    ]
 });
 
 RestaurantSchema.pre('save', function(next) {

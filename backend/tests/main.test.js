@@ -15,6 +15,21 @@ function clearDatabase(done){
     });
 };
 
+async function createAndGetRestaurantIdPlusToken () {
+    res = await request(server)
+        .get('/restaurant/login')
+        .set('username', restaurant_username).
+        set('password', restaurant_password).
+        send();
+    let obj = {};
+    obj.id = res.body.id;
+    obj.token = res.body.token;
+    return obj;
+};
+
+var restaurant_username = 'restaurant1';
+var restaurant_password = '1234Restaurant1';
+
 const consumer = {
 	"username":"kobebryant",
 	"email":"kobe.bryant@mail.mcgill.ca",
@@ -40,6 +55,14 @@ const consumer_incomplete = {
 const non_registered_account = {
     "email": "randomuser@gmail.com",
     "password":"123kobe",
+};
+
+const sample_menu_item = {
+    "name" : "test_menu",
+    "description" : "test_desc",
+    "price": 123,
+    "sold_out": false,
+    "stock": 12,
 };
 
 describe('Post /user/signup', () => {
@@ -120,35 +143,17 @@ describe('Get /user/login', () => {
     })
 });
 
+describe('Create a Menu Item to a restaurant', () => {
+    it('should create a menu item for the passed in restaurant', async () => {
+        let obj = await createAndGetRestaurantIdPlusToken(); 
+        let id = obj.id;
+        let token = obj.token;
+        const res = await request(server)
+                .post('/menu/item/create?restaurantId='+id)
+                .set('Authorization',`Bearer ${token}`)
+                .send(sample_menu_item);
+        expect(res.statusCode).toEqual(200);
+    })
+});
+
 afterAll(clearDatabase);
-
-// var restaurant_username = 'restaurant1';
-// var restaurant_password = '1234Restaurant1';
-
-// describe('Post /restaurant/signup', () => {
-//     it('should register a new restaurant', async () => {
-//     const res = await request(server)
-//         .post('/restaurant/signup')
-//         .send({
-//         'username': restaurant_username,
-//         'password': restaurant_password,
-//         });
-//     expect(res.statusCode).toEqual(201);
-//     expect(res.body).toHaveProperty('username');
-//     expect(res.body['username']).toBe(restaurant_username);
-//     expect(res.body).toHaveProperty('password');
-//     expect(res.body['password']).not.toBe(restaurant_password);
-//     })
-// });
-
-// describe('Get /restaurant/login', () => {
-//     it('should login the restaurant and give back a token', async () => {
-//     const res = await request(server)
-//         .get('/restaurant/login')
-//         .set('username', restaurant_username).
-//         set('password', restaurant_password).
-//         send();
-//     expect(res.statusCode).toEqual(200);
-//     expect(res.body).toHaveProperty('token');
-//     })
-// });

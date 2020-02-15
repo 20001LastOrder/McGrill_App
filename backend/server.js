@@ -8,6 +8,7 @@ const adminRouter = require('./route/admin');
 const restaurantOwnerRouter = require('./route/restaurantowner');
 const restaurantRouter = require('./route/restaurant');
 const deliveryRouter = require('./route/delivery');
+const menuItemRouter = require('./route/menuitem'); 
 const config = require('./config')[process.env.NODE_ENV];
 const swaggerUI = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
@@ -42,6 +43,7 @@ app.use('/owner', jwt, restaurantOwnerRouter);
 app.use('/admin', jwt, adminRouter);
 app.use('/restaurant', jwt, restaurantRouter);
 app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+app.use('/menu/item', jwt, menuItemRouter);
 app.use('/api/v1',router);
 
 

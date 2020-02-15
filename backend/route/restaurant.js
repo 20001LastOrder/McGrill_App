@@ -1,15 +1,15 @@
 const router = require('express').Router();
 const jsonwebtoken = require('jsonwebtoken');
 
-let User = require('../model/user');
+let Restaurant = require('../model/restaurant');
 
 router.route('/').get((req, res) => {
-    User.find()
-        .then(users => {
-            users.map((user) => {
-                user.password = null;
+    Restaurant.find()
+        .then(restaurants => {
+            restaurants.map((restaurant) => {
+                restaurant.password = null;
             });
-            res.json(users);
+            res.json(restaurants);
         })
         .catch(err => res.status(400).json(err));
 });
@@ -19,14 +19,14 @@ router.route('/login').get((req, res) => {
         res.status(400).json("bad request");
         return
     }
-    User.findOne({username: req.headers.username}, (err, user) => {
+    Restaurant.findOne({username: req.headers.username}, (err, restaurant) => {
         if (!err) {
-            user.comparePassword(req.headers.password, (err, isMatch) => {
+            restaurant.comparePassword(req.headers.password, (err, isMatch) => {
                 if (err) return res.status(400).json(err);
                 if (!isMatch) return res.status(401).json("Password Not Correct");
                 console.log(isMatch)
                 let token = jsonwebtoken.sign({username: req.headers.username}, process.env.AXIOM_IV, {algorithm: 'HS256', expiresIn: 129600});
-                res.json({success: true, err: null, role: user.isServer, token});
+                res.json({id: restaurant._id, success: true, err: null, role: restaurant.isServer, token});
             });
         } else {
             res.status(400).json(err);
@@ -36,7 +36,7 @@ router.route('/login').get((req, res) => {
 
 router.route('/signup').post((req, res) => {
     console.log(req.body)
-    new User(req.body).save(function(err, doc) {
+    new Restaurant(req.body).save(function(err, doc) {
         if (err) res.status(400).json(err);
         else res.status(201).json(doc);
     });
