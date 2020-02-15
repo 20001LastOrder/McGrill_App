@@ -9,19 +9,16 @@ const Restaurant = require('./restaurant').schema
 const UserSchema = require('./user').schema
 
 const RestaurantOwnerSchema = extendSchema(UserSchema, {
-    restaurant: {
-        type: [Restaurant],
-        required: false
-    },
+    restaurants: [
+        {
+            type : Schema.Types.ObjectId, 
+            ref: "Restaurant"
+        }
+    ],
     restaurant_address: {
         street: { type:String, lowercase: true, required: true },
         city:  { type:String, lowercase: true, required: true },
-        zip: { type:String, uppercase: true, required: true }
-    },
-    isOwner: {
-        type: Boolean,
-        required: true,
-        default: true
+        zip: { type:String, lowercase: true, required: true }
     }
 })
 

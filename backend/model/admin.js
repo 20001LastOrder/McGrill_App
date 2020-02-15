@@ -18,13 +18,28 @@ const AdminSchema = extendSchema(UserSchema, {
         trim: true,
         lowercase: true, 
         required: true
-    },
-    isAdmin: {
-        type: Boolean,
-        required: true,
-        default: true
     }
-})
+});
+
+AdminSchema.pre('save', function(next) {
+    var admin = this;
+    let now = Date.now();
+    if (!admin.isModified('password'))
+        return next({description: 'password could not be reset'});
+    bcrypt.hash(admin.password, 10, function(err, hash) {
+        if (err) return next(err);
+        admin.password = hash;
+        admin.created_at = now;
+        next();
+    });
+});
+
+AdminSchema.methods.comparePassword = (function(candidatePassword, next) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return next(err);
+        next(null, isMatch);
+    });
+});
 
 const Admin = mongoose.model('Admin', AdminSchema);
 module.exports = Admin;
