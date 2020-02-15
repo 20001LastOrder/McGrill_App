@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const MenuItem = require('./menuitem').schema
 
 const RestaurantSchema = new Schema({
-    username: {
+    restaurant_name: {
         type: String,
         required: true,
         trim: true,
@@ -17,12 +17,9 @@ const RestaurantSchema = new Schema({
         type: String, 
         required: true
     }, 
-    isServer: {
-        type: Boolean, 
-        required: false
-    },
     created_at: {
-        type:Date,default:new Date()
+        type:Date,
+        default: new Date()
     },
     menuitems: [
         {
