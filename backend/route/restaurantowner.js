@@ -3,6 +3,7 @@ const router = require('express').Router();
 const jsonwebtoken = require('jsonwebtoken');
 
 let RestaurantOwner = require('../model/restaurantowner');
+let Restaurant = require('../model/restaurant');
 
 router.route('/').get((req, res) => {
     RestaurantOwner.find()
@@ -35,12 +36,48 @@ router.route('/login').get((req, res) => {
     });
 });
 
-router.route('/signup').post((req, res) => {
-    //console.log(req.body)
-    new RestaurantOwner(req.body).save(function(err, doc) {
-        if (err) res.status(400).json(err);
-        else res.status(201).json(doc);
-    });
+router.route('/signup').post(async (req, res) => {
+    try{
+        owner = await new RestaurantOwner(req.body.owner).save();
+        restaurant = await new Restaurant(req.body.restaurant).save();
+        owner.restaurants.push(restaurant._id);
+
+        // update datebase
+        await owner.updateOne({restaurants:owner.restaurants});
+        owner = await RestaurantOwner.findOne({_id: owner._id});
+        res.status(201).json(owner);
+    }catch(err){
+        res.status(400).json(err);
+    }
+
+    // if(err){
+    //     res.status(400).json(err);
+    // }else{
+    //     res.status(201).json(owner);
+    // }
+    //     new RestaurantOwner(req.body.owner).save(function(err, owner) {
+    //     if (err){
+    //         res.status(400).json(err)
+    //     }else{
+    //         //create restaurant
+    //         let owner = entity
+    //         new Restaurant(req.body.restaurant).save(function(err, restaurant){
+                
+    //         });
+    //     }
+    // });
 });
+
+function creationPromise(schema, constructionInfo){
+    return new Promise((resolve, reject)=>{
+        new schema(constructionInfo).save(function(err, entity){
+            if(err){
+                reject(err);
+            }else{
+                resolve();
+            }
+        });
+    });
+}
 
 module.exports = router;
