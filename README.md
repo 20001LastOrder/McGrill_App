@@ -1,4 +1,4 @@
-# McGrill_App
+# McGrill_App  [![Build Status](https://travis-ci.com/20001LastOrder/McGrill_App.svg?branch=master)](https://travis-ci.com/20001LastOrder/McGrill_App)
 ## Make sure your Node version is >= 12.0.0
 ## Start Backend: ./backend
 1. ```npm install```
