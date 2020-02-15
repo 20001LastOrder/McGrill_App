@@ -1,22 +1,9 @@
-const request = require('supertest')
-const server = require('../server')
-const mongoose = require('mongoose');
+const request = require('supertest');
+const server = require('../server');
 
-beforeAll(clearDatabase);
-
-function clearDatabase(done){
-    mongoose.connection.dropDatabase((error ,result) => {
-        if (error) {
-          console.log('Reset database failed');
-        } else {
-          console.log('cleared');
-        }
-        done();
-    });
-};
 
 const admin_normal1 = {
-	"username":"wenzongxia",
+	"name":"wenzongxia",
 	"email":"wenzong.xia@mail.mcgill.ca",
 	"password":"123xwz",
     "address" : {
@@ -29,7 +16,7 @@ const admin_normal1 = {
 }
 
 const admin_incomplete = {
-    "username": "",
+    "name": "",
     "email": "",
     "password": "",
     "address" : {
@@ -46,6 +33,8 @@ const non_registered_account = {
     "password":"123kobe",
 };
 
+module.exports = ()=>{
+
 describe('Post /admin/signup', () => {
     it('should register a new user (admin)', async () => {
     const res = await request(server)
@@ -53,14 +42,14 @@ describe('Post /admin/signup', () => {
         .type("json")
         .send(admin_normal1);
     expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty('username');
+    expect(res.body).toHaveProperty('name');
     expect(res.body).toHaveProperty('email');
     expect(res.body).toHaveProperty('address.street');
     expect(res.body).toHaveProperty('address.city');
     expect(res.body).toHaveProperty('address.zip'); 
     expect(res.body).toHaveProperty('firstname');
     expect(res.body).toHaveProperty('lastname');
-    expect(res.body.username).toBe(admin_normal1.username);
+    expect(res.body.name).toBe(admin_normal1.name);
     expect(res.body.email).toBe(admin_normal1.email);
     expect(res.body.address.street).toBe(admin_normal1.address.street.toLowerCase());
     expect(res.body.address.city).toBe(admin_normal1.address.city.toLowerCase());
@@ -125,5 +114,4 @@ describe('Get /admin/login', () => {
     expect(res.statusCode).toEqual(400);
     })
 });
-
-afterAll(clearDatabase);
+}

@@ -1,49 +1,45 @@
-const request = require('supertest')
-const server = require('../server')
-const mongoose = require('mongoose');
-
-beforeAll(clearDatabase);
-
-function clearDatabase(done){
-    mongoose.connection.dropDatabase((error ,result) => {
-        if (error) {
-          console.log('Reset database failed');
-        } else {
-          console.log('cleared');
-        }
-        done();
-    });
-};
+const request = require('supertest');
+const server = require('../server');
 
 const owner_normal1 = {
-    "username": "wenzongxia",
-    "email": "wenzong.xia@mail.mcgill.ca",
-    "password": "123xwz",
-    "address" : {
-        "street": "2100 Boul de Masionneuve",
-        "city": "montreal",
-        "zip": "H3H1K6",
+    owner:{
+        "name": "Dashen Xia",
+        "email": "dashen.xia@mail.mcgill.ca",
+        "password": "123xwz",
+        "address" : {
+            "street": "2100 Boul de Masionneuve",
+            "city": "montreal",
+            "zip": "H3H1K6",
+        }
     },
-    "restaurant_address": {
-        "street": "2200 Boul de Masionneuve",
-        "city": "montreal",
-        "zip": "H3H1M6"
+    restaurant:{
+        name: 'shitang',
+        address: {
+            "street": "2200 Boul de Masionneuve",
+            "city": "montreal",
+            "zip": "H3H1M6"
+        }
     }
 }
 
 const owner_incomplete = {
-    "username": "",
-    "email": "",
-    "password": "",
-    "address" : {
-        "street": "",
-        "city": "",
-        "zip": "",
+    owner:{
+        "name": "",
+        "email": "",
+        "password": "",
+        "address" : {
+            "street": "",
+            "city": "",
+            "zip": "",
+        },
     },
-    "restaurant_address": {
-        "street": "",
-        "city": "",
-        "zip": ""
+    restaurant:{
+        name: 'shitang',
+        address: {
+            "street": "2200 Boul de Masionneuve",
+            "city": "montreal",
+            "zip": "H3H1M6"
+        }
     }
 }
 
@@ -52,6 +48,7 @@ const non_registered_account = {
     "password":"123kobe",
 };
 
+module.exports = () => {
 describe('Post /owner/signup', () => {
     it('should register a new user (owner)', async () => {
     const res = await request(server)
@@ -59,19 +56,18 @@ describe('Post /owner/signup', () => {
         .type("json")
         .send(owner_normal1);
     expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty('username');
+    expect(res.body).toHaveProperty('name');
     expect(res.body).toHaveProperty('email');
     expect(res.body).toHaveProperty('address.street');
     expect(res.body).toHaveProperty('address.city');
     expect(res.body).toHaveProperty('address.zip'); 
-    expect(res.body.username).toBe(owner_normal1.username);
-    expect(res.body.email).toBe(owner_normal1.email);
-    expect(res.body.address.street).toBe(owner_normal1.address.street.toLowerCase());
-    expect(res.body.address.city).toBe(owner_normal1.address.city.toLowerCase());
-    expect(res.body.address.zip).toBe(owner_normal1.address.zip.toLowerCase());
-    expect(res.body.restaurant_address.street).toBe(owner_normal1.restaurant_address.street.toLowerCase());
-    expect(res.body.restaurant_address.city).toBe(owner_normal1.restaurant_address.city.toLowerCase());
-    expect(res.body.restaurant_address.zip).toBe(owner_normal1.restaurant_address.zip.toLowerCase());
+    expect(res.body).toHaveProperty('restaurants'); 
+    expect(res.body.name).toBe(owner_normal1.owner.name);
+    expect(res.body.email).toBe(owner_normal1.owner.email);
+    expect(res.body.address.street).toBe(owner_normal1.owner.address.street.toLowerCase());
+    expect(res.body.address.city).toBe(owner_normal1.owner.address.city.toLowerCase());
+    expect(res.body.address.zip).toBe(owner_normal1.owner.address.zip.toLowerCase());
+    expect(res.body.restaurants.length).toBe(1);
     expect(res.body).toHaveProperty('password');
     expect(res.body['password']).not.toBe(owner_normal1.password);
     })
@@ -102,8 +98,8 @@ describe('Get /owner/login', () => {
     it('should login the user and give back a token', async () => {
     const res = await request(server)
         .get('/owner/login')
-        .set('email', owner_normal1.email).
-        set('password', owner_normal1.password).
+        .set('email', owner_normal1.owner.email).
+        set('password', owner_normal1.owner.password).
         send();
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('token');
@@ -131,5 +127,4 @@ describe('Get /owner/login', () => {
     expect(res.statusCode).toEqual(400);
     })
 });
-
-afterAll(clearDatabase);
+}

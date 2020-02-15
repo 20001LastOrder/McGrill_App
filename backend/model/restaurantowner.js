@@ -15,11 +15,6 @@ const RestaurantOwnerSchema = extendSchema(UserSchema, {
             ref: "Restaurant"
         }
     ],
-    restaurant_address: {
-        street: { type:String, lowercase: true, required: true },
-        city:  { type:String, lowercase: true, required: true },
-        zip: { type:String, lowercase: true, required: true }
-    }
 })
 
 RestaurantOwnerSchema.pre('save', function(next) {

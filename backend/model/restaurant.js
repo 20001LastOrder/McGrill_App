@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const MenuItem = require('./menuitem').schema
 
 const RestaurantSchema = new Schema({
-    restaurant_name: {
+    name: {
         type: String,
         required: true,
         trim: true,
@@ -13,10 +13,11 @@ const RestaurantSchema = new Schema({
             unique: true,
         }
     },
-    password: {
-        type: String, 
-        required: true
-    }, 
+    address: {
+        street: { type:String, lowercase: true, required: true },
+        city:  { type:String, lowercase: true, required: true },
+        zip: { type:String, lowercase: true, required: true }
+    },
     created_at: {
         type:Date,
         default: new Date()
@@ -27,24 +28,6 @@ const RestaurantSchema = new Schema({
             ref: "MenuItem"
         }
     ]
-});
-
-RestaurantSchema.pre('save', function(next) {
-    var restaurant = this;
-    if (!restaurant.isModified('password'))
-        return next({description: 'password could not be reset'});
-    bcrypt.hash(restaurant.password, 10, function(err, hash) {
-        if (err) return next(err);
-        restaurant.password = hash;
-        next();
-    });
-});
-
-RestaurantSchema.methods.comparePassword = (function(candidatePassword, next) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return next(err);
-        next(null, isMatch);
-    });
 });
 
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
