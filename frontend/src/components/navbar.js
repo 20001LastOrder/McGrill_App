@@ -191,6 +191,9 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+          <IconButton label="restaurant" className={classes.menuButton}
+                     color= "inherit" onClick={event =>  window.location.href='/restaurantOrders'}
+            >restaurant</IconButton>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <ShoppingCartOutlinedIcon />
