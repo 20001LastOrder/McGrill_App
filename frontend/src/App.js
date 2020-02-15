@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-rout
 import Navbar from './components/navbar';
 import CampusList from './components/campus';
 import CreateAccount from './components/signup';
-import UserSignup from './components/user_signup';
+import OwnerSignup from './components/owner_signup';
 import LinkButton from './components/linkbutton';
 import Issue from './components/issue';
 import Button from 'react-bootstrap/Button'
@@ -142,7 +142,7 @@ function App() {
      <Navbar />
       <br/>
       <Route path="/login" component={Login} />
-      <Route path="/user/signup" component={UserSignup} />
+      <Route path="/user/signup" component={OwnerSignup} />
       <PrivateRoute path="/campus" component={CampusList} />
       <PrivateRoute path="/issue" exact component={Issue} />
       <PrivateRoute path="/issue/:id" component={Issue} />

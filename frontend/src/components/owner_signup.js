@@ -5,28 +5,37 @@ import { Auth } from '../App'
 import urlConfig from '../urls'
 let urls = urlConfig[process.env.NODE_ENV];
 
-export default class UserSignup extends Component {
+function getAllAttributes(state, form){
+  let keys = Object.keys(state);
+  keys.forEach((key)=>{
+    state[key] = form[key].value;
+  })
+  return state;
+}
+
+export default class OwnerSignup extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
+      name:'',
       email: '',
+      address:'',
+      city:'',
+      zipcode:'',
       restaurant_name: '',
       restaurant_address: '',
+      restaurant_city: '',
+      restaurant_zipcode:'',
       password: '', 
-      comfirm_password: '',
+      confirm_password: '',
     }
   }
 
-
   async onSubmit(e) {
     e.preventDefault();
-    this.state.email = e.target.email.value;
-    this.state.restaurant_name = e.target.restaurant_name.value;
-    this.state.restaurant_address = e.target.restaurant_address.value;
-    this.state.password = e.target.password.value;
-    this.state.comfirm_password = e.target.confirm_password.value;
+    this.state = getAllAttributes(this.state, e.target);
     console.log(this.state);
 
 
@@ -42,8 +51,16 @@ export default class UserSignup extends Component {
   render() {
     return (
       <div>
-        <h3>New User Account</h3>
+        <h3>New Restaurant Owner Account</h3>
         <form onSubmit={this.onSubmit}>
+        <div className="form-group" > 
+            <label>Name </label>
+            <input  type="text"
+                required
+                className="form-control"
+                name="name"
+            />
+          </div>
           <div className="form-group" > 
             <label>Email </label>
             <input  type="email"
@@ -53,6 +70,30 @@ export default class UserSignup extends Component {
             />
           </div>
           <div className="form-group"> 
+            <label>Address</label>
+            <input  type="text"
+                required
+                className="form-control"
+                name='address'
+            />
+         </div>
+         <div className="form-group"> 
+            <label>City</label>
+            <input  type="text"
+                required
+                className="form-control"
+                name='city'
+            />
+         </div>
+         <div className="form-group"> 
+            <label>Zipcode</label>
+            <input  type="text"
+                required
+                className="form-control"
+                name='zipcode'
+            />
+         </div>
+         <div className="form-group"> 
             <label>Restaurant Name </label>
             <input  type="text"
                 required
@@ -66,6 +107,22 @@ export default class UserSignup extends Component {
                 required
                 className="form-control"
                 name='restaurant_address'
+            />
+          </div>
+          <div className="form-group"> 
+            <label>Restaurant City </label>
+            <input  type="text"
+                required
+                className="form-control"
+                name='restaurant_city'
+            />
+          </div>
+          <div className="form-group"> 
+            <label>Restaurant Zipcode </label>
+            <input  type="text"
+                required
+                className="form-control"
+                name='restaurant_zipcode'
             />
           </div>
           <div className="form-group"> 
