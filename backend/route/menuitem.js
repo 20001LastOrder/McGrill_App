@@ -26,17 +26,6 @@ const createMenuItemForRestaurant = async function (restaurantId, menuItem, res)
         { $push: { menuitems: item._id } },
         { new: true, useFindAndModify: false });
     return restaurant;
-    // return new MenuItem(menuItem).save(function (err, doc) {
-    //     if (err) res.status(400).json(err);
-    //     else {
-    //         //link doc created to restaurant
-    //         return Restaurant.findByIdAndUpdate(
-    //             restaurantId,
-    //             { $push: { menuitems: doc._id } },
-    //             { new: true, useFindAndModify: false }
-    //         ).then(() => res.status(200).json(doc));
-    //     }
-    // });
 }
 
 router.route('/update').put((req, res) => {

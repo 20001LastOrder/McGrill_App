@@ -49,35 +49,6 @@ router.route('/signup').post(async (req, res) => {
     }catch(err){
         res.status(400).json(err);
     }
-
-    // if(err){
-    //     res.status(400).json(err);
-    // }else{
-    //     res.status(201).json(owner);
-    // }
-    //     new RestaurantOwner(req.body.owner).save(function(err, owner) {
-    //     if (err){
-    //         res.status(400).json(err)
-    //     }else{
-    //         //create restaurant
-    //         let owner = entity
-    //         new Restaurant(req.body.restaurant).save(function(err, restaurant){
-                
-    //         });
-    //     }
-    // });
 });
-
-function creationPromise(schema, constructionInfo){
-    return new Promise((resolve, reject)=>{
-        new schema(constructionInfo).save(function(err, entity){
-            if(err){
-                reject(err);
-            }else{
-                resolve();
-            }
-        });
-    });
-}
 
 module.exports = router;
