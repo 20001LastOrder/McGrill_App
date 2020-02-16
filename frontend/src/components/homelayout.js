@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Sidebar from './sidebar';
+import ContentPanel from './content';
 import {Button, Menu, Icon,Layout, Breadcrumb} from 'antd';
+import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
 
 const {Header, Sider, Footer, Content} = Layout;
 const SubMenu = Menu.SubMenu;
@@ -39,7 +41,7 @@ export default class homelayout extends Component{
                         <span style={{
                             textAlign:"center",
                             paddingLeft:20
-                        }}>Saved Space</span>
+                        }}><b>Dining Hall List</b></span>
                     </Header>
                     <Content
                         style={{
@@ -48,7 +50,7 @@ export default class homelayout extends Component{
                             background: '#fff',
                             minHeight: 280,
                         }}>
-                        Content
+                        <ContentPanel />
                     </Content>
 
                     <Footer style={{ textAlign: 'center' }}><Icon type="tool" /> 2020 Created by McGrill</Footer>
@@ -56,5 +58,4 @@ export default class homelayout extends Component{
             </Layout>
         );
     }
-
 }

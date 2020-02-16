@@ -28,7 +28,7 @@ export default class NavLeft extends Component{
     };
 
     selectItem = (e) =>{
-        console.log()
+        console.log(e)
     }
 
     renderMenu = (data) => {

@@ -77,7 +77,6 @@ export default class restoHome extends Component {
                                  }}/>
                         </Content>
                     </div>
-
                 </Layout>
 
 

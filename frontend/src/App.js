@@ -65,6 +65,10 @@ class Login extends React.Component {
       password: e.target.value
     });
   }
+  enter() {
+
+  }
+
   async login() {
     Auth.authenticate({username: this.state.username, password: this.state.password}, (res) => {
       this.setState(() => ({
@@ -102,7 +106,7 @@ class Login extends React.Component {
                 onChange={this.onChangePassword}
                 />
           </div>
-            <Button onClick={this.login}> Login </Button>
+            <Button onClick={this.enter()}> Login </Button>
             <LinkButton to='/signup'> Signup </LinkButton>
       </div>
     )
