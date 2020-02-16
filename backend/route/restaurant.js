@@ -40,7 +40,22 @@ router.route('/signup').post((req, res) => {
         if (err) res.status(400).json(err);
         else res.status(201).json(doc);
     });
-    
+});
+
+router.route('/menu').get((req, res) => {
+    if (!req.header.name){
+        res.status(400).json("bad request");
+        return
+    }
+    Restaurant.findOne({name: req.headers.name}, (err, restaurant) => {
+        if (!err) {
+            // retrive the restaurant successfully
+            return restaurant.menuitems;
+        } else {
+            // Bad resquest for restaurant
+            res.status(400).json(err);
+        }
+    })
 });
 
 module.exports = router;

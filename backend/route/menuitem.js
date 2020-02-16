@@ -37,4 +37,28 @@ router.route('/update').put((req, res) => {
         .catch((err) => { res.status(400).json(err) });
 });
 
+// router.route('/delete').post((req, res) => {
+//     try{
+//         let owner = await RestaurantOwner.findOne({email: req.user.username});
+//         if(!owner.restaurants.includes(req.query.restaurantId)){
+//             throw "you do not own this restaurant";
+//         }
+//         if(!req.headers.menu_name){
+//             res.status(400).json("bad request");
+//         }
+//         MenuItem.findOneAndDelete({name: req.headers.menu_name}, (err, menuItem)  => {
+//             if(err){
+//                 res.status(400).json(err);
+//             }
+//             MenuItem.findOne({name: req.headers.menu_name}, (err, menuItem) => {
+//                 if(err){
+//                     res.status(200)
+//                 }
+//             });
+//         })
+//     }catch(err){
+//         res.status(400).json(err);
+//     }
+// });
+
 module.exports = router;
