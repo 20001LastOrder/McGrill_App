@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,6 +17,7 @@ function getAllAttributes(state, form){
     })
     return state;
   }
+
 
  
 const useStyles = makeStyles(theme => ({
@@ -39,30 +40,54 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function UserProfile() {
-  const classes = useStyles();
 
 
+export default class UserProfile extends Component {
+   
+    //constructor
+    
+    //componentDidMount --> 
+    async componentDidMount() {
+      //make the call to backend
+      //
+      
+    }
+    
+    //state
+    state = {
+      name: "",
+      email: "",
+      address: {
+          street: "",
+          city: "",
+          zip: ""
+      }
+    }
+
+   
+render(){
+ 
   return (
+   
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+      <div className={useStyles.paper}>
+        <Avatar className={useStyles.avatar}>
           <AccountCircleIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           User Profile
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={useStyles.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
+                value={this.state.name}
+                onChange={this.onChangeName}
                 label="First Name"
                 autoFocus
               />
@@ -74,8 +99,6 @@ export default function UserProfile() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
-                autoComplete="lname"
               />
             </Grid>
             <Grid item xs={12}>
@@ -85,7 +108,8 @@ export default function UserProfile() {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
+                value={this.state.email}
+                onChange={this.onChangeEmail}
                 autoComplete="email"
               />
             </Grid>
@@ -108,8 +132,8 @@ export default function UserProfile() {
                 fullWidth
                 name="Street"
                 label="Street"
-                type="Street"
-                id="Street"
+                value={this.state.address.street}
+                onChange={this.onChangeStreet}
                 autoComplete="address"
               />
             </Grid>
@@ -120,8 +144,8 @@ export default function UserProfile() {
                 fullWidth
                 name="City"
                 label="City"
-                type="City"
-                id="City"
+                value={this.state.address.city}
+                onChange={this.onChangeCity}
                 autoComplete="City"
               />
             </Grid>
@@ -132,9 +156,8 @@ export default function UserProfile() {
                 fullWidth
                 name="Zipcode"
                 label="Zipcode"
-                type="Zipcode"
-                id="Zipcode"
-                autoComplete="Zipcode"
+                value={this.state.address.zip}
+                onChange={this.onChangeZip}
               />
             </Grid>
           </Grid>
@@ -143,7 +166,7 @@ export default function UserProfile() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={useStyles.submit}
           >
             Update Profile
           </Button>
@@ -156,4 +179,5 @@ export default function UserProfile() {
       </Box>
     </Container>
   );
+}
 }
