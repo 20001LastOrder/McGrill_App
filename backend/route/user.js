@@ -41,12 +41,12 @@ router.route('/signup').post(async (req, res) => {
     console.error(req.body);
     try{
         let user = await new User(req.body).save();
-        res.status(201).json(user);
+        return res.status(201).json(user);
     }catch(err){
         if(err.errmsg && err.errmsg.includes('duplicate key')){
-            res.status(400).json({message: 'Already Registered'});
+            return res.status(400).json({message: 'Already Registered'});
         }
-        res.status(400).json({message: err});
+        return res.status(400).json({message: err});
     }
 });
 
