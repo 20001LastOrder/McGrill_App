@@ -31,18 +31,23 @@ router.route('/login').get((req, res) => {
                 res.json({success: true, err: null, role: user.isServer, token});
             });
         } else {
+            console.error(err);
             res.status(400).json(err);
         }
     });
 });
 
-router.route('/signup').post((req, res) => {
-    // console.log(req.body)
-    new User(req.body).save(function(err, doc) {
-        if (err) res.status(400).json(err);
-        else res.status(201).json(doc);
-    });
-    
+router.route('/signup').post(async (req, res) => {
+    console.error(req.body);
+    try{
+        let user = await new User(req.body).save();
+        return res.status(201).json(user);
+    }catch(err){
+        if(err.errmsg && err.errmsg.includes('duplicate key')){
+            return res.status(400).json({message: 'Already Registered'});
+        }
+        return res.status(400).json({message: err});
+    }
 });
 
 router.route('/delete').delete((req, res) => {
