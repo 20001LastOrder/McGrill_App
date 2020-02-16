@@ -31,6 +31,14 @@ const sample_menu_item = {
     "stock": 12,
 };
 
+const expected_menu_item_retrived = {
+    "name" : "test_menu",
+    "description" : "test_desc",
+    "price": 123,
+    "sold_out": false,
+    "stock": 12,
+}
+
 async function createAndGetRestaurantIdPlusToken () {
     let obj = {};
     const register = await request(server)

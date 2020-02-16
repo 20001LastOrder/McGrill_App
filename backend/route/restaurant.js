@@ -50,9 +50,8 @@ router.route('/menu').get((req, res) => {
     Restaurant.findOne({name: req.headers.name}, (err, restaurant) => {
         if (!err) {
             // retrive the restaurant successfully
-            return restaurant.menuitems;
+            res.status(200).json(restaurant.menuitems);
         } else {
-            // Bad resquest for restaurant
             res.status(400).json(err);
         }
     })
