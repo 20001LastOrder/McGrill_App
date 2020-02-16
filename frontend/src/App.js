@@ -6,6 +6,7 @@ import CreateAccount from './components/signup';
 import LinkButton from './components/linkbutton';
 import Issue from './components/issue';
 import Button from 'react-bootstrap/Button'
+import MenuPage from './components/menu_page';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import axios from 'axios';
@@ -146,6 +147,8 @@ function App() {
       <PrivateRoute path="/issue" exact component={Issue} />
       <PrivateRoute path="/issue/:id" component={Issue} />
       <Route path="/" exact component={Login} />
+      {/* /menu is temporarily here to be deleted once restaurant's own url is set */}
+      <Route path="/menu" component={MenuPage} />
      </div>
    </Router>
  );
