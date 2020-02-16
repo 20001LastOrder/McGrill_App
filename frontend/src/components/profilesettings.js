@@ -117,10 +117,13 @@ export default class UserProfile extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-        await axios({method: 'post', url: 'http://localhost:5000/campus/issue', 
-                     data: this.state, headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' +  Auth.token }
-        }).catch((err) => {});
-    }
+    await axios({method: 'post', url: 'http://localhost:5000/user/signup', 
+           body: this.state,
+      headers: {'Content-Type': 'application/json'}
+    }).then(async (doc) => {
+      await Auth.authenticate(() => {});
+    }).catch((err) => {});
+  }
 
 render(){
  
