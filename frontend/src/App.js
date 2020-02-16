@@ -104,9 +104,9 @@ class Login extends React.Component {
                 onChange={this.onChangePassword}
                 />
           </div>
-          <div class="btn-group">
+          <div className="btn-group">
             <Button onClick={this.login}> Login </Button>
-            <LinkButton to='/user/signup'> Signup </LinkButton>
+            <LinkButton name='user_signup' to='/user/signup'> Signup </LinkButton>
             <LinkButton to='/owner/signup'> Start Your Own Restaurant </LinkButton>
           </div>
         </div>
@@ -128,7 +128,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 export const AuthButton = withRouter(({ history }) => (
   Auth.isAuthenticated ? (
     <p>
-      <Button onClick={() => {
+      <Button name='signout_btn' onClick={() => {
         Auth.signout(() => history.push('/login'))
       }}>Sign out</Button>
     </p>

@@ -37,6 +37,11 @@ export default class OwnerSignup extends Component {
   async onSubmit(e) {
     e.preventDefault();
     this.state = getAllAttributes(this.state, e.target);
+    if(this.state.password !== this.state.confirm_password){
+      alert("password does not match");
+      return;
+    }
+    
     let owner = {
       name: this.state.name,
       email: this.state.email,
@@ -66,7 +71,7 @@ export default class OwnerSignup extends Component {
       await Auth.authenticate({email:response.data.email, password:this.state.password}, () => {});
       this.props.history.push("/");
     }catch(err){
-      console.log(err);
+      console.log(err.response);
     }
   }
 
@@ -153,6 +158,8 @@ export default class OwnerSignup extends Component {
                 required
                 className="form-control"
                 name='password'
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
             />
           </div>
           <div className="form-group"> 

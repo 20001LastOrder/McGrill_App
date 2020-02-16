@@ -22,7 +22,7 @@ export default class CustomerSignup extends Component {
     this.state = {
       name:'',
       email: '',
-      address:'',
+      street:'',
       city:'',
       zipcode:'',
       password: '', 
@@ -33,12 +33,18 @@ export default class CustomerSignup extends Component {
   async onSubmit(e) {
     e.preventDefault();
     this.state = getAllAttributes(this.state, e.target);
+
+    if(this.state.password !== this.state.confirm_password){
+        alert("password does not match");
+        return;
+    }
+
     let user = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       address:{
-        street: this.state.address,
+        street: this.state.street,
         city: this.state.city,
         zip: this.state.zipcode
       }
@@ -47,13 +53,13 @@ export default class CustomerSignup extends Component {
 
   try{
       let response = await axios({method: 'post', url: urls.user_signup, 
-          data: {user}, 
+          data: user, 
         headers: {'Content-Type': 'application/json'}
       });
       await Auth.authenticate({email:response.data.email, password:this.state.password}, () => {});
       this.props.history.push("/");
     }catch(err){
-      console.log(err);
+      alert(err.response.data.message);
     }
   }
 
@@ -79,11 +85,11 @@ export default class CustomerSignup extends Component {
             />
           </div>
           <div className="form-group"> 
-            <label>Address</label>
+            <label>Street</label>
             <input  type="text"
                 required
                 className="form-control"
-                name='address'
+                name='street'
             />
          </div>
          <div className="form-group"> 
@@ -108,6 +114,7 @@ export default class CustomerSignup extends Component {
                 required
                 className="form-control"
                 name='password'
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             />
           </div>
           <div className="form-group"> 
@@ -116,6 +123,7 @@ export default class CustomerSignup extends Component {
                 required
                 className="form-control"
                 name='confirm_password'
+                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
             />
           </div>
 

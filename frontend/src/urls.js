@@ -4,5 +4,6 @@ let dev = {
 }
 
 module.exports = {
-    'development': dev
+    'development': dev,
+    'testing': dev
 }
