@@ -14,7 +14,7 @@ function getAllAttributes(state, form){
   return state;
 }
 
-export default class OwnerSignup extends Component {
+export default class CustomerSignup extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -25,10 +25,6 @@ export default class OwnerSignup extends Component {
       address:'',
       city:'',
       zipcode:'',
-      restaurant_name: '',
-      restaurant_address: '',
-      restaurant_city: '',
-      restaurant_zipcode:'',
       password: '', 
       confirm_password: '',
     }
@@ -37,7 +33,7 @@ export default class OwnerSignup extends Component {
   async onSubmit(e) {
     e.preventDefault();
     this.state = getAllAttributes(this.state, e.target);
-    let owner = {
+    let user = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
@@ -48,19 +44,10 @@ export default class OwnerSignup extends Component {
       }
     };
 
-    let restaurant = {
-      name: this.state.restaurant_name,
-      address: {
-          street: this.state.restaurant_address,
-          city: this.state.restaurant_city,
-          zip: this.state.restaurant_zipcode
-      }
-    };
-
 
   try{
-      let response = await axios({method: 'post', url: urls.owner_signup, 
-          data: {owner: owner, restaurant: restaurant}, 
+      let response = await axios({method: 'post', url: urls.user_signup, 
+          data: {user}, 
         headers: {'Content-Type': 'application/json'}
       });
       await Auth.authenticate({email:response.data.email, password:this.state.password}, () => {});
@@ -73,7 +60,7 @@ export default class OwnerSignup extends Component {
   render() {
     return (
       <div>
-        <h3>New Restaurant Owner Account</h3>
+        <h3>New Customer Account</h3>
         <form onSubmit={this.onSubmit}>
         <div className="form-group" > 
             <label>Name </label>
@@ -115,38 +102,6 @@ export default class OwnerSignup extends Component {
                 name='zipcode'
             />
          </div>
-         <div className="form-group"> 
-            <label>Restaurant Name </label>
-            <input  type="text"
-                required
-                className="form-control"
-                name='restaurant_name'
-            />
-         </div>
-        <div className="form-group"> 
-            <label>Restaurant Address </label>
-            <input  type="text"
-                required
-                className="form-control"
-                name='restaurant_address'
-            />
-          </div>
-          <div className="form-group"> 
-            <label>Restaurant City </label>
-            <input  type="text"
-                required
-                className="form-control"
-                name='restaurant_city'
-            />
-          </div>
-          <div className="form-group"> 
-            <label>Restaurant Zipcode </label>
-            <input  type="text"
-                required
-                className="form-control"
-                name='restaurant_zipcode'
-            />
-          </div>
           <div className="form-group"> 
             <label>Password </label>
             <input  type="password"

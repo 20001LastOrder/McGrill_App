@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
 import Navbar from './components/navbar';
 import CampusList from './components/campus';
-import CreateAccount from './components/signup';
+import CustomerSignup from './components/customer_signup';
 import OwnerSignup from './components/owner_signup';
 import LinkButton from './components/linkbutton';
 import Issue from './components/issue';
@@ -17,6 +17,7 @@ export const Auth = {
   token: '',
   isServer: false,
   async authenticate(userinfo, next) { // {params: {username: userinfo.username, password: userinfo.password}}
+    console.log(userinfo)
     await axios.get('http://localhost:5000/user/login', {headers: userinfo}).then((res) => {
       if (res.data.success) {
         this.token = res.data.token;
@@ -67,7 +68,7 @@ class Login extends React.Component {
     });
   }
   async login() {
-    Auth.authenticate({username: this.state.username, password: this.state.password}, (res) => {
+    Auth.authenticate({email: this.state.username, password: this.state.password}, (res) => {
       this.setState(() => ({
         redirectToReferrer: res
       }));
@@ -103,9 +104,12 @@ class Login extends React.Component {
                 onChange={this.onChangePassword}
                 />
           </div>
+          <div class="btn-group">
             <Button onClick={this.login}> Login </Button>
             <LinkButton to='/user/signup'> Signup </LinkButton>
-      </div>
+            <LinkButton to='/owner/signup'> Start Your Own Restaurant </LinkButton>
+          </div>
+        </div>
     )
   }
 }
@@ -142,7 +146,8 @@ function App() {
      <Navbar />
       <br/>
       <Route path="/login" component={Login} />
-      <Route path="/user/signup" component={OwnerSignup} />
+      <Route path="/owner/signup" component={OwnerSignup} />
+      <Route path="/user/signup" component={CustomerSignup} />
       <PrivateRoute path="/campus" component={CampusList} />
       <PrivateRoute path="/issue" exact component={Issue} />
       <PrivateRoute path="/issue/:id" component={Issue} />
