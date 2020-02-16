@@ -9,6 +9,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 import { Auth } from '../App'
 
 function getAllAttributes(state, form){
@@ -44,23 +45,16 @@ const useStyles = makeStyles(theme => ({
 
 export default class UserProfile extends Component {
    
-    //constructor
-    
-    //componentDidMount --> 
-    async componentDidMount() {
-      this.setState({
-        name: Auth.currentUser.name,
-        email: Auth.currentUser.email,
-        address: {
-          street: Auth.currentUser.street,
-          city: Auth.currentUser.city,
-          zip: Auth.currentUser.zip
-        }
-      })
-      
-    }
-    
-    //state
+  constructor(props){
+    super(props);
+
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeEmail= this.onChangeEmail.bind(this);
+    this.onChangeStreet= this.onChangeStreet.bind(this);
+    this.onChangeCity = this.onChangeCity.bind(this);
+    this.onChangeZip = this.onChangeZip.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
     state = {
       name: "",
       email: "",
@@ -70,8 +64,64 @@ export default class UserProfile extends Component {
           zip: ""
       }
     }
+    
+    //componentDidMount --> 
+    async componentDidMount() {
+      let self = this;
+      console.log(Auth.isAuthenticated);
+      await axios.get('https://mcgrill-backend.herokuapp.com/user/getUser?email=' + Auth.currentUser, { headers: { Authorization: 'Bearer ' +  Auth.token } })
+      .then(res => res.data)
+      .then(function(resJson) {
+        console.log("json found is:"+resJson);
+      self.setState({
+        name: resJson.name,
+        email: resJson.email,
+        address: resJson.address
+      })})
+      .catch(function (error) {
+        console.log(error);
+    })
+    console.log("state is now:" + this.state.name);
+  }
+  
+    
+  onChangeName(e) {
+    this.setState({
+      name: e.target.value
+    })
+  }
+    
+  onChangeEmail(e) {
+    this.setState({
+      email: e.target.value
+    })
+  }
 
+  onChangeStreet(e) {
+    this.setState({
+      street: e.target.value
+    })
+  }
    
+  onChangeCity(e) {
+    this.setState({
+      city: e.target.value
+    })
+  }
+
+  onChangeZip(e) {
+    this.setState({
+      zip: e.target.value
+    })
+  }
+
+  async onSubmit(e) {
+    e.preventDefault();
+        await axios({method: 'post', url: 'http://localhost:5000/campus/issue', 
+                     data: this.state, headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' +  Auth.token }
+        }).catch((err) => {});
+    }
+
 render(){
  
   return (
@@ -85,7 +135,7 @@ render(){
         <Typography component="h1" variant="h5">
           User Profile
         </Typography>
-        <form className={useStyles.form} noValidate>
+        <form className={useStyles.form} noValidate onSubmit={this.onSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
