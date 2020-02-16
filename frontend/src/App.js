@@ -17,11 +17,13 @@ export const Auth = {
   isAuthenticated: false,
   token: '',
   isServer: false,
+  currentUser: '',
   async authenticate(userinfo, next) { // {params: {username: userinfo.username, password: userinfo.password}}
     await axios.get('http://localhost:5000/user/login', {headers: userinfo}).then((res) => {
       if (res.data.success) {
         this.token = res.data.token;
         this.isAuthenticated = true;
+        this.currentUser = userinfo.username;
         for (var a = 0; a < 1000; a++) console.log(res.data.isServer);
         this.isServer = res.data.role;
       } else {
@@ -40,6 +42,7 @@ export const Auth = {
   signout(next) {
     this.isAuthenticated = false;
     this.token = '';
+    this.currentUser  = '';
     next(this.isAuthenticated);
   }
 }

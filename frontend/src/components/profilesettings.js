@@ -9,6 +9,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Auth } from '../App'
 
 function getAllAttributes(state, form){
     let keys = Object.keys(state);
@@ -17,7 +18,6 @@ function getAllAttributes(state, form){
     })
     return state;
   }
-
 
  
 const useStyles = makeStyles(theme => ({
@@ -48,8 +48,15 @@ export default class UserProfile extends Component {
     
     //componentDidMount --> 
     async componentDidMount() {
-      //make the call to backend
-      //
+      this.setState({
+        name: Auth.currentUser.name,
+        email: Auth.currentUser.email,
+        address: {
+          street: Auth.currentUser.street,
+          city: Auth.currentUser.city,
+          zip: Auth.currentUser.zip
+        }
+      })
       
     }
     
