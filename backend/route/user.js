@@ -16,6 +16,23 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json(err));
 });
 
+router.route('/getUser').get((req, res) => {
+    if(!req.query || !req.query.email){
+        res.status(400).json("bad request");
+        return
+    }
+    let userId = req.query.email; 
+    User.findOne({email : userId}, (err, user) => {
+        if(user!=null){
+            if(err) return res.status(400).json(err);
+            user.password = null; 
+            res.status(200).json(user);
+        } else {
+            res.status(400).json(err);
+        }
+    })
+}); 
+
 router.route('/login').get((req, res) => {
     if (!req.headers.email || !req.headers.password) {
         res.status(400).json("bad request");
