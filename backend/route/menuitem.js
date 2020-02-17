@@ -9,7 +9,7 @@ let MenuItem = require('../model/menuitem');
 router.route('/create').post(async (req, res) => {
     try{
         //check ownership
-        let owner = await RestaurantOwner.findOne({email: req.user.username});
+        let owner = await RestaurantOwner.findOne({email: req.headers.username});
         if(!owner.restaurants.includes(req.query.restaurantId)){
             throw "you do not own this restaurant";
         }
