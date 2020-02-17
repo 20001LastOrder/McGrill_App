@@ -1,4 +1,5 @@
-
+const {client} = require('nightwatch-api');
+const {Given, Then, When} = require('cucumber');
 Given(/^Liya Nelson with email address liya.nelson@mcgill.ca with employee id em001 is a McGill University administrator with good standing$/, async (memname, email, street, city, zip, password) => {
 });
   
