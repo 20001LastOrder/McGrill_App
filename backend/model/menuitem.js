@@ -22,6 +22,10 @@ const MenuitemScheme = new Schema({
     stock: {
         type: Number, 
         default: 500
+    },
+    food_type: {
+        type: String,
+        default: ""
     }
 })
 
