@@ -27,12 +27,12 @@ class restaurantMainView extends Component {
         }
         return (
             <Grid container>
-                <Grid item xs>
+                <Grid item style={{width: '200px'}}>
                     <RestoNav
                         category = {category}
                         onSelect={this.handleCategorySelected} />
                 </Grid>
-                <Grid item sm>{view}</Grid>
+                <Grid item xs>{view}</Grid>
                
             </Grid>
         );
