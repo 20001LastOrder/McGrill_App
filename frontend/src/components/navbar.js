@@ -14,6 +14,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import RestaurantMainView from './restaurantMainView';
+
+// React router
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -191,9 +195,9 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <IconButton label="restaurant" className={classes.menuButton}
-                     color= "inherit" onClick={event =>  window.location.href='/restaurantOrders'}
-            >restaurant</IconButton>
+              <IconButton label="restaurant" className={classes.menuButton} component={Link} to='/restaurantMainView'
+                        color= "inherit"
+              >restaurant</IconButton>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <ShoppingCartOutlinedIcon />
