@@ -19,15 +19,7 @@ export default class homelayout extends Component{
     };
 
     render() {
-        return (
-            <Layout>
-                <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                         <img src={(require('../pictures/banner.jpg'))}
-                              style={{
-                             height: '10%', width: '100%'
-                         }}/>
-                    <Sidebar />
-                </Sider>
+        return (                
                 <Layout>
                     <Header style={{ background: '#fff', height:"auto", paddingLeft:20}}>
                         <Icon
@@ -55,7 +47,6 @@ export default class homelayout extends Component{
 
                     <Footer style={{ textAlign: 'center' }}><Icon type="tool" /> 2020 Created by McGrill</Footer>
                 </Layout>
-            </Layout>
         );
     }
 }

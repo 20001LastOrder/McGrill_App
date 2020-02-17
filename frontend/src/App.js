@@ -1,46 +1,49 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
-import Navbar from './components/navbar';
-import CampusList from './components/campus';
-import CreateAccount from './components/signup';
+import CustomerSignup from './components/customer_signup';
+import OwnerSignup from './components/owner_signup';
 import LinkButton from './components/linkbutton';
-import Issue from './components/issue';
 import Button from 'react-bootstrap/Button'
+import MenuPage from './components/menu_page';
+import HomePage from './components/homelayout'
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Sidebar from './components/sidebar';
+import {Layout} from 'antd';
 import axios from 'axios';
 
+const {Sider} = Layout;
 
 export const Auth = {
-  isAuthenticated: false,
-  token: '',
-  isServer: false,
-  async authenticate(userinfo, next) { // {params: {username: userinfo.username, password: userinfo.password}}
-    await axios.get('http://localhost:5000/user/login', {headers: userinfo}).then((res) => {
-      if (res.data.success) {
-        this.token = res.data.token;
-        this.isAuthenticated = true;
-        for (var a = 0; a < 1000; a++) console.log(res.data.isServer);
-        this.isServer = res.data.role;
-      } else {
+    isAuthenticated: false,
+    token: '',
+    async authenticate(userinfo, next) { // {params: {username: userinfo.username, password: userinfo.password}}
+      await axios.get('http://localhost:5000/user/login', {headers: userinfo}).then((res) => {
+        if (res.data.success) {
+          this.token = res.data.token;
+          this.isAuthenticated = true;
+          window.localStorage.setItem('token', res.data.token);
+          console.log(window.localStorage.getItem('token'))
+        } else {
+          this.isAuthenticated = false;
+        }
+        if (this.isAuthenticated) {
+          next(true);
+        } else {
+          next(false);
+        }
+      }).catch((err) => {
         this.isAuthenticated = false;
-      }
-      if (this.isAuthenticated) {
-        next(true);
-      } else {
         next(false);
-      }
-    }).catch((err) => {
-      this.isAuthenticated = false;
-      next(false);
-    })
-  },
-  signout(next) {
-    this.isAuthenticated = false;
-    this.token = '';
-    next(this.isAuthenticated);
+      })
+    },
+    signout(next) {
+        this.isAuthenticated = false;
+        this.token = '';
+        window.localStorage.removeItem('token');
+        console.log(window.localStorage.getItem('token'))
+      next(this.isAuthenticated);
+    }
   }
-}
 
 class Login extends React.Component {
 
@@ -70,15 +73,13 @@ class Login extends React.Component {
   }
 
   async login() {
-    Auth.authenticate({username: this.state.username, password: this.state.password}, (res) => {
-      this.setState(() => ({
-        redirectToReferrer: res
-      }));
+    Auth.authenticate({email: this.state.username, password: this.state.password}, (res) => {
+      window.location.href = '/';
     });
   }
   render() {
     
-    const { from } = this.props.location.state || { from: { pathname: '/issue' } };
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     const redirectToReferrer  = this.state.redirectToReferrer;
     
     if (redirectToReferrer === true) {
@@ -106,9 +107,10 @@ class Login extends React.Component {
                 onChange={this.onChangePassword}
                 />
           </div>
-            <Button onClick={this.enter()}> Login </Button>
-            <LinkButton to='/signup'> Signup </LinkButton>
-      </div>
+          <div className="btn-group">
+            <Button onClick={this.login}> Login </Button>
+          </div>
+        </div>
     )
   }
 }
@@ -127,7 +129,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 export const AuthButton = withRouter(({ history }) => (
   Auth.isAuthenticated ? (
     <p>
-      <Button onClick={() => {
+      <Button name='signout_btn' onClick={() => {
         Auth.signout(() => history.push('/login'))
       }}>Sign out</Button>
     </p>
@@ -139,20 +141,35 @@ export const AuthButton = withRouter(({ history }) => (
 ))
 
 function App() {
+  let state = {
+    collapsed: false,
+  };
+
  return (
    <Router>
-     <div className="container">
-     <Navbar />
-      <br/>
+     <Layout>
+     <Sider trigger={null} collapsible collapsed={state.collapsed}>
+                         <img src={(require('./pictures/banner.jpg'))}
+                              style={{
+                             height: '10%', width: '100%'
+                         }}/>
+                    <Sidebar />
+                </Sider>
+      <Layout>
       <Route path="/login" component={Login} />
-      <Route path="/signup" component={CreateAccount} />
-      <PrivateRoute path="/campus" component={CampusList} />
-      <PrivateRoute path="/issue" exact component={Issue} />
-      <PrivateRoute path="/issue/:id" component={Issue} />
-      <Route path="/" exact component={Login} />
-     </div>
+      <Route path="/owner/signup" component={OwnerSignup} />
+      <Route path="/user/signup" component={CustomerSignup} />
+      <Route path="/" exact component={HomePage} />
+      {/* /menu is temporarily here to be deleted once restaurant's own url is set */}
+      <Route path="/menu" component={MenuPage} />
+      <Route path="/logout"  render={()=>
+          Auth.signout(()=>{
+            window.location.href = '/'
+          })
+      } />
+      </Layout>
+      </Layout>
    </Router>
  );
 }
- 
 export default App;

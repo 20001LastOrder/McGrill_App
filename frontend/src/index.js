@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './index.css';
 import App from './App';
-import Sidebar from './components/sidebar';
-import Content from './components/content';
-import HomePage from './components/homelayout'
-import RestoHome from './components/restoHome'
+import {Auth} from './App';
+import AuthContext from './context/auth_context'
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<HomePage />, document.getElementById('root'));
+
+const AppWrapper = () => {
+    const [loggedIn, setLoggedIn] = useState(false)
+  
+    return (
+      <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
+        <App />
+      </AuthContext.Provider>
+    )
+  }
+
+ReactDOM.render(<AppWrapper />, document.getElementById('root'));
 
 
 // If you want your app to work offline and load faster, you can change

@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
 import {Menu, Icon} from 'antd';
 import MenuConfig from './ConfigData/MenuConfig'
+import AuthContext from '../context/auth_context'
+
 const SubMenu = Menu.SubMenu;
 
 
 export default class NavLeft extends Component{
     rootSubmenuKeys = [];
-    state = {
-        openKeys: [],
-        collapsed: false,
-    };
+    
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            openKeys: [],
+            collapsed: false,
+        };
+      }
+
     onOpenChange = (openKeys) => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1){
@@ -21,14 +30,20 @@ export default class NavLeft extends Component{
         }
     };
     componentWillMount() {
-        const menuTreeNode = this.renderMenu(MenuConfig);
+        const menuTreeNode = this.renderMenu(MenuConfig.always);
+        console.log(window.localStorage.getItem('token'))
+        const guestNode = this.renderMenu(MenuConfig.guest);
+        const allUserNode = this.renderMenu(MenuConfig.allUser);
+
         this.setState({
-            menuTreeNode:menuTreeNode
+            menuTreeNode:menuTreeNode,
+            guestNode: guestNode,
+            allUserNode: allUserNode
         })
     };
 
     selectItem = (e) =>{
-        console.log(e)
+        window.location.href = e.key;
     }
 
     renderMenu = (data) => {
@@ -66,6 +81,8 @@ export default class NavLeft extends Component{
                       openKeys={this.state.openKeys}
                       onOpenChange={this.onOpenChange}>
                     {this.state.menuTreeNode}
+                    {window.localStorage.getItem('token')===null? this.state.guestNode:this.state.allUserNode}
+                    
                 </Menu>
             </div>
         )

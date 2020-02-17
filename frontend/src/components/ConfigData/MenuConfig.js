@@ -1,4 +1,4 @@
-const MenuConfig = [
+const MenuConfig = {always:[
     {
         title:'Home',
         key:'/admin/home',
@@ -25,7 +25,26 @@ const MenuConfig = [
                 icon:'bulb',
             }
         ],
+    }
+],
+guest:[
+    {
+        title: 'Sign Up',
+        key: '/user/signup',
+        icon:'user-add'
     },
+    {
+        title: 'Sign In',
+        key: '/login',
+        icon: 'user'
+    },
+    {
+        title: 'Restaurant Signup',
+        key: '/owner/signup',
+        icon:'usergroup-add'
+    },
+],
+allUser:[
     {
         title:'My orders',
         key:'/myorders',
@@ -36,6 +55,13 @@ const MenuConfig = [
         key:'/settings',
         icon:'setting'
     },
+    {
+        title: 'Logout',
+        key: '/logout',
+        icon: 'user'
+    }
 ]
+
+}
 
 export default MenuConfig;
