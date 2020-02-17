@@ -1,28 +1,51 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-Given(/^Restaurant owner (.+) with email address (.+), restaurant (.+), restaurant address (.+)$/, async (name, email, restname, addr) => {
+
+async function setResOwnInfo(name, email, street, city, zipcode, restaurant_name, restaurant_street, restaurant_city, restaurant_zipcode, pass, confirmpass){
+    await client.setValue('input[name=name]', name);
+    await client.setValue('input[name=email]', email);
+    await client.setValue('input[name=city]', city);
+    await client.setValue('input[name=street]', street);
+    await client.setValue('input[name=zipcode]', zipcode);
+    await client.setValue('input[name=restaurant_name]', restaurant_name);
+    await client.setValue('input[name=restaurant_street]', restaurant_street);
+    await client.setValue('input[name=restaurant_city]', restaurant_city);
+    await client.setValue('input[name=restaurant_zipcode]', restaurant_zipcode);
+    await client.setValue('input[name=password]', pass);
+    await client.setValue('input[name=confirm_password]', confirmpass);
+}
+
+
+Given(/^Restaurant owner (.+) with email address (.+), address (.+) (.+) (.+), restaurant (.+), restaurant address (.+) (.+) (.+), password (.+)$/, async (name, email, addr, city, zip, restname, restaddr, rescity, reszip, pass)=> {
+    await client.url('http://localhost:3000/owner/signup').waitForElementVisible('body', 2000);
+    await setResOwnInfo(name, email, addr, city, zip, restname, restaddr, rescity, reszip, pass, pass);
 });
   
-Given(/^Restaurant owner Bryson Lindsey with email address b.lin@outlook.com, restaurant RVC Cafeteria, restaurant address 3231 University$/, async () => {
+Given(/^Restaurant owner Bryson Lindsey with email address b.lin@outlook.com, address 3444 Rue Sherbrook, city Montreal, zip H2E3X4, restaurant RVC Cafeteria, restaurant address 3231 University, city Montreal, zip H2E3X1$/, async () => {
+    await client.url('http://localhost:3000/owner/signup').waitForElementVisible('body', 2000);
+    await setResOwnInfo('Bryson Lindsey', 'b.lin@outlook.com', '3444 Rue Sherbrook', 'Montreal', 'H2E3X4', 'RVC Cafeteria', '3231 University', 'Montreal', 'H2E3X1', 'passWord@333', 'passWord@333');
+
 });
   
-When(/^Kane Kerr requests to create a restaurant owner account$/, async () => {
+When(/^requests to create a restaurant$/, async () =>{
+    await client.click('input[type=submit]');
+    await client.pause(1000);
 });
   
-When(/^Kane Kerr rquests to creat a restaurant owner$/, async () => {
+When(/^A Restaurant owner Bryson Lindsey with email address b.lin@outlook.com, restaurant RVC Cafeteria, restaurant address 3231 University exists in the system$/, async () =>{
+    await setResOwnInfo('Bryson Lindsey', 'b.lin@outlook.com', '3444 Rue Sherbrook', 'Montreal', 'H2E3X4', 'RVC Cafeteria', '3231 University', 'Montreal', 'H2E3X1', 'passWord@333', 'passWord@333');
+    await client.click('input[type=submit]');
+    await client.pause(1000);
+    await client.click('li[title=Logout]');
 });
   
-Then(/^a new user of type restaurant owner (.+) with email address (.+), restaurant (.+), restaurant address (.+), an initial password (.+) is generated$/, async (name, email, restname, addr, pass) => {
-});
   
-Then(/^a message \"([^\"]*)\" is issued$/, async (somefieldsaremissing) => {
+Then(/^Restaurant owner (.+) with email address (.+) is created$/, async(name, email)=> {
+    await client.expect.element('li[title=Logout]').to.be.visible;
+    await client.click('li[title=Logout]');
 });
-  
-Then(/^A system administrator Kane Kerr with email kane.kerr@cs.mcgill.ca is registered in the system$/, async () => {
-});
-  
-Then(/^Kane Kerr has logged into the system$/, async () => {
-});
-  
-Then(/^A restaurant owner account with retaurant name RVC Cafeteria and email b.lin@outlook.com exists in the system$/, async () => {
+
+Then('a message {string} is issued', async (string) => {
+    // Write code here that turns the phrase above into concrete actions
+    
 });
