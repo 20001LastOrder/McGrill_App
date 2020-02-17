@@ -4,35 +4,15 @@ let MenuItem = require('../model/menuitem');
 
 let Restaurant = require('../model/restaurant');
 
-router.route('/').get((req, res) => {
-    Restaurant.find()
-        .then(restaurants => {
-            restaurants.map((restaurant) => {
-                restaurant.password = null;
-            });
-            res.json(restaurants);
-        })
-        .catch(err => res.status(400).json(err));
-});
-
-router.route('/login').get((req, res) => {
-    if (!req.headers.username || !req.headers.password) {
-        res.status(400).json("bad request");
-        return
+router.route('/all').get(async (req, res) => {
+    try{
+        let restaurants = await Restaurant.find();
+        console.log(restaurants);
+        res.status(200).json(restaurants);
+    }catch(err){
+        console.log(err);
+        res.status(400).json(err)
     }
-    Restaurant.findOne({username: req.headers.username}, (err, restaurant) => {
-        if (!err) {
-            restaurant.comparePassword(req.headers.password, (err, isMatch) => {
-                if (err) return res.status(400).json(err);
-                if (!isMatch) return res.status(401).json("Password Not Correct");
-                console.log(isMatch)
-                let token = jsonwebtoken.sign({username: req.headers.username}, process.env.AXIOM_IV, {algorithm: 'HS256', expiresIn: 129600});
-                res.json({id: restaurant._id, success: true, err: null, role: restaurant.isServer, token});
-            });
-        } else {
-            res.status(400).json(err);
-        }
-    });
 });
 
 router.route('/signup').post((req, res) => {
