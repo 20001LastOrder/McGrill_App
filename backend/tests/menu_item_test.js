@@ -5,7 +5,7 @@ const server = require('../server');
 const owner_normal = {
     owner:{
         "name": "No Name",
-        "email": "name.no@mail.mcgill.ca",
+        "email": "nameno@mail.mcgill.ca",
         "password": "123xwz",
         "address" : {
             "street": "210 Boul de Masionneuve",
@@ -55,6 +55,7 @@ async function createAndGetRestaurantIdPlusToken () {
     obj.restaurant_id = register.body.restaurants[0];
     obj.user_id = res.body._id;
     obj.token = res.body.token;
+    obj.email = owner_normal.owner.email;
     return obj;
 };
 
@@ -65,9 +66,11 @@ describe('Create a Menu Item to a restaurant', () => {
         let restaurant_id = obj.restaurant_id;
         let owner_id = obj.owner_id;
         let token = obj.token;
+        let email = obj.email;
         const res = await request(server)
                 .post('/menu/item/create?restaurantId='+restaurant_id)
                 .set('Authorization',`Bearer ${token}`)
+                .set('email', email)
                 .send(sample_menu_item);
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('menuitems');
