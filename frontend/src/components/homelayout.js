@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import Sidebar from './sidebar';
 import ContentPanel from './content';
-import {Button, Menu, Icon,Layout, Breadcrumb} from 'antd';
-import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
+import {Icon,Layout} from 'antd';
 
-const {Header, Sider, Footer, Content} = Layout;
-const SubMenu = Menu.SubMenu;
+const {Header, Footer, Content} = Layout;
 
 export default class homelayout extends Component{
     state = {

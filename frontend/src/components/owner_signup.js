@@ -22,11 +22,11 @@ export default class OwnerSignup extends Component {
     this.state = {
       name:'',
       email: '',
-      address:'',
+      street:'',
       city:'',
       zipcode:'',
       restaurant_name: '',
-      restaurant_address: '',
+      restaurant_street: '',
       restaurant_city: '',
       restaurant_zipcode:'',
       password: '', 
@@ -41,13 +41,13 @@ export default class OwnerSignup extends Component {
       alert("password does not match");
       return;
     }
-    
+    console.log(this.state.street)
     let owner = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       address:{
-        street: this.state.address,
+        street: this.state.street,
         city: this.state.city,
         zip: this.state.zipcode
       }
@@ -56,7 +56,7 @@ export default class OwnerSignup extends Component {
     let restaurant = {
       name: this.state.restaurant_name,
       address: {
-          street: this.state.restaurant_address,
+          street: this.state.restaurant_street,
           city: this.state.restaurant_city,
           zip: this.state.restaurant_zipcode
       }
@@ -97,11 +97,11 @@ export default class OwnerSignup extends Component {
             />
           </div>
           <div className="form-group"> 
-            <label>Address</label>
+            <label>Street</label>
             <input  type="text"
                 required
                 className="form-control"
-                name='address'
+                name='street'
             />
          </div>
          <div className="form-group"> 
@@ -129,11 +129,11 @@ export default class OwnerSignup extends Component {
             />
          </div>
         <div className="form-group"> 
-            <label>Restaurant Address </label>
+            <label>Restaurant Street </label>
             <input  type="text"
                 required
                 className="form-control"
-                name='restaurant_address'
+                name='restaurant_street'
             />
           </div>
           <div className="form-group"> 

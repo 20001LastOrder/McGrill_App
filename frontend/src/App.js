@@ -16,7 +16,7 @@ const {Sider} = Layout;
 export const Auth = {
     isAuthenticated: false,
     token: '',
-    async authenticate(userinfo, next) { // {params: {username: userinfo.username, password: userinfo.password}}
+    async authenticate(userinfo, next) { // {params: {email: userinfo.email, password: userinfo.password}}
       await axios.get('http://localhost:5000/user/login', {headers: userinfo}).then((res) => {
         if (res.data.success) {
           this.token = res.data.token;
@@ -49,18 +49,18 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.login = this.login.bind(this);
   }
   state = {
-    username: '', 
+    email: '', 
     password: '',
     redirectToReferrer: false
   }
-  onChangeUsername(e) {
+  onChangeEmail(e) {
     this.setState({
-      username: e.target.value
+      email: e.target.value
     });
   }
   onChangePassword(e) {
@@ -73,7 +73,7 @@ class Login extends React.Component {
   }
 
   async login() {
-    Auth.authenticate({email: this.state.username, password: this.state.password}, (res) => {
+    Auth.authenticate({email: this.state.email, password: this.state.password}, (res) => {
       window.location.href = '/';
     });
   }
@@ -90,25 +90,27 @@ class Login extends React.Component {
       <div>
         <h3>Login</h3>
           <div className="form-group"> 
-            <label>Username </label>
+            <label>email </label>
             <input  type="text"
                 required
                 className="form-control"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
+                name = 'email'
+                value={this.state.email}
+                onChange={this.onChangeEmail}
                 />
           </div>
           <div className="form-group">
             <label>password </label>
             <input 
-                type="text" 
+                type="password" 
                 className="form-control"
+                name="password"
                 value={this.state.password}
                 onChange={this.onChangePassword}
                 />
           </div>
           <div className="btn-group">
-            <Button onClick={this.login}> Login </Button>
+            <Button onClick={this.login} name='Login'> Login </Button>
           </div>
         </div>
     )
