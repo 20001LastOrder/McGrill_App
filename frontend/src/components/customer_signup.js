@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
-import { Auth } from '../App'
+import {Auth} from '../App'
 import urlConfig from '../urls'
-
+import {Layout} from 'antd'
 let urls = urlConfig[process.env.NODE_ENV];
 
 function getAllAttributes(state, form){
@@ -57,7 +57,7 @@ export default class CustomerSignup extends Component {
         headers: {'Content-Type': 'application/json'}
       });
       await Auth.authenticate({email:response.data.email, password:this.state.password}, () => {});
-      this.props.history.push("/");
+      window.location.href ='/'
     }catch(err){
       alert(err.response.data.message);
     }
@@ -65,7 +65,7 @@ export default class CustomerSignup extends Component {
 
   render() {
     return (
-      <div>
+      <Layout>
         <h3>New Customer Account</h3>
         <form onSubmit={this.onSubmit}>
         <div className="form-group" > 
@@ -131,7 +131,7 @@ export default class CustomerSignup extends Component {
             <input type="submit" value="Create Account" className="btn btn-primary" />
           </div>
         </form>
-      </div>
+      </Layout>
     )
   }
 }

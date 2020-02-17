@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
-import { Auth } from '../App'
+import {Auth} from '../App'
 import urlConfig from '../urls'
 
 let urls = urlConfig[process.env.NODE_ENV];
@@ -69,7 +69,7 @@ export default class OwnerSignup extends Component {
         headers: {'Content-Type': 'application/json'}
       });
       await Auth.authenticate({email:response.data.email, password:this.state.password}, () => {});
-      this.props.history.push("/");
+      window.location.href = '/'
     }catch(err){
       console.log(err.response);
     }

@@ -30,8 +30,8 @@ Given(/^Dawood Harrington uses email address dawood.h@mcgill.ca is an user of Mc
     await client.pause(1000);
 
     //log out
-    await client.expect.element('button[name=signout_btn]').to.be.visible;
-    await client.click('button[name=signout_btn]');
+    await client.expect.element('li[title=Logout]').to.be.visible;
+    await client.click('li[title=Logout]');
     await client.pause(500);
     //go to registration again
     await client.url('http://localhost:3000/user/signup').waitForElementVisible('body', 2000);
@@ -49,7 +49,8 @@ When(/^Dawood Harrington request to create a consumer account$/, async ()=>{
 })
 
 Then(/^a new user of Consumer type with name (.+), email address (.+) is added to the system$/, async function (memname, email) {
-    await client.expect.element('button[name=signout_btn]').to.be.visible;
+    await client.expect.element('li[title=Logout]').to.be.visible;
+    await client.click('li[title=Logout]');
 });
 
 Then(/^an \"([^\"]*)\" message is issued$/, (message)=>{
@@ -60,5 +61,5 @@ Then(/^an \"([^\"]*)\" message is issued$/, (message)=>{
 });
 
 Then(/^member of McGill (.+) should not be registered$/, async (memname)=>{
-    await client.expect.element('button[name=signout_btn]').to.be.not.present;
+    await client.expect.element('li[title=Logout]').to.be.not.present;
 });
