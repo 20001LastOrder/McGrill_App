@@ -8,39 +8,54 @@ class restaurantHome extends Component {
         super();
         this.state ={
             pendingOrders: ['#111','#222','#333'],
-            currentOrders: [],
-            readyOrders: []
+            currentOrders: ["#412",'#1276'],
+            readyOrders: ["#9875"]
         }
     }
 
     getPendingOrders=function() {
-        this.state.pendingOrders.map((x) => {
-            console.log(x);
-            return (<Grid item xs>{x}</Grid>);
+        return this.state.pendingOrders.map((x) => {
+            return (<Grid item xs
+                style={{background: "#FFF06E",
+                        marginTop:"40px", marginLeft:"40px",
+                        padding:"40px",
+                        borderRadius: 20}}>{x}</Grid>);
         });
     }
 
     getCurrentOrders=function() {
-
+        return this.state.currentOrders.map((x) => {
+            return (<Grid item xs
+                style={{background: "#B3F1F7",
+                        marginTop:"40px", marginLeft:"40px",
+                        padding:"40px",
+                        borderRadius: 20}}>{x}</Grid>);
+        });
     }
 
     getReadyOrders=function() {
-        
+        return this.state.readyOrders.map((x) => {
+            return (<Grid item xs
+                style={{background: "#DAF7A6",
+                        marginTop:"40px", marginLeft:"40px",
+                        padding:"40px",
+                        borderRadius: 20}}>{x}</Grid>);
+        });
     }
 
     render() { 
         return (
-          <Grid container style={{marginTop: '30px'},{marginLeft: '10px'}, {outlineStyle: 'black'}}>
+          <Grid container style={{marginTop: '30px', marginLeft: '10px',  border: 'black'}}>
              <Grid item xs style={{textAlign:'center'}}>
-                 <Typography>Pending</Typography>
-                 <div>{this.getPendingOrders()}</div>
+                 <Typography variant='h5'>Pending</Typography>
+                <Grid item xs>{this.getPendingOrders()}</Grid>
             </Grid>
              <Grid item xs style={{textAlign:'center'}}>
-                 <Typography>Current</Typography>
+                 <Typography variant='h5'>Current</Typography>
                  <Grid item>{this.getCurrentOrders()}</Grid>
             </Grid>
              <Grid item xs style={{textAlign:'center'}}>
-                 Ready
+                 <Typography variant='h5'>Ready</Typography>
                  <Grid item>{this.getReadyOrders()}</Grid>
             </Grid>
           </Grid>
