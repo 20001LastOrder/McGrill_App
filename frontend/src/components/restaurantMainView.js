@@ -5,11 +5,34 @@ import RestoNav from './restaurantNavbar';
 import RestoHome from './restaurantHome';
 
 class restaurantMainView extends Component {
+    state = {
+        category: "Home"
+    }
+    handleCategorySelected = category => {
+        this.setState({
+            category
+        })
+    }
     render() { 
+        const category = this.state.category
+        let view;
+        if(category === "Home") {
+            view = <RestoHome/>
+        } else if (category === "All Orders") {
+            view = <h1>To be implemented</h1>
+        } else if (category === "Cancelled Orders") {
+            view = <h1>To be implemented</h1>
+        } else if(category === "Menu") {
+            view = <h1>To be implemented</h1>
+        }
         return (
             <Grid container>
-                <Grid item xs><RestoNav/></Grid>
-                <Grid item sm><RestoHome/></Grid>
+                <Grid item xs>
+                    <RestoNav
+                        category = {category}
+                        onSelect={this.handleCategorySelected} />
+                </Grid>
+                <Grid item sm>{view}</Grid>
                
             </Grid>
         );

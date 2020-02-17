@@ -14,15 +14,29 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-}));
+})); 
 
-export default function SimpleList() {
+export default function SimpleList({onSelect, category}) {
+
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [newCategory, setNewCategory] = React.useState("Home");
 
   const handleListItemClick = (event, index) => {
+      console.log(index);
     setSelectedIndex(index);
+    onSelect(newCategory);
   };
+
+  const indexToCategory = (index) => {
+      switch(index)  {
+          case 0: setNewCategory("Home")
+          case 1: setNewCategory("All Orders")
+          case 2: setNewCategory("Cancelled Orders")
+          case 3: setNewCategory("Menu")
+      }
+  }
+
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="resto nav">
@@ -35,14 +49,15 @@ export default function SimpleList() {
             <ListItem 
                 button
                 selected={selectedIndex === 1}
-                onClick={event => handleListItemClick(event, 1)}>
+                onClick={event => 
+                    handleListItemClick(event, 1)}>
                 <ListItemText primary="All Orders" />
             </ListItem>
             <ListItem 
                 button
                 selected={selectedIndex === 2}
                 onClick={event => handleListItemClick(event, 2)}>
-                <ListItemText primary="Cancelled Order" />
+                <ListItemText primary="Cancelled Orders" />
             </ListItem>
             <ListItem 
                 button

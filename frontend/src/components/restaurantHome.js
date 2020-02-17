@@ -6,7 +6,7 @@ class restaurantHome extends Component {
     render() { 
         return (
           <Grid>
-              
+             <h1>yeaa</h1> 
           </Grid>
         );
     }
