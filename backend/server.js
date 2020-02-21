@@ -4,9 +4,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const expressJWT = require('express-jwt');
 const userRouter = require('./route/user');
+const adminRouter = require('./route/admin');
+const restaurantOwnerRouter = require('./route/restaurantowner');
 const restaurantRouter = require('./route/restaurant');
 const deliveryRouter = require('./route/delivery');
-const campusRouter = require('./route/campus');
+const menuItemRouter = require('./route/menuitem'); 
 const config = require('./config')[process.env.NODE_ENV];
 const swaggerUI = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
@@ -15,7 +17,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-const jwt = expressJWT({secret: process.env.AXIOM_IV}).unless({path: ['/user/login', '/user/signup', '/restaurant/login', '/restaurant/signup']});
+const jwt = expressJWT({secret: process.env.AXIOM_IV}).unless({path: ['/user/login', '/user/signup', '/owner/login', '/owner/signup', '/restaurant/login', '/restaurant/signup', '/admin/signup', '/admin/login']});
 
 app.use(cors());
 app.use(express.json());
@@ -36,10 +38,12 @@ connection.once('open', () => {
 });
 
 app.use('/delivery', jwt, deliveryRouter);
-app.use('/campus', jwt, campusRouter);
 app.use('/user', jwt, userRouter);
+app.use('/owner', jwt, restaurantOwnerRouter);
+app.use('/admin', jwt, adminRouter);
 app.use('/restaurant', jwt, restaurantRouter);
 app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+app.use('/menu/item', jwt, menuItemRouter);
 app.use('/api/v1',router);
 
 
