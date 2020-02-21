@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import { BeforeAll } from 'cucumber';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,15 +26,21 @@ export default function SimpleList({onSelect, category}) {
   const handleListItemClick = (event, index) => {
       console.log(index);
     setSelectedIndex(index);
+    indexToCategory(index);
+    console.log(newCategory);
     onSelect(newCategory);
   };
 
   const indexToCategory = (index) => {
       switch(index)  {
-          case 0: setNewCategory("Home")
-          case 1: setNewCategory("All Orders")
-          case 2: setNewCategory("Cancelled Orders")
-          case 3: setNewCategory("Menu")
+          case 0: setNewCategory("Home");
+                    break;
+          case 1: setNewCategory("All Orders");
+                    break;
+          case 2: setNewCategory("Cancelled Orders");
+                    break;
+          case 3: setNewCategory("Menu");
+                    break;
       }
   }
 
