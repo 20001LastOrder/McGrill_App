@@ -98,21 +98,21 @@ export default class UserProfile extends Component {
   }
 
   onChangeStreet(e) {
-    this.setState({
-      street: e.target.value
-    })
+    let addressCopy = this.state.street;
+    addressCopy.city = e.target.value;
+    this.setState({address : addressCopy});
   }
    
   onChangeCity(e) {
-    this.setState({
-      city: e.target.value
-    })
+    let addressCopy = this.state.address;
+    addressCopy.city = e.target.value;
+    this.setState({address : addressCopy});
   }
 
   onChangeZip(e) {
-    this.setState({
-      zip: e.target.value
-    })
+    let addressCopy = this.state.address;
+    addressCopy.zip = e.target.value;
+    this.setState({address : addressCopy});
   }
 
   async onSubmit(e) {
