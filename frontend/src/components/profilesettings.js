@@ -99,7 +99,7 @@ export default class UserProfile extends Component {
 
   onChangeStreet(e) {
     let addressCopy = this.state.street;
-    addressCopy.city = e.target.value;
+    addressCopy.street = e.target.value;
     this.setState({address : addressCopy});
   }
    
