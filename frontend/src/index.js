@@ -7,7 +7,6 @@ import {Auth} from './App';
 import AuthContext from './context/auth_context'
 import * as serviceWorker from './serviceWorker';
 
-
 const AppWrapper = () => {
     const [loggedIn, setLoggedIn] = useState(false)
   

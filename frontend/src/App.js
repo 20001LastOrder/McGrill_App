@@ -11,9 +11,14 @@ import Sidebar from './components/sidebar';
 import {Layout} from 'antd';
 import axios from 'axios';
 import restoHome from './components/restoHome'
+import ProfileSettings from './components/profilesettings';
+import UserOrders from './components/userorders';
+import RestoMain from './components/restaurantMainView';
+
 const {Sider} = Layout;
 
 export const Auth = {
+    currentUser: '',
     isAuthenticated: false,
     token: '',
     async authenticate(userinfo, next) { // {params: {email: userinfo.email, password: userinfo.password}}
@@ -21,6 +26,7 @@ export const Auth = {
         if (res.data.success) {
           this.token = res.data.token;
           this.isAuthenticated = true;
+          this.currentUser = userinfo.username;
           window.localStorage.setItem('token', res.data.token);
           console.log(window.localStorage.getItem('token'))
         } else {
@@ -39,6 +45,7 @@ export const Auth = {
     signout(next) {
         this.isAuthenticated = false;
         this.token = '';
+        this.currentUser = '';
         window.localStorage.removeItem('token');
         console.log(window.localStorage.getItem('token'))
       next(this.isAuthenticated);
@@ -162,6 +169,9 @@ function App() {
       <Route path="/owner/signup" component={OwnerSignup} />
       <Route path="/user/signup" component={CustomerSignup} />
       <Route path="/" exact component={HomePage} />
+      <Route path="/profilesettings" component={ProfileSettings} />
+      <Route path="/userorders" component={UserOrders} />
+
       {/* /menu is temporarily here to be deleted once restaurant's own url is set */}
       <Route path="/menu" component={MenuPage} />
       <Route path="/restaurants/all" component={restoHome} />
