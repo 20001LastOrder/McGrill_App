@@ -55,6 +55,7 @@ Then(/^a new user of Consumer type with name (.+), email address (.+) is added t
 
 Then(/^an \"([^\"]*)\" message is issued$/, (message)=>{
     return client.getAlertText((result)=>{
+        console.error('s', result.value);
         client.assert.equal(result.value, message);
         client.acceptAlert();
     });

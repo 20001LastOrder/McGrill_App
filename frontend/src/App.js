@@ -10,8 +10,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from './components/sidebar';
 import {Layout} from 'antd';
 import axios from 'axios';
+import restoHome from './components/restoHome'
 import ProfileSettings from './components/profilesettings';
 import UserOrders from './components/userorders';
+import RestoMain from './components/restaurantMainView';
 
 const {Sider} = Layout;
 
@@ -169,8 +171,10 @@ function App() {
       <Route path="/" exact component={HomePage} />
       <Route path="/profilesettings" component={ProfileSettings} />
       <Route path="/userorders" component={UserOrders} />
+
       {/* /menu is temporarily here to be deleted once restaurant's own url is set */}
       <Route path="/menu" component={MenuPage} />
+      <Route path="/restaurants/all" component={restoHome} />
       <Route path="/logout"  render={()=>
           Auth.signout(()=>{
             window.location.href = '/'

@@ -14,9 +14,9 @@ const RestaurantSchema = new Schema({
         }
     },
     address: {
-        street: { type:String, lowercase: true, required: true },
-        city:  { type:String, lowercase: true, required: true },
-        zip: { type:String, lowercase: true, required: true }
+        street: { type:String, required: true },
+        city:  { type:String, required: true },
+        zip: { type:String, required: true }
     },
     created_at: {
         type:Date,

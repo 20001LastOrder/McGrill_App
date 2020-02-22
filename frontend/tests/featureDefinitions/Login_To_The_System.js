@@ -46,3 +46,8 @@ Then(/^the user shall be successfully logged into the system$/, async () => {
 Then(/^the user shall not be logged into the system$/, async () => {
     await client.expect.element('li[title=Logout]').to.be.not.present;
 });
+
+
+Then(/^A \"([^\"]*)\" message is issued$/, async (nonexistingrestaurant) =>{
+    
+});

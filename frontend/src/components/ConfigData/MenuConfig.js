@@ -1,7 +1,7 @@
 const MenuConfig = {always:[
     {
         title:'Home',
-        key:'/admin/home',
+        key:'/',
         icon:'home'
     },
     {
