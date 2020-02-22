@@ -12,6 +12,7 @@ import {Layout} from 'antd';
 import axios from 'axios';
 import ProfileSettings from './components/profilesettings';
 import UserOrders from './components/userorders';
+import RestoMain from './components/restaurantMainView';
 
 const {Sider} = Layout;
 
@@ -169,6 +170,7 @@ function App() {
       <Route path="/" exact component={HomePage} />
       <Route path="/profilesettings" component={ProfileSettings} />
       <Route path="/userorders" component={UserOrders} />
+
       {/* /menu is temporarily here to be deleted once restaurant's own url is set */}
       <Route path="/menu" component={MenuPage} />
       <Route path="/logout"  render={()=>

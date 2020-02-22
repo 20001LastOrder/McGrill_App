@@ -1,0 +1,8 @@
+.orderContainer {
+    position: flex;
+    align-items: center;
+    justify-content: center;
+    outline: black;
+    background-color: orange;
+    
+}
