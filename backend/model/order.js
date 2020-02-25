@@ -8,13 +8,17 @@ const OrderSchema = new Schema({
             ref: "MenuItem"
         }
     ],
-    restaurant : {
+    restaurantId : {
         type : mongoose.Schema.Types.ObjectId,
         ref: "Restaurant"
     }, 
-    customer : {
+    customerId : {
         type : mongoose.Schema.Types.ObjectId,
         ref: "User"
+    },
+    price : {
+        type : Number, 
+        required: false
     }
 })
 
