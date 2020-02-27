@@ -16,6 +16,11 @@ const OrderSchema = new Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    //Status is either IN_PROGRESS or COMPLETED.
+    status : {
+        type : String,
+        default: "IN_PROGRESS"
+    },
     price : {
         type : Number, 
         required: false

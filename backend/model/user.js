@@ -32,7 +32,19 @@ const UserSchema = new Schema({
     created_at: {
         type:Date,
         default: new Date()
-    }
+    },
+    current_orders : [
+        {
+            type : mongoose.Schema.Types.ObjectId, 
+            ref: "Order"
+        }
+    ],
+    past_orders : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Order"
+        }
+    ]
 });
 
 UserSchema.pre('save', function(next) {
