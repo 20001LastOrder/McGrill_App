@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 
 let Restaurant = require('../model/restaurant');
 let MenuItem = require('../model/menuitem');
@@ -16,23 +17,27 @@ router.route('/create').post(async (req, res) => {
             throw "Restaurant or customer does not exist";
         
         let orderObj = req.body; 
-        await populateOrderPrice(); 
-        let createdOrder = await Order.save(orderObj);
+        
+        let price = 0; 
 
+        for(const itemId of orderObj.order_items){
+            let item = await MenuItem.findById(itemId);
+            if(item) price+=item.price;
+        }
+
+        orderObj.price = price;
+
+        let createdOrder = new Order({
+            restaurantId: mongoose.Types.ObjectId(req.body.restaurantId),
+            customerId: mongoose.Types.ObjectId(req.body.customerId),
+            price : orderObj.price, 
+        });
+
+        createdOrder.save();
         res.status(201).json(createdOrder);
     } catch (err) {
         res.status(500).json(err);
     }
 });
-
-async function populateOrderPrice(orderObj) {
-    orderObj.price = 0; 
-
-    orderObj.order_items.forEach(itemId => {
-        MenuItem.findById(itemId).then(item => {
-            orderObj.price += item.price; 
-        }); 
-    });
-}
 
 module.exports = router;
