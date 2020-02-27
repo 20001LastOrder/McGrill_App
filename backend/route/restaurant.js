@@ -78,7 +78,7 @@ router.route('/getItemByType').get(async (req, res) => {
 })
 
 router.route('/getCurrentOrders').get(async (req, res) => {
-    if(!req.params.restaurantId){
+    if(!req.query.restaurantId){
         res.status(400).send("bad request");
         return
     }
@@ -86,14 +86,16 @@ router.route('/getCurrentOrders').get(async (req, res) => {
         let result = []; 
 
         await Restaurant
-                .findOne({restaurantId: req.params.restaurantId})
+                .findById(req.query.restaurantId)
                 .populate("orders")
                 .exec(function (err, resto) {
-                    if(err || resto == undefined)
-                        throw "No restaurant with id found";
-                
+                    if(err || !resto){
+                        console.log(resto);
+                        result = []; 
+                        return;
+                    }
                     result = resto.orders.filter(order => order.status === "IN_PROGRESS");
-                });
+            });
 
         res.status(200).json(result);
     } catch(err) {
@@ -102,15 +104,15 @@ router.route('/getCurrentOrders').get(async (req, res) => {
 })
 
 router.route('/getPastOrders').get(async (req, res) => {
-    if(!req.params.restaurantId){
+    if(!req.query.restaurantId){
         res.status(400).send("bad request");
         return
     }
     try{
         let result = []; 
-
+        
         await Restaurant
-                .findOne({restaurantId: req.params.restaurantId})
+                .findById(req.query.restaurantId)
                 .populate("orders")
                 .exec(function (err, resto) {
                     if(err || resto == undefined)

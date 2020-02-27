@@ -6,18 +6,33 @@ let User = require('../model/user');
 let Order = require('../model/order');
 
 router.route('/create').post(async (req, res) => {
+    if(!req.body.customerId || !req.body.restaurantId){
+        res.status(400).json("bad req");
+        return
+    }
+
     try {
-        if(!Restaurant.exists(req.body.restaurantId) || !User.exists(req.body.customerId)) 
+        if(!Restaurant.findById(req.body.restaurantId) || !User.findById(req.body.customerId)) 
             throw "Restaurant or customer does not exist";
         
         let orderObj = req.body; 
-        orderObj.price = orderObj.order_items.reduce( (total, item) => { return total + item.price });
+        await populateOrderPrice(); 
         let createdOrder = await Order.save(orderObj);
 
         res.status(201).json(createdOrder);
     } catch (err) {
-        res.status(400).json(err);
+        res.status(500).json(err);
     }
-})
+});
+
+async function populateOrderPrice(orderObj) {
+    orderObj.price = 0; 
+
+    orderObj.order_items.forEach(itemId => {
+        MenuItem.findById(itemId).then(item => {
+            orderObj.price += item.price; 
+        }); 
+    });
+}
 
 module.exports = router;
