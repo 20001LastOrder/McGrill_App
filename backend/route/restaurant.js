@@ -87,12 +87,36 @@ router.route('/getCurrentOrders').get(async (req, res) => {
 
         await Restaurant
                 .findOne({restaurantId: req.params.restaurantId})
-                .populate("current_orders")
+                .populate("orders")
                 .exec(function (err, resto) {
                     if(err || resto == undefined)
                         throw "No restaurant with id found";
+                
+                    result = resto.orders.filter(order => order.status === "IN_PROGRESS");
+                });
 
-                    result = resto.current_orders;
+        res.status(200).json(result);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
+
+router.route('/getPastOrders').get(async (req, res) => {
+    if(!req.params.restaurantId){
+        res.status(400).send("bad request");
+        return
+    }
+    try{
+        let result = []; 
+
+        await Restaurant
+                .findOne({restaurantId: req.params.restaurantId})
+                .populate("orders")
+                .exec(function (err, resto) {
+                    if(err || resto == undefined)
+                        throw "No restaurant with id found";
+                
+                    result = resto.orders.filter(order => order.status === "COMPLETED");
                 });
 
         res.status(200).json(result);

@@ -27,15 +27,9 @@ const RestaurantSchema = new Schema({
             ref: "MenuItem"
         }
     ],
-    current_orders : [
+    orders : [
         {
             type : mongoose.Schema.Types.ObjectId, 
-            ref: "Order"
-        }
-    ],
-    past_orders : [
-        {
-            type: mongoose.Schema.Types.ObjectId,
             ref: "Order"
         }
     ]

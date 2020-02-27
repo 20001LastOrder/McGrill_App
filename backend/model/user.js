@@ -33,12 +33,10 @@ const UserSchema = new Schema({
         type:Date,
         default: new Date()
     },
-    current_orders : [
-        {
+    current_order : {
             type : mongoose.Schema.Types.ObjectId, 
             ref: "Order"
-        }
-    ],
+    },
     past_orders : [
         {
             type: mongoose.Schema.Types.ObjectId,
