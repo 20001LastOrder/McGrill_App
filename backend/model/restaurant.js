@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
-const MenuItem = require('./menuitem').schema
 
 const RestaurantSchema = new Schema({
     name: {
@@ -26,6 +25,12 @@ const RestaurantSchema = new Schema({
         {
             type : mongoose.Schema.Types.ObjectId, 
             ref: "MenuItem"
+        }
+    ],
+    orders : [
+        {
+            type : mongoose.Schema.Types.ObjectId, 
+            ref: "Order"
         }
     ]
 });
