@@ -24,6 +24,10 @@ const OrderSchema = new Schema({
     price : {
         type : Number, 
         required: false
+    },
+    created_at: {
+        type:Date,
+        default: new Date()
     }
 })
 

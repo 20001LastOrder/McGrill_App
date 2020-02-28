@@ -7,16 +7,13 @@ let Restaurant = require('../model/restaurant');
 router.route('/all').get(async (req, res) => {
     try{
         let restaurants = await Restaurant.find();
-        console.log(restaurants);
         res.status(200).json(restaurants);
     }catch(err){
-        console.log(err);
         res.status(400).json(err)
     }
 });
 
 router.route('/signup').post((req, res) => {
-    console.log(req.body)
     new Restaurant(req.body).save(function(err, doc) {
         if (err) res.status(400).json(err);
         else res.status(201).json(doc);
@@ -84,20 +81,18 @@ router.route('/getCurrentOrders').get(async (req, res) => {
     }
     try{
         let result = []; 
-
         await Restaurant
                 .findById(req.query.restaurantId)
                 .populate("orders")
                 .exec(function (err, resto) {
                     if(err || !resto){
-                        console.log(resto);
-                        result = []; 
+                        result = ["no_restaurant_found"]; 
                         return;
                     }
                     result = resto.orders.filter(order => order.status === "IN_PROGRESS");
+                    res.status(200).json(result);
             });
-
-        res.status(200).json(result);
+            
     } catch(err) {
         res.status(500).json(err);
     }
@@ -115,13 +110,14 @@ router.route('/getPastOrders').get(async (req, res) => {
                 .findById(req.query.restaurantId)
                 .populate("orders")
                 .exec(function (err, resto) {
-                    if(err || resto == undefined)
-                        throw "No restaurant with id found";
-                
+                    if(err || !resto){
+                        result = ["no_restaurant_found"];
+                        return;
+                    }
                     result = resto.orders.filter(order => order.status === "COMPLETED");
+                    res.status(200).json(result);
                 });
 
-        res.status(200).json(result);
     } catch(err) {
         res.status(500).json(err);
     }
