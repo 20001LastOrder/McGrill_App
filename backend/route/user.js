@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const jsonwebtoken = require('jsonwebtoken');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
@@ -44,7 +43,7 @@ router.route('/login').get((req, res) => {
                 if (err) return res.status(400).json(err);
                 if (!isMatch) return res.status(401).json("Password Not Correct");
                 // console.log(isMatch)
-                let token = jsonwebtoken.sign({username: req.headers.email}, process.env.AXIOM_IV, {algorithm: 'HS256', expiresIn: 129600});
+                let token = jwt.sign({username: req.headers.email}, process.env.AXIOM_IV, {algorithm: 'HS256', expiresIn: 129600});
                 res.json({success: true, err: null, role: user.isServer, token});
             });
         } else {
