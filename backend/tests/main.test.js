@@ -7,6 +7,7 @@ const admin_test = require('./admin_test');
 const owner_test = require('./owner_test');
 const user_test = require('./user_test');
 const menu_item_test = require('./menu_item_test');
+const resturant_query_test = require('./restaurant_query_test');
 
 beforeAll(clearDatabase);
 
@@ -26,5 +27,6 @@ admin_test();
 owner_test();
 user_test();
 menu_item_test();
+resturant_query_test();
 
 afterAll(clearDatabase);

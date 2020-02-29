@@ -13,6 +13,15 @@ router.route('/all').get(async (req, res) => {
     }
 });
 
+router.route('/getByCategory').get(async (req, res) => {
+  try{
+      let restaurants = await Restaurant.find({ category: req.headers.category });
+      res.status(200).json(restaurants);
+  }catch(err){
+      res.status(400).json(err)
+  }
+});
+
 router.route('/signup').post((req, res) => {
     new Restaurant(req.body).save(function(err, doc) {
         if (err) res.status(400).json(err);
