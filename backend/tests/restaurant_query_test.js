@@ -30,11 +30,13 @@ module.exports = () => {
           .post('/owner/signup')
           .type("json")
           .send(owner);
+          expect(register.statusCode).toEqual(201);
         const res = await request(server)
             .get('/restaurant/getByCategory')
             .set('category', owner.restaurant.category)
             .send();
         expect(res.statusCode).toEqual(200);
+        console.log(res.body);
         expect(res.body.length).toBe(1);
         expect(res.body[0].address.street).toBe(owner.restaurant.address.street.toLowerCase());
         expect(res.body[0].address.city).toBe(owner.restaurant.address.city.toLowerCase());
