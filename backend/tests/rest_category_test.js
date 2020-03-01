@@ -1,17 +1,6 @@
 const request = require('supertest');
 const server = require('../server');
 
-function clearDatabase(done){
-    mongoose.connection.dropDatabase((error ,result) => {
-        if (error) {
-          console.log('Reset database failed');
-        } else {
-          console.log('cleared');
-        }
-        done();
-    });
-};
-
 const owner_normal = {
     owner:{
         "name": "sxm",
