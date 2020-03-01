@@ -174,6 +174,7 @@ function App() {
 
       {/* /menu is temporarily here to be deleted once restaurant's own url is set */}
       <Route path="/menu" component={MenuPage} />
+      <Route path="/restaurantHome" component={RestoMain}/>
       <Route path="/restaurants/all" component={restoHome} />
       <Route path="/logout"  render={()=>
           Auth.signout(()=>{

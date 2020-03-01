@@ -25,6 +25,10 @@ const MenuConfig = {always:[
                 icon:'bulb',
             }
         ],
+    },
+    {
+        title:'restaurantOwner',
+        key:'/restaurantHome',
     }
 ],
 guest:[
