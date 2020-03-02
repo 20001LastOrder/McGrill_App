@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Typography, Button} from '@material-ui/core';
 import color from '@material-ui/core/colors/amber';
 import axios from 'axios';
+import { Auth } from '../App';
 
 
 class restaurantMenu extends Component {
@@ -23,7 +24,14 @@ class restaurantMenu extends Component {
     }
 
     submitHandler = (e) => {
+        e.preventDefault();
         console.log(this.state);
+        axios({method:'post', url:'http://localhost:5000//menu/item/create?restaurantId='+Auth.currentUser,
+    body: this.state,
+    headers: {'Content-Type': 'application/json'}
+    }).then(async (doc) => {
+
+    }).catch((err) => {console.log(err)});
     }
     render() {
         const {food_type,name,price,stock,description} = this.state 
@@ -35,7 +43,7 @@ class restaurantMenu extends Component {
             <TextField
             id="food_type"
             label="Category"
-            value={food_type}
+            defaultValue={food_type}
             helperText="(i.e Appetizers, Soups, etc)"
             variant="outlined"
             style={{marginTop:'20px',position: 'relative'}}
@@ -44,7 +52,7 @@ class restaurantMenu extends Component {
             <TextField
             id="name"
             label="Item"
-            value={name}
+            defaultValue={name}
             helperText=""
             variant="outlined"
             style={{marginTop:'20px'}}
@@ -53,7 +61,7 @@ class restaurantMenu extends Component {
              <TextField
             id="price"
             label="Price"
-            value={price}
+            defaultValue={price}
             helperText=""
             variant="outlined"
             style={{marginTop:'20px'}}
@@ -62,7 +70,7 @@ class restaurantMenu extends Component {
              <TextField
             id="stock"
             label="Stock"
-            value={stock}
+            defaultValue={stock}
             helperText=""
             variant="outlined"
             style={{marginTop:'20px'}}
@@ -70,7 +78,7 @@ class restaurantMenu extends Component {
             /><br></br>
             <textarea 
             id="description"
-            value={description}
+            defaultValue={description}
             aria-label="minimum height" 
             placeholder="Enter descrition of the item." 
             style={{resize: 'none', width:'100%', height:'100px',marginTop:'20px'}}
