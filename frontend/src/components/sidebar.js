@@ -84,6 +84,7 @@ export default class NavLeft extends Component{
                       onOpenChange={this.onOpenChange}>
                     {this.state.menuTreeNode}
                     {window.localStorage.getItem('token')===null? this.state.guestNode:this.state.allUserNode}
+                    {this.state.ownerNode}
                     
                 </Menu>
             </div>
