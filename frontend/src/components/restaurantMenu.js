@@ -9,6 +9,8 @@ import { Auth } from '../App';
 class restaurantMenu extends Component {
     constructor(props) {
         super(props);
+        // this.submitHandler = this.submitHandler.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
 
         this.state={
             name:'',
@@ -20,6 +22,8 @@ class restaurantMenu extends Component {
     }
 
     changeHandler = (e) => {
+        e.persist();
+        console.log(e.target.name);
         this.setState({[e.target.name]: e.target.value})
     }
 
@@ -34,14 +38,14 @@ class restaurantMenu extends Component {
     }).catch((err) => {console.log(err)});
     }
     render() {
-        const {food_type,name,price,stock,description} = this.state 
+        const {food_type,name,price,stock,description} = this.state;
         return (
-            <Fragment>
+        <Fragment>
           <Typography variant="h3" style={{textAlign:'center'}}>Menu</Typography>
           <form onSubmit={this.submitHandler}>
               <div style={{position: 'absolute', alignContent:'center'}}>
             <TextField
-            id="food_type"
+            name="food_type"
             label="Category"
             defaultValue={food_type}
             helperText="(i.e Appetizers, Soups, etc)"
@@ -50,7 +54,7 @@ class restaurantMenu extends Component {
             onChange={this.changeHandler}
             /> <br></br>
             <TextField
-            id="name"
+            name="name"
             label="Item"
             defaultValue={name}
             helperText=""
@@ -59,7 +63,7 @@ class restaurantMenu extends Component {
             onChange={this.changeHandler}
             /> <br></br>
              <TextField
-            id="price"
+            name="price"
             label="Price"
             defaultValue={price}
             helperText=""
@@ -68,7 +72,7 @@ class restaurantMenu extends Component {
             onChange={this.changeHandler}
             /><br></br>
              <TextField
-            id="stock"
+            name="stock"
             label="Stock"
             defaultValue={stock}
             helperText=""
@@ -77,7 +81,7 @@ class restaurantMenu extends Component {
             onChange={this.changeHandler}
             /><br></br>
             <textarea 
-            id="description"
+            name="description"
             defaultValue={description}
             aria-label="minimum height" 
             placeholder="Enter descrition of the item." 
