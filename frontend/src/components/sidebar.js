@@ -34,11 +34,13 @@ export default class NavLeft extends Component{
         console.log(window.localStorage.getItem('token'))
         const guestNode = this.renderMenu(MenuConfig.guest);
         const allUserNode = this.renderMenu(MenuConfig.allUser);
+        const ownerNode = this.renderMenu(MenuConfig.restaurantOwner);
 
         this.setState({
             menuTreeNode:menuTreeNode,
             guestNode: guestNode,
-            allUserNode: allUserNode
+            allUserNode: allUserNode,
+            ownerNode: ownerNode
         })
     };
 
