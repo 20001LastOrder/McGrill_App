@@ -134,7 +134,6 @@ module.exports = () => {
                     .get('/restaurant/getByCategory')
                     .set('Authorization',`Bearer ${token}`)
                     .query(sample_categoryns);
-            console.log(res2.body)
             expect(res2.statusCode).toEqual(200);
             expect(res2.body).toEqual([]);
         });

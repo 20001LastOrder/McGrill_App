@@ -15,15 +15,6 @@ router.route('/all').get(async (req, res) => {
     }
 });
 
-router.route('/getByCategory').get(async (req, res) => {
-  try{
-      let restaurants = await Restaurant.find({ category: req.headers.category });
-      res.status(200).json(restaurants);
-  }catch(err){
-      res.status(400).json(err)
-  }
-});
-
 router.route('/signup').post((req, res) => {
     new Restaurant(req.body).save(function(err, doc) {
         if (err) res.status(400).json(err);
@@ -34,7 +25,6 @@ router.route('/signup').post((req, res) => {
 router.route('/update').put((req, res) => {
     RestaurantOwner.findOne({email: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username}, async (err, doc) => {
         let idx = doc.restaurants.indexOf(req.body._id);
-        console.log(req.body);
         if (idx > -1) {
             let id = req.body._id;
             delete req.body._id;
@@ -196,7 +186,6 @@ router.route('/getByCategory').get(async (req, res) => {
         return
     }
     try{
-        console.log(req.query.category)
         let result = await Restaurant.find({ category: { $all: req.query.category } });
         res.status(200).json(result);
     } catch(err) {
