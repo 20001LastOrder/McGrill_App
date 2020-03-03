@@ -35,6 +35,12 @@ const RestaurantSchema = new Schema({
             type : mongoose.Schema.Types.ObjectId, 
             ref: "Order"
         }
+    ], 
+    category: [
+        {
+            type: String, 
+            required: false
+        }
     ]
 });
 

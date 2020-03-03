@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const jsonwebtoken = require('jsonwebtoken');
 let MenuItem = require('../model/menuitem');
-
+let jwt = require('jsonwebtoken');
 let Restaurant = require('../model/restaurant');
+let RestaurantOwner = require('../model/restaurantowner');
+let User = require('../model/user');
 
 router.route('/all').get(async (req, res) => {
     try{
@@ -26,6 +28,29 @@ router.route('/signup').post((req, res) => {
     new Restaurant(req.body).save(function(err, doc) {
         if (err) res.status(400).json(err);
         else res.status(201).json(doc);
+    });
+});
+
+router.route('/update').put((req, res) => {
+    RestaurantOwner.findOne({email: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username}, async (err, doc) => {
+        let idx = doc.restaurants.indexOf(req.body._id);
+        console.log(req.body);
+        if (idx > -1) {
+            let id = req.body._id;
+            delete req.body._id;
+            try {
+                await Restaurant.findOneAndUpdate({ _id: id }, { $set: req.body });
+                let updated = await Restaurant.findOne({ _id: id });
+                res.status(200).json(updated);
+                return;
+            } catch (err) {
+                return res.status(403).json({message: "bad update"});
+            }
+            
+        } else {
+            res.status(400).json({ "err": "no such restaurant under this person" });
+            return;
+        }
     });
 });
 
@@ -131,5 +156,52 @@ router.route('/getPastOrders').get(async (req, res) => {
         res.status(500).json(err);
     }
 })
+
+router.route('/addRestaurantCategory').put(async (req, res) => {
+    
+    if(!req.query.restaurantId || !req.body.category){
+        res.status(400).send("bad request");
+        return
+    }
+    let owner = await RestaurantOwner.findOne({email: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username});
+    if (!owner) {
+        res.status(501).json(owner);
+        return;
+    }
+    var found = false;
+    for(var i = 0; i < owner.restaurants.length; i++) {
+        if (owner.restaurants[i] == req.query.restaurantId) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        res.status(500).json(owner);
+        return;
+    }
+    
+    try{
+        let rest = await Restaurant.findById(req.query.restaurantId);
+        rest.category = rest.category.concat(req.body.category);
+        rest.save();
+        res.status(200).json(rest);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
+
+router.route('/getByCategory').get(async (req, res) => {
+    if(!req.query.category){
+        res.status(400).send("bad request");
+        return
+    }
+    try{
+        console.log(req.query.category)
+        let result = await Restaurant.find({ category: { $all: req.query.category } });
+        res.status(200).json(result);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
 
 module.exports = router;
