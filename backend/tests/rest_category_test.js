@@ -1,6 +1,8 @@
 const request = require('supertest');
 const server = require('../server');
 
+let token = "";
+
 const owner_normal = {
     owner:{
         "name": "sxm",
@@ -21,6 +23,14 @@ const owner_normal = {
         }
     }
 };
+
+let updated_rest = {
+    address: {
+        "street": "1785-148 Street",
+        "city": "Surrey",
+        "zip": "V4A4M6"
+    }
+}
 
 const sample_category = {
     "category" : [
@@ -76,6 +86,8 @@ async function createAndGetRestaurantIdPlusToken () {
     obj.user_id = res.body._id;
     obj.token = res.body.token;
     obj.email = owner_normal.owner.email;
+    token = res.body.token;
+    updated_rest._id = obj.restaurant_id;
     return obj;
 };
 
@@ -125,6 +137,17 @@ module.exports = () => {
             console.log(res2.body)
             expect(res2.statusCode).toEqual(200);
             expect(res2.body).toEqual([]);
+        });
+    });
+    describe('Update info of a restaurant', () => {
+        it('should update a restaurant', async () => {
+            let res = await request(server)
+                    .put('/restaurant/update')
+                    .set('Authorization',`Bearer ${token}`)
+                    .send(updated_rest)
+            expect(res.statusCode).toEqual(200);
+            expect((res.body)._id).toEqual(updated_rest._id);
+            expect((res.body).address).toEqual(updated_rest.address);
         });
     });
 };
