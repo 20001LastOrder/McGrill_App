@@ -1,3 +1,5 @@
+const {client} = require('nightwatch-api');
+const {Given, Then, When} = require('cucumber');
 Given(/^Joe Rangel is logged in as a restaurant owner$/, async()=> {
     
 });
@@ -18,19 +20,7 @@ Given(/^order 1111 is not complete$/, async()=> {
 
 });
 
-Given(/^order 1111 is complete$/, async()=> {
-
-});
-
-Given(/^NonUser is not logged into the system$/, async()=> {
-
-});
-
 When(/^Joe Rangel request to change the status of the order$/, async()=> {
-
-});
-
-When(/^NonUser requests change the status of order 1111$/, async () => {
 
 });
 
@@ -42,7 +32,21 @@ Then(/^the status of order 1111 changes to cancelled$/, async () => {
 
 });
 
+
+//ignore error case
+Given(/^NonUser is not logged into the system$/, async()=> {
+
+});
+
+Given(/^order 1111 is complete$/, async()=> {
+
+});
+
 Then(/^a \"([^\"]*)\" message is issued;$/, async () =>{
+
+});
+
+When(/^NonUser requests change the status of order 1111$/, async () => {
 
 });
 

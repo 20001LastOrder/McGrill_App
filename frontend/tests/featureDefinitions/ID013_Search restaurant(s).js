@@ -1,3 +1,5 @@
+const {client} = require('nightwatch-api');
+const {Given, Then, When} = require('cucumber');
 Given(/^Kurtis is logged in as customer$/, async()=> {
     
 });
@@ -14,10 +16,6 @@ When(/^Kurtis searches for Subway but used sub to search$/, async()=> {
     
 });
 
-When(/^Kurtis searches for KFC$/, async()=> {
-    
-});
-
 Then(/^the restaurant Boustan should be listed$/, async()=> {
     
 });
@@ -30,11 +28,15 @@ Then(/^the restaurant Subway should be listed$/, async()=> {
     
 });
 
-Then(/^no restaurant should be listed$/, async()=> {
-    
-});
-
 Given(/^The following restaurants exist in the system$/, async()=> {
     
 });
   
+//ignore error case
+When(/^Kurtis searches for KFC$/, async()=> {
+    
+});
+
+Then(/^no restaurant should be listed$/, async()=> {
+    
+});
