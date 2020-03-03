@@ -6,6 +6,39 @@ let MenuItem = require('../model/menuitem');
 let User = require('../model/user');
 let Order = require('../model/order');
 
+router.route('/all').get(async (req, res) => {
+   try {
+       let all = await Order.find();
+       res.status(200).json(all);
+   } catch (err) {
+       res.status(400).json(err);
+   }
+});
+
+router.route('/update').post(async (req, res) => {
+    if(!req.headers.customerid || !req.headers.restaurantid){
+        res.status(400).json("requires customer id and restaurant id");
+        return;
+    }
+    try {
+        let order = await Order.findOne({customerId: req.headers.customerId, restaurantId: req.headers.restaurantId});
+        if(!req.headers.status){
+            res.status(400).json("requires status");
+            return;
+        }
+        if(req.headers.status!=="IN_PROGRESS"&&req.headers!=="COMPLETE"){
+            res.status(400).json("status can only be IN_PROGRESS or COMPLETE");
+            return;
+        }
+        order.status = req.headers.status;
+        order.save();
+        res.status(200).json("status has been updated");
+        return;
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 router.route('/create').post(async (req, res) => {
     if(!req.body.customerId || !req.body.restaurantId){
         res.status(400).json("bad req");

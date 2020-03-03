@@ -22,21 +22,18 @@ router.route('/signup').post((req, res) => {
     });
 });
 
-router.route('/menu').get((req, res) => {
-    if (!req.header.name){
+router.route('/menu').get(async (req, res) => {
+    if (!req.headers.name){
         res.status(400).json("bad request");
-        return
+        return;
+    };
+    try{
+        let restaurants = await Restaurant.findOne({name: req.headers.name});
+        res.status(200).json(restaurants.menuitems);
+    }catch(err){
+        res.status(400).json(err);
     }
-    Restaurant.findOne({name: req.headers.name}, (err, restaurant) => {
-        if (!err) {
-            // retrive the restaurant successfully
-            res.status(200).json(restaurant.menuitems);
-        } else {
-            res.status(400).json(err);
-        }
-    })
 });
-
 
 router.route('/getItemByName').get(async (req, res) => {
     try{
