@@ -17,16 +17,12 @@
       "description": "Operations about user"
     },
     {
-      "name": "Campus",
-      "description": "Operations about campus"
-    },
-    {
-      "name": "Delivery",
-      "description": "Operations about delivery"
+      "name": "Restaurant",
+      "description": "Operations about restaurant"
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/user/": {
@@ -107,193 +103,21 @@
         }
       }
     },
-    "/campus/": {
+    "/restaurant/getByCategory": {
       "get": {
         "tags": [
-          "Campus"
+          "Restaurant"
         ],
-        "summary": "Find a campus related to username",
+        "summary": "Get restaurants match the given category",
         "description": "",
-        "operationId": "findCampusByUser",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation with campus returned"
-          }
-        }
-      }
-    },
-    "/campus/issue/": {
-      "post": {
-        "tags": [
-          "Campus"
-        ],
-        "summary": "Issue a new campus",
-        "description": "",
-        "operationId": "issueCampus",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "Campus",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Campus"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Campus"
-        ],
-        "summary": "delete a campus",
-        "description": "",
-        "operationId": "deleteCampus",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Campus",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Campus"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Campus"
-        ],
-        "summary": "Update a campus",
-        "description": "",
-        "operationId": "putCampus",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Campus",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Campus"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/delivery/": {
-      "get": {
-        "tags": [
-          "Delivery"
-        ],
-        "summary": "Find a delivery related to username",
-        "description": "",
-        "operationId": "findDeliveryByUser",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation with Delivery body returned"
-          }
-        }
-      }
-    },
-    "/delivery/issue/": {
-      "post": {
-        "tags": [
-          "Delivery"
-        ],
-        "summary": "Issue a new delivery",
-        "description": "",
-        "operationId": "issueDelivery",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Delivery",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Delivery"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Delivery"
-        ],
-        "summary": "delete a delivery",
-        "description": "",
-        "operationId": "deleteDelivery",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Delivery",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Delivery"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Delivery"
-        ],
-        "summary": "Update a delivery",
-        "description": "",
-        "operationId": "putDelivery",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Delivery",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Delivery"
-            }
+            "name": "category",
+            "in": "headers",
+            "required": true
           }
         ],
         "responses": {
@@ -320,55 +144,6 @@
       },
       "xml": {
         "name": "User"
-      }
-    },
-    "Campus": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "course": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "dateDue": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "User"
-      }
-    },
-    "Delivery": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "dateExpect": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Delivery"
       }
     }
   }

@@ -36,7 +36,6 @@ router.route('/update').put((req, res) => {
             } catch (err) {
                 return res.status(403).json({message: "bad update"});
             }
-            
         } else {
             res.status(400).json({ "err": "no such restaurant under this person" });
             return;
