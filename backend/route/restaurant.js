@@ -36,7 +36,6 @@ router.route('/update').put((req, res) => {
             } catch (err) {
                 return res.status(403).json({message: "bad update"});
             }
-            
         } else {
             res.status(400).json({ "err": "no such restaurant under this person" });
             return;
@@ -44,19 +43,17 @@ router.route('/update').put((req, res) => {
     });
 });
 
-router.route('/menu').get((req, res) => {
-    if (!req.header.name){
-        res.status(400).json("bad request");
+router.route('/menu').get(async (req, res) => {
+    if (!req.param.name){
+        res.status(400).json("requires an restaurant name");
         return
+    };
+    try{
+        let rest = await Restaurant.findOne({name: req.param.name});
+        res.status(201).json(rest.menuitems);
+    } catch (err) {
+        res.status(500).json(err);
     }
-    Restaurant.findOne({name: req.headers.name}, (err, restaurant) => {
-        if (!err) {
-            // retrive the restaurant successfully
-            res.status(200).json(restaurant.menuitems);
-        } else {
-            res.status(400).json(err);
-        }
-    })
 });
 
 
