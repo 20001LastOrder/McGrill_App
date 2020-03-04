@@ -1,5 +1,5 @@
-const {Given, Then, When, And} = require('cucumber');
-
+const {client} = require('nightwatch-api');
+const {Given, Then, When} = require('cucumber');
 Given(/^the system is on the page of Tim Hortons and logged in as Kurtis$/, async()=> {
     
 });
@@ -31,3 +31,5 @@ Then(/^one crispy chicken wrap and two grill chicken wrap should be listed in th
 Given(/^Tim Hortons provides following items$/, async()=> {
     
 });
+
+//ignore error case
