@@ -3,13 +3,17 @@ language: node_js
 
 notifications:
   slack: mcgrill:6f1Fhu7FfFqCt7rwq5bfxEFK
+services: mongodb
 
 node_js:
   v12.14.1
 env:
-  - NODE_ENV=development
+  - NODE_ENV=testing
 addons: # get google-chrome-stable
   chrome: stable
+
+before_script:
+  - sleep 5
 
 script:
   - cd backend
