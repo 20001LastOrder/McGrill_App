@@ -1,3 +1,5 @@
+const {Given, Then, When, And} = require('cucumber');
+
 Given(/^Kurtis is logged in as customer$/, async()=> {
     
 });

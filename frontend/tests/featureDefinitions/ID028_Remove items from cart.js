@@ -1,3 +1,5 @@
+const {Given, Then, When, And} = require('cucumber');
+
 Given(/^the system has restaurant Tim Hortons and logged in as Kurtis$/, async()=> {
 
 });

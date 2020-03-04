@@ -1,3 +1,5 @@
+const {Given, Then, When, And} = require('cucumber');
+
 Given(/^Kurtis is logged into the system as a customer$/, async() => {
     
 });
@@ -26,7 +28,7 @@ Then(/^\"([^\"]*)\" is issued$/, async (norestaurantiskoreantype) => {
     
 });
 
-And(/^The following restaurants exist in the system$/, async() => {
+Given(/^The following restaurants exist in the system$/, async() => {
     
 });
 

@@ -3,7 +3,7 @@ As a user of the McGrill System, I want to search a specific restaurant based on
 
   Background: 
     Given Kurtis is logged in as customer
-      And The following restaurants exist in the system
+      Given The following restaurants exist in the system
       | restaurant  | Location            | 
       | Boustan     | 8771, Rue Sherbrook | 
       | Subway      | 6555, Rue Durocher  | 

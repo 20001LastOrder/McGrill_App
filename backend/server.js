@@ -13,15 +13,18 @@ const orderRouter = require('./route/order');
 const config = require('./config')[process.env.NODE_ENV];
 const swaggerUI = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
+const dev = require('./route/dev_ops');
 
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 const jwt = expressJWT({secret: process.env.AXIOM_IV}).unless({path: [
-    '/user/login', '/user/signup', '/owner/login', '/owner/signup', '/restaurant/login', '/restaurant/signup', '/admin/signup', '/admin/login',
-    '/restaurant/all'
-]});
+        '/user/login', '/user/signup', '/owner/login', '/owner/signup', '/restaurant/login', '/restaurant/signup', '/admin/signup', '/admin/login',
+        '/restaurant/all'
+ ]});
+
+
 
 app.use(cors());
 app.use(express.json());
@@ -50,7 +53,9 @@ app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use('/menu/item', jwt, menuItemRouter);
 app.use('/order', jwt, orderRouter);
 app.use('/api/v1',router);
-
+if(process.env.NODE_ENV === 'development'){
+    app.use('/dev', dev);
+}
 
 var server = app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
