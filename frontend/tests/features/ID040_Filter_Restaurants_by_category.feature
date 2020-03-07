@@ -1,8 +1,8 @@
-Feature: 
+Feature: Filter restaurant by category
 As a user of the McGrill System, I want to search a specific restaurant based on resturant location and name.
 
   Background: 
-    Given Kurtis is logged into the system as customer
+    Given Kurtis is logged into the system as a customer
    Given The following restaurants exist in the system
       | restaurant       | Location            | Food Category | 
       | Boustan          | 8771, Rue Sherbrook | Lebanese      | 

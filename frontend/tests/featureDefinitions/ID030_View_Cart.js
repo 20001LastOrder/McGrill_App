@@ -31,6 +31,7 @@ async function setResOwnInfo(name, email, street, city, zipcode, restaurant_name
 }
 
 Given(/^Jayda Slater is logged into the system as a customer$/, async()=> {
+  await client.url('http://localhost:3000/login').waitForElementVisible('body', 2000);
   // await client.url('http://localhost:3000/user/signup').waitForElementVisible('body', 2000);
   //   // add a person
   // await setUserInfo('Jayda Slater', 'yzhang555@178.com', '2223 tttfs Street', 'Montreal', 'H2D3XF', 'tyclany');

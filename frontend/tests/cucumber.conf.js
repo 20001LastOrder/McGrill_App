@@ -18,5 +18,10 @@ BeforeAll(async() => {
 AfterAll(async () => {
     await closeSession();
     await stopWebDriver();
+
+    // stop everything if time out (sometimes the test does not exit after it finishes)
+    setTimeout(()=>{
+        process.exit(0);
+    }, 1000);
 })
 

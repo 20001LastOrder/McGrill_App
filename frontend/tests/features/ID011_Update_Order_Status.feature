@@ -29,7 +29,7 @@ Feature: Update order status
  	Scenario: Cancel a finished order (Error Flow)
   	Given order 1111 is complete
   	When Joe Rangel request to change the status of the order
-  	Then A "order is already complete" Message is issued;
+  	Then A "order is already complete" Message is issued
   	
   Scenario: Change order status without login (Error Flow)
 		Given NonUser is not logged into the system

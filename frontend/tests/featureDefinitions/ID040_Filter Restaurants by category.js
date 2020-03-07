@@ -44,16 +44,16 @@ async function setUserInfo(memname, email, street, city, zip, password){
     return obj;
 };
 Given(/^Kurtis is logged into the system as a customer$/, async() => {
-  await client.url('http://localhost:3000/user/signup').waitForElementVisible('body', 2000);
-    // add a person
-  await setUserInfo('Kurtis', 'yzhang555@178.com', '2223 tttfs Street', 'Montreal', 'H2D3XF', 'tyclany');
-  await client.click('input[type=submit]')
-  // await client.url('http://localhost:3000/user/login').waitForElementVisible('body', 2000);
-  // await loginInfo('yzhang555@178.com', 'tyclany')
-  await client.pause(1000);
-  await client.expect.element('li[title=Logout]').to.be.visible;
-  await client.click('li[title=Logout]');
-  await client.pause(500);
+  // await client.url('http://localhost:3000/user/signup').waitForElementVisible('body', 2000);
+  //   // add a person
+  // await setUserInfo('Kurtis', 'yzhang555@178.com', '2223 tttfs Street', 'Montreal', 'H2D3XF', 'tyclany');
+  // await client.click('input[type=submit]')
+  // // await client.url('http://localhost:3000/user/login').waitForElementVisible('body', 2000);
+  // // await loginInfo('yzhang555@178.com', 'tyclany')
+  // await client.pause(1000);
+  // await client.expect.element('li[title=Logout]').to.be.visible;
+  // await client.click('li[title=Logout]');
+  // await client.pause(500);
 });
 
 When(/^Kurtis want to filter Lebanese restaurant$/, async() => {
@@ -73,16 +73,16 @@ Then(/^Subway and super sandwiches should be listed$/, async() => {
 });
 
 Given(/^The following restaurants exist in the system$/, async(data) => {
-    await client.url('http://localhost:3000/owner/signup').waitForElementVisible('body', 2000);
-    input = table.rows()
-    for(i = 0 ; i< input.size(); i++){
-      await setResOwnInfo('tyclany', 'yzhang334@156.com'+[i], input[i][1], 'Montreal', 'H3X4G5', input[i][0], '3334 fff Street', 'Montreal', 'G3X3F3', 'tyclany', 'tyclany');
-      await client.click('input[type=submit]')
-      await client.pause(1000);
-      await client.expect.element('li[title=Logout]').to.be.visible;
-      await client.click('li[title=Logout]');
-      await client.pause(500);
-    }
+    // await client.url('http://localhost:3000/owner/signup').waitForElementVisible('body', 2000);
+    // input = table.rows()
+    // for(i = 0 ; i< input.size(); i++){
+    //   await setResOwnInfo('tyclany', 'yzhang334@156.com'+[i], input[i][1], 'Montreal', 'H3X4G5', input[i][0], '3334 fff Street', 'Montreal', 'G3X3F3', 'tyclany', 'tyclany');
+    //   await client.click('input[type=submit]')
+    //   await client.pause(1000);
+    //   await client.expect.element('li[title=Logout]').to.be.visible;
+    //   await client.click('li[title=Logout]');
+    //   await client.pause(500);
+    // }
 });
 
 //ignore error case
