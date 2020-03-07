@@ -6,6 +6,39 @@ let MenuItem = require('../model/menuitem');
 let User = require('../model/user');
 let Order = require('../model/order');
 
+router.route('/all').get(async (req, res) => {
+   try {
+       let all = await Order.find();
+       res.status(200).json(all);
+   } catch (err) {
+       res.status(400).json(err);
+   }
+});
+
+router.route('/update').post(async (req, res) => {
+    if(!req.body.orderId){
+        res.status(400).json("requires order id");
+        return;
+    }
+    try {
+        let order = await Order.findById(req.body.orderId);
+        if(!req.body.status){
+            res.status(400).json("requires status");
+            return;
+        }
+        if(req.body.status!=="IN_PROGRESS"&&req.body.status!=="COMPLETE"){
+            res.status(400).json("status can only be IN_PROGRESS or COMPLETE");
+            return;
+        }
+        order.status = req.body.status;
+        order.save();
+        res.status(201).json(order);
+        return;
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 router.route('/create').post(async (req, res) => {
     if(!req.body.customerId || !req.body.restaurantId){
         res.status(400).json("bad req");
@@ -16,7 +49,7 @@ router.route('/create').post(async (req, res) => {
         let rest = await Restaurant.findById(req.body.restaurantId);
         let cust = await User.findById(req.body.customerId);
 
-        if(!rest || !cust) 
+        if(!rest || !cust)
             throw "Restaurant or customer does not exist";
         
         let orderObj = req.body; 
