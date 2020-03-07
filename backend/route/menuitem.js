@@ -10,12 +10,14 @@ router.route('/create').post(async (req, res) => {
     try{
         //check ownership
         let owner = await RestaurantOwner.findOne({email: req.headers.email});
+        //console.log(owner);
         if(!owner.restaurants.includes(req.query.restaurantId)){
             throw "you do not own this restaurant";
         }
         let updatedRestaurant = await createMenuItemForRestaurant(req.query.restaurantId, req.body, res);
         res.status(201).json(updatedRestaurant);
     }catch(err){
+        console.log(err);
         res.status(400).json(err);
     }
 });
