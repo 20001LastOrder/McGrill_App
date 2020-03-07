@@ -6,21 +6,37 @@ module.exports = {
         return  res;
     },
     signupRestaurantOwner: async function(user){
-        let res = await axios.post('http://localhost:5000/owner/signup', user);
-        return  res;
+        try{
+            let res = await axios.post('http://localhost:5000/owner/signup', user);
+            return  res;
+        }catch(e){
+            console.error(e);
+        }
     },
     signupAdministrator: async function(user){
         let res = await axios.post('http://localhost:5000/admin/signup', user);
         return  res;
     },
+    /**
+     * 
+     * @param {*} loginInfo: object with email and password attribute 
+     */
     loginCustomer: async function(loginInfo){
         let res = await axios.get('http://localhost:5000/user/login', {headers: loginInfo});
         return res;
     },
+    /**
+     * 
+     * @param {*} loginInfo: object with email and password attribute 
+     */
     loginRestaurantOwner: async function(loginInfo){
         let res = await axios.get('http://localhost:5000/owner/login', {headers: loginInfo});
         return res;
     },
+    /**
+     * 
+     * @param {Object} loginInfo: object with email and password attribute 
+     */
     loginAdministrator: async function(loginInfo){
         let res = await axios.get('http://localhost:5000/admin/login', {headers: loginInfo});
         return res;
@@ -31,6 +47,29 @@ module.exports = {
             return res;
         }catch(e){
             console.log(e);
+            throw e;
+        }
+    },
+    addMenuItem: async function(restaurantId, header, body){
+        try{
+            let res = await axios.post('http://localhost:5000/menu/item/create?restaurantId='+restaurantId, body, {headers: header});
+            return res;
+        }catch(e){
+            //console.log(e);
+            throw e;
+        }
+    },
+    /**
+     * @param {string} token
+     * @param {Object} body: needs: customerId, restaurantId and order_items
+     */
+    createOrder: async function(token, body){
+        try{
+            let res = await axios.post('http://localhost:5000/order/create', body, {
+                headers:{'Authorization':`Bearer ${token}`}
+            });
+            return res;
+        }catch(e){
             throw e;
         }
     }

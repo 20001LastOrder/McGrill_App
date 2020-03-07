@@ -10,7 +10,7 @@ Given(/^Joe Rangel owns a restaurant Joe1$/, async()=> {
 
 });
 
-Given(/^Joe1 has the following orders$/, async()=> {
+Given(/^Joe1 has the following orders$/, async(data)=> {
 
 });
 
@@ -30,27 +30,12 @@ Then(/^the status of (.+) changes to (.+)$/, async (orderid, newstatus) => {
 
 });
 
-Then(/^the status of order 1111 changes to cancelled$/, async () => {
-
-});
-
-
-//ignore error case
-Given(/^NonUser is not logged into the system$/, async()=> {
-
-});
-
 Given(/^order 1111 is complete$/, async()=> {
 
 });
 
-Then(/^a \"([^\"]*)\" message is issued;$/, async () =>{
-
-});
+//ignore error case
 
 When(/^NonUser requests change the status of order 1111$/, async () => {
 
-});
-
-Then(/^A \"([^\"]*)\" Message is issued$/, async (pleaselogin, ) => {
 });

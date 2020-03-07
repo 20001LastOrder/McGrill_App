@@ -24,14 +24,14 @@ Feature: Update order status
   Scenario: Cancel an order (Alternative Flow)
   	Given order 1111 is not complete
   	When Joe Rangel request to change the status of the order
-  	Then the status of order 1111 changes to cancelled
-  	
+  	Then the status of order '1111' changes to 'cancelled'
+
  	Scenario: Cancel a finished order (Error Flow)
   	Given order 1111 is complete
   	When Joe Rangel request to change the status of the order
-  	Then a "order is already complete" message is issued;
+  	Then A "order is already complete" Message is issued;
   	
-  Scenario: View cart without login (Error Flow)
+  Scenario: Change order status without login (Error Flow)
 		Given NonUser is not logged into the system
         When NonUser requests change the status of order 1111
         Then A "Please Login" Message is issued

@@ -31,7 +31,7 @@ Given(/^Amman Sumner with email address amman.sumner@mail.mcgill.ca exists the M
 });
 
 When(/^Amman Sumner with email address amman.sumner@mail.mcgill.ca requests to remove the account$/, async () => {
-    let res = await utils.loginUser({email: info.email, password: info.password});
+    let res = await utils.loginCustomer({email: info.email, password: info.password});
     await client.assert.equal(res.status, 200);
     await client.assert.not.equal(res.data.token, '');
     let deleteRes = await utils.deleteUser({email: info.email, Authorization: `Bearer ${res.data.token}`});
@@ -43,7 +43,7 @@ When(/^Amman Sumner with email address amman.sumner@mail.mcgill.ca requests to r
 
 Then(/^User Amman Sumner with email address amman.sumner@mail.mcgill.ca is completely removed from the McGrill system, along with the account information$/, async () => {
     try{
-        let res = await utils.loginUser({email: info.email, password: info.password});
+        let res = await utils.loginCustomer({email: info.email, password: info.password});
         await client.assert.equal(res.status, 400);
     }catch(e){
         await client.assert.equal(e.response.status, 400);
