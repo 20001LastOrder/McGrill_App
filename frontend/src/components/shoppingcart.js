@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import Typography from '@material-ui/core/Typography';
 import Image from './burger.jpg';
 
 const sample_menu_item1 = {
@@ -34,6 +35,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-around',
     overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
+  },
+  buttonDisplay:{
+    display: 'inline-block',
+    width: 20,
+    height: 20,
   },
   gridList: {
     width: 500,
@@ -109,14 +115,13 @@ export default class ShoppingCart extends Component {
   return (
       
     <div className={useStyles.root}>
+       
       <GridList cellHeight={180} className={useStyles.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">My Shopping Cart</ListSubheader>
-          <AddCircleIcon>
-          onChange={this.incrementItem}
-          </AddCircleIcon>
-      <RemoveCircleIcon></RemoveCircleIcon>
+        
         </GridListTile>
+        
         {tileData.map(tile => (
           <GridListTile key={tile.img}>
             <img src={tile.img} alt={tile.title} />
@@ -135,8 +140,11 @@ export default class ShoppingCart extends Component {
           </GridListTile>
           
         ))}
+        <AddCircleIcon></AddCircleIcon>
+        <RemoveCircleIcon></RemoveCircleIcon>
       </GridList>
-     
+      
+      
       <Button variant="contained" color="primary">Checkout</Button>
  
     </div>
