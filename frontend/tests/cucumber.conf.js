@@ -18,6 +18,5 @@ BeforeAll(async() => {
 AfterAll(async () => {
     await closeSession();
     await stopWebDriver();
-    process.exit(0);
 })
 
