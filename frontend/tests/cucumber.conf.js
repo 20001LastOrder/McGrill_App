@@ -5,7 +5,7 @@ const axios = require('axios');
 setDefaultTimeout(60000);
 
 Before((done)=>{
-    let res = axios.post('http://localhost:5000/dev/clear', {}).then((res)=>{
+    axios.post('http://localhost:5000/dev/clear', {}).then((res)=>{
         done();
     });
 })
