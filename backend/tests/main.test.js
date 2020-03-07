@@ -9,6 +9,7 @@ const user_test = require('./user_test');
 const menu_item_test = require('./menu_item_test');
 const resturant_query_test = require('./restaurant_query_test');
 const rest_category_test = require('./rest_category_test');
+const order_test = require('./order_test');
 
 
 function clearDatabase(done){
@@ -30,4 +31,5 @@ user_test();
 menu_item_test();
 resturant_query_test();
 rest_category_test();
+order_test();
 afterAll(clearDatabase);
