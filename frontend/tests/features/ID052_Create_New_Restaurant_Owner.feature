@@ -1,4 +1,4 @@
-Feature: add new restaurant owner
+Feature: Create new restaurant owner
 
 As a restaurant owner near McGill University, I would like to become a user of McGrill app,
 So that I can let my consumers to order food through it. 

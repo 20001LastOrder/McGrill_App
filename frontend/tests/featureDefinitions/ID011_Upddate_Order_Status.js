@@ -1,5 +1,7 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
+const axios = require('axios');
+
 Given(/^Joe Rangel is logged in as a restaurant owner$/, async()=> {
     
 });

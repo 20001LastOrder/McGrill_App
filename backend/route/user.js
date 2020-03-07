@@ -68,13 +68,13 @@ router.route('/signup').post(async (req, res) => {
 });
 
 router.route('/delete').delete((req, res) => {
-    User.findOne({username: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username}, (err, doc) => {
+    User.findOne({email: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username}, (err, doc) => {
         if(doc == null){
             res.status(400).json("Something went wrong");
             return;
         }
         if (!err && !doc.isServer) {
-            User.findOneAndRemove({_id: new mongoose.Types.ObjectId(req.body.id), username: doc.username})
+            User.findOneAndRemove({email: doc.email})
                   .then((doc) => {
                       res.status(200).json(doc);
                   })

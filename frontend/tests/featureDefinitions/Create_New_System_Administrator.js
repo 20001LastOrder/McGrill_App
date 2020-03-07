@@ -2,7 +2,7 @@ const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
 const axios = require('axios');
 
-var info = {
+let info = {
     name: '',
     email: '',
     employeeid: '',
@@ -14,18 +14,18 @@ var info = {
     }
 }
 
-res = {}
+let res = {}
 
 Given(/^Liya Nelson with email address liya.nelson@mcgill.ca with employee id em001 is a McGill University administrator with good standing$/, async () => {
     await client.url('http://localhost:3000/owner/signup').waitForElementVisible('body', 2000);
     info.email = 'liya.nelson@mcgill.ca';
     info.employeeid = 'em001';
     info.password = 'liyaNelson001';
-    info.name = 'Liya Nelson',
+    info.name = 'Liya Nelson';
     info.address.street = '1232 dihnsme Street';
     info.address.city = 'Montreal';
     info.address.zip = "H2X3X2";
-    client.assert.equal(true, true);
+    await client.assert.equal(info.email, 'liya.nelson@mcgill.ca');
 });
   
 
@@ -51,5 +51,4 @@ Given(/^Liya Nelson with email address liya.nelson@mcgill.ca with employee id em
 });
 
 Then(/^an \"([^\"]*)\" error is issued.$/, (invalidemployeeid)=>{
-    // error case, ignore
 });

@@ -10,14 +10,14 @@ As a user of the McGrill System, I want to search a specific restaurant based on
       | Tim Hortons      | 5666, Rue Sherbrook | Coffee        | 
       | Super Sandwiches | 4444, Rue Huchison  | Sandwiches    | 
   
-  Scenario Outline: Filter out one category (Normal Flow)
+  Scenario: Filter out one category (Normal Flow)
      When Kurtis want to filter Lebanese restaurant
      Then the restaurant Boustan should be listed
   
-  Scenario Outline: Filter out another category (Alternative Flow)
+  Scenario: Filter out another category (Alternative Flow)
      When Kurtis wants to filter out sandwiches restaurant
      Then Subway and super sandwiches should be listed
 
-  Scenario Outline: Filter out non exits catgory (Error Flow)
+  Scenario: Filter out non exits catgory (Error Flow)
      When Kurtis wants to filter out Korean restaurant
      Then "No restaurant is korean type" is issued
