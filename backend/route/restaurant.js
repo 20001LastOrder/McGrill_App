@@ -179,6 +179,7 @@ router.route('/addRestaurantCategory').put(async (req, res) => {
 
 router.route('/getByCategory').get(async (req, res) => {
     if(!req.query.category){
+        console.err(req.query)
         res.status(400).send("bad request");
         return
     }

@@ -47,7 +47,7 @@ router.route('/signup').post(async (req, res) => {
         owner = await RestaurantOwner.findOne({_id: owner._id});
         res.status(201).json(owner);
     }catch(err){
-        //console.err(err)
+        console.error(err)
         res.status(400).json(err);
     }
 });

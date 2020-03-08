@@ -19,7 +19,7 @@ const owner_normal = {
           "city": "montreal",
           "zip": "H3H1M6"
       },
-      "category": "[Chinese]"
+      "category": ['Chinese']
   }
 }
 
