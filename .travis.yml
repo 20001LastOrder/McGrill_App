@@ -1,8 +1,6 @@
 dist: xenial
 language: node_js
 
-notifications:
-  slack: mcgrill:6f1Fhu7FfFqCt7rwq5bfxEFK
 services: mongodb
 
 node_js:
