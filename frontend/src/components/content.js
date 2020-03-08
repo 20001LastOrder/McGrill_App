@@ -4,7 +4,6 @@ import {List, Avatar, Icon, Pagination, Button, Rate, Popover, Descriptions} fro
 import 'antd/dist/antd.css'
 
 export default class Content extends Component{
-    listdata = new Array();
     state = {
         query: '',
         data: [],
@@ -26,11 +25,18 @@ export default class Content extends Component{
     });
   };
 
+  componentDidMount(){
+  this.setState({ data: this.listdata });
+  }
       getData = () => {
         fetch('https://mcgrill-backend.herokuapp.com/restaurant/all')
+        
         .then(response => response.json())
+        
         .then(data => {
+            
           const { query } = this.state;
+          
           const filteredData = data.filter(element => {
             return element.name.toLowerCase().includes(query.toLowerCase());
           });
@@ -44,40 +50,8 @@ export default class Content extends Component{
 
     componentWillMount() {
         this.getData();
-        this.listdata.push({
-            href:'www.google.ca',
-            title: `Royal Victoria Cafe`,
-            avatar: 'pictures/rest.png',
-            description:
-                '3425 Rue University, Montréal, QC H3A 2A8',
-            content:
-                'This is RVC',
-            img:
-                'pictures/rvc.png'
-        })
-
-        this.listdata.push({
-            href:'www.google.ca',
-            title: `Carrefour Cafe`,
-            avatar: 'pictures/rest.png',
-            description:
-                '475 Rue Sherbrooke Ouest, Montréal, QC, H3A 2L9',
-            content:
-                'This is C4',
-            img:
-                'pictures/c4.png'
-        })
-        this.listdata.push({
-            href:'www.google.ca',
-            title: `Doug`,
-            avatar: 'pictures/rest.png',
-            description:
-                '3851 Rue University, Montréal, QC, H3A 2B4',
-            content:
-                'This is Doug',
-            img:
-                'pictures/doug.png'
-        })
+        console.log(this.getData());
+        
     }
 
     itemRender = (current, type, originalElement) =>{
@@ -113,13 +87,13 @@ export default class Content extends Component{
                           },
                           pageSize:3
                       }}
-                      dataSource={this.listdata}
+                      dataSource={this.state.filteredData}
                       renderItem = {item => (
                           <List.Item
                               actions={[<Rate allowHalf defaultValue={1.5} />,
                                       <Button size="small" type={"primary"}>Order</Button>,
                                   <Popover placement={"left"} content={
-                                      <div>{item.content}
+                                      <div>{item.orders}
                                       <br /><b>Operating Hours</b>
                                           <br /><b>Week Days 7:00AM - 20:30PM</b>
                                           <br /><b>Weekend 8:00AM - 20:00PM</b></div>
@@ -132,12 +106,13 @@ export default class Content extends Component{
                                       width: '300px',
                                       height: '100%',
                                       padding:10
-                                        }} alt="example" src={require("../"+`${item.img}`+"")}
+                                        }} alt="example" 
                                                                                      />} trigger="hover">
-                                      <Avatar src={require("../"+`${item.avatar}`+"")} />
+                                      <Avatar src={require("../"+'pictures/rest.png'+"")} />
                                   </Popover>}
-                                  title={<a href={item.href}>{item.title}</a>}
-                                  description={item.description}
+                                  title={<a href={item.href}>{item.name}</a>}
+                                  description={item.address.street + " "+ item.address.city + " " + item.address.zip}
+                                  
                               />
                           </List.Item>
                       )}
