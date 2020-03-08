@@ -69,7 +69,7 @@ export default class UserProfile extends Component {
     async componentDidMount() {
       let self = this;
       console.log(window.localStorage.getItem('email'));
-      await axios.get('https://mcgrill-backend.herokuapp.com/user/getUser?email=' + window.localStorage.getItem('email'), { 
+      await axios.get('http://localhost:5000/user/getUser?email=' + window.localStorage.getItem('email'), { 
         headers: { Authorization: 'Bearer ' +  window.localStorage.getItem('token') }
       })
       .then(res => res.data)
