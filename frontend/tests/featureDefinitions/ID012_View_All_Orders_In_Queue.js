@@ -17,7 +17,7 @@ let info = {
 
 let owner = {
     name: 'owner',
-    email: '',
+    email: 'owner1@gmail.com',
     password: 'sedwS12312232',
     address: {
         street: '3455 Do Street',
@@ -43,11 +43,6 @@ const sample_menu_item = {
     "stock": 12,
 };
 
-let owners = [];
-let restaurant_tables = {};
-let menu_items = {};
-let order = {};
-let customer = {};
 let createdOrders = [];
 
 
@@ -63,46 +58,20 @@ When(/^Joe Rangel requests to view all the orders in queue$/, async()=> {
     // get authentication token
     customer.token = res.data.token;
 
-    owners = []
-    restaurant_tables = {};
-    menu_items = {};
-    let tables = data.hashes()
-    for(let i = 0; i < tables.length; i++){
-        owner.email = `owner${i}@gmail.com`;
-        restaurant_temp.name = tables[i].name;
-        let res = await utils.signupRestaurantOwner({owner: owner, restaurant: restaurant_temp});
-        //replace the password with real password
-        res.data.password = owner.password;
-        owners.push(res.data);
-        restaurant_tables[restaurant_temp.name] = res.data.restaurants[0];
-        await client.assert.equal(res.status, 201);
-    }
+    let res = await utils.signupRestaurantOwner({owner: owner, restaurant: restaurant_temp});
+    //replace the password with real password
+    res.data.password = owner.password;
+    await client.assert.equal(res.status, 201);
 
-    order = {};
-    let tables = data.hashes();
-    for(let i = 0; i < tables.length; i++){
-        let table = tables[i]
-        let item = menu_items[table.itemName + table.restaurant];
-        if(order[item.restaurant] === undefined){
-            order[item.restaurant] = [item.item];
-        }else{
-            order[item.restaurant].push(item.item);
-        }
-    }
-    await client.assert.equal(Object.keys(order).length, 1)
-
-    let tables = data.hashes();
-    for(let i = 0; i < tables.length; i++){
-        let table = tables[i]
-        let item = menu_items[table.itemName + table.restaurant];
-        if(order[item.restaurant] === undefined){
-            order[item.restaurant] = [item.item];
-        }else{
-            order[item.restaurant].push(item.item);
-        }
-    }
-    await client.assert.equal(Object.keys(order).length, 2)
-
+    
+    let res = await utils.loginRestaurantOwner({email: owner.email, password: owner.password});
+    await client.assert.equal(res.status, 200);
+    await client.assert.not.equal(res.data.token, '');
+    //post menu items
+    let itemRes = await utils.addMenuItem(owner.restaurants[0], {'Authorization':`Bearer ${res.data.token}`, 'email': owner.email}, sample_menu_item);
+    await client.assert.equal(itemRes.status, 201);
+    await client.assert.equal(itemRes.data.name, resName);
+    
     createdOrders = [];
     for(let i = 0; i < Object.keys(order).length; i++){
         let restaurant = Object.keys(order)[i];
@@ -118,25 +87,9 @@ When(/^Joe Rangel requests to view all the orders in queue$/, async()=> {
         createdOrders.push(res.data);
     }
 
-    //check the length of the orders
-    await client.assert.equal(createdOrders.length, 1);
-    for(let i = 0; i < Object.keys(order).length; i++){
-        let restaurant = Object.keys(order)[i];
-        let items = order[restaurant];
-        checkOrders(createdOrders[i], restaurant, items);
-    }
-
-    //request view order
 });
 
-async function checkOrders(order, restaurant, items){
-    await client.assert.equal(order.restaurantId, restaurant);
-    await client.assert.equal(order.customerId, customer['_id']);
-    for(var i = 0; i < order.order_items.length; i++){
-        await client.assert.equal(order.order_items[i]['_id'], items[i]);
-    }
-    await client.assert.equal(order.price, items.length * sample_menu_item.price);
-}
+
 
 Then(/^the following items are returned$/, async(data)=> {
     const response = await axios.get('http://localhost:5000/order/all');
