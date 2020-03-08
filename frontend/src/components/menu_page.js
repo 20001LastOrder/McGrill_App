@@ -115,9 +115,7 @@ export default class Menu extends Component {
           <Col><Button color="secondary" onClick={this.resetCounts}>Reset</Button></Col>
           <Col><Button color="primary">Add to Cart</Button></Col>
           <Col>
-            <div onClick={this.collectData}>
-              <Cart data={this.listdata} />
-            </div>
+              <Cart onClick={this.collectData()} data={this.listdata} />
           </Col>
         </Row>
         

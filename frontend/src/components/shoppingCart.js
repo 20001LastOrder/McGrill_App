@@ -6,13 +6,12 @@ import {List,Tooltip, Modal, Button, Icon} from "antd";
 export default class App extends Component{
     constructor(props) {
         super(props);
+        this.state = {
+            loading: false,
+            visible: false,
+            data:[]
+        };
     }
-
-    state = {
-        loading: false,
-        visible: false,
-        data:[]
-    };
 
     showModal = () =>{
         this.setState({
@@ -32,7 +31,7 @@ export default class App extends Component{
     };
 
     getTotalPrice = () =>{
-        var sum = 0;
+        let sum = 0;
         this.state.data.forEach(
             (item)=>{
                 sum = sum+(item.count*item.item.price)
@@ -45,12 +44,28 @@ export default class App extends Component{
         this.setState({data:this.props.data})
     }
 
+    incrementCount=(index)=>{
+        let change = this.state.data
+        change[index].count++
+        this.setState({data:change})
+    }
+
+    decrementCount=(index)=>{
+        let change = this.state.data
+        change[index].count--
+        this.setState({data:change})
+    }
+
     render(){
         const{visible, loading} = this.state;
-        const renderList = this.state.data.filter(item=>{
+        let renderList = this.state.data
+        for(var i=0; i<renderList.length;i++){
+            renderList[i].id=i
+        }
+        renderList= renderList.filter(item=>{
             return item.count !==0;
         })
-        const totalPrice = this.getTotalPrice();
+        let totalPrice = this.getTotalPrice();
         return(
             <div>
                 <Tooltip title="My cart">
@@ -76,9 +91,9 @@ export default class App extends Component{
                         dataSource={renderList}
                         renderItem={item =>(
                             <List.Item actions={[
-                                <Icon type="minus-circle" theme="twoTone" style={{ fontSize: '32px' }}></Icon>,
+                                <Icon type="minus-circle" onClick={()=>this.decrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>,
                                 <div>{item.count}</div>,
-                                <Icon type="plus-circle" theme="twoTone" style={{ fontSize: '32px' }}></Icon>
+                                <Icon type="plus-circle" onClick={()=>this.incrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>
                             ]}>
                                 <List.Item.Meta
                                     title={item.item.name}
