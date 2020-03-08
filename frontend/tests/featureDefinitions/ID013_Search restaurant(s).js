@@ -1,6 +1,6 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-const utils = require('./Utils');
+const utils = require('../Utils');
 
 let info = {
     name: 'Kurtis',
@@ -53,24 +53,24 @@ Given(/^Kurtis is logged in as customer$/, async()=> {
 Given(/^the following restaurants exist in the system for search$/, async(data) =>  {
     owners = []
     restaurant_tables = {};
-    menu_items = {};
     let tables = data.hashes()
-    
+
+
     for(let i = 0; i < tables.length; i++){
         owner.email = `owner${i}@gmail.com`;
         restaurant_temp.name = tables[i].restaurant;
         let res = await utils.signupRestaurantOwner({owner: owner, restaurant: restaurant_temp});
+
+        await client.assert.equal(res.status, 201);
         //replace the password with real password
         res.data.password = owner.password;
         owners.push(res.data);
         restaurant_tables[restaurant_temp.name] = res.data.restaurants[0];
-        await client.assert.equal(res.status, 201);
     }
 
 });
 
-When(/^Kurtis searches for Boustan$/, async()=> {
-    
+When(/^Kurtis searches for Boustan$/, async()=> {  
     let res = await utils.searchRestaurant(customer.token,restaurant_tables['Boustan']);
     await client.assert.equal(res.status, 200);
     restaurant = res.data;

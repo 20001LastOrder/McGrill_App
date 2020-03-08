@@ -1,6 +1,6 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-const utils = require('./Utils');
+const utils = require('../Utils');
 
 let info = {
     name: 'Jayda Slater',

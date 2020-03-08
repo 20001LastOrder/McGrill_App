@@ -1,6 +1,6 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-const utils = require('./Utils');
+const utils = require('../Utils');
 
 async function setUserInfo(memname, email, street, city, zip, password){
     await client.setValue('input[name=name]', memname);

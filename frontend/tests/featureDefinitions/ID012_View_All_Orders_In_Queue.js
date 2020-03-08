@@ -1,6 +1,6 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-const utils = require('./Utils');
+const utils = require('../Utils');
 const axios = require('axios');
 
 
@@ -101,7 +101,7 @@ When('George Cullen requests to view all the orders in queue', async function ()
     foundOrders = res.data.map((item)=>item._id);
 });
 
-Then('the following items are returned', async function (data) {
+Then('the following items are returned for view orders', async function (data) {
 // Write code here that turns the phrase above into concrete actions
     let tables = data.hashes();
     for(let i = 0; i < tables.length; i++){

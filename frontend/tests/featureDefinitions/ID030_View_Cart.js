@@ -70,6 +70,10 @@ When(/^Jayda Slater requests to view the cart$/, async()=> {
     
 });
 
+Then('the following items are returned', async(data) => {
+
+});
+
 //ignore error case
 Given(/^NonUser is not logged into the system$/, async()=> {
     

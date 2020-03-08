@@ -18,7 +18,7 @@ router.route('/all').get(async (req, res) => {
 router.route('/search').get(async (req, res) => {
     try{
         let id = req.query.restaurantId;
-        let restaurant = await Restaurant.findById(restaurantId);
+        let restaurant = await Restaurant.findById(id);
         res.status(200).json(restaurant);
     }catch(err){
         res.status(400).json(err)

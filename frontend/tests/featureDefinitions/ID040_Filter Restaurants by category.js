@@ -1,6 +1,6 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-const utils = require('./Utils');
+const utils = require('../Utils');
 let info = {
   name: 'Kurtis',
   email: 'K@mcgill.ca',
@@ -54,7 +54,6 @@ Given(/^Kurtis is logged into the system as a customer for filter restaurant by 
 Given (/^The following restaurants exist in the system for filter restaurant by category$/,async(data) =>{
   owners = []
     restaurant_tables = {};
-    menu_items = {};
     let tables = data.hashes()
     
     for(let i = 0; i < tables.length; i++){
@@ -77,7 +76,6 @@ When(/^Kurtis want to filter Lebanese restaurant$/, async() => {
   let res = await utils.filterByCategory(customer.token,['Lebanese']);
   await client.assert.equal(res.status, 200);
   restaurant = res.data;
-  console.log(restaurant)
 });
 
 Then(/^the restaurant Boustan should be listed$/, async() => {

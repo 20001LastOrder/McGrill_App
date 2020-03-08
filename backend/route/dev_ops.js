@@ -6,13 +6,12 @@ require('dotenv').config();
 router.post('/clear', async (req, res)=>{
     try{
         await mongoose.connection.dropDatabase();
-        res.status(201);
+        res.status(201).send();
     }catch(e){
         console.log('database drop failed');
         console.log(e);
-        res.status(400);
+        res.status(400).send();
     }
-    return res;
 });
 
 module.exports = router;

@@ -2,12 +2,11 @@ const {setDefaultTimeout, AfterAll, BeforeAll, Before} = require('cucumber');
 const {createSession, closeSession, startWebDriver, stopWebDriver} = require('nightwatch-api');
 const axios = require('axios');
 
-setDefaultTimeout(60000);
+setDefaultTimeout(120000);
 
-Before((done)=>{
-    axios.post('http://localhost:5000/dev/clear', {}).then((res)=>{
-        done();
-    });
+
+Before({timeout:30000}, async ()=>{
+    await axios.post('http://localhost:5000/dev/clear', {});
 })
 
 BeforeAll(async() => {
@@ -18,10 +17,5 @@ BeforeAll(async() => {
 AfterAll(async () => {
     await closeSession();
     await stopWebDriver();
-
-    // stop everything if time out (sometimes the test does not exit after it finishes)
-    setTimeout(()=>{
-        process.exit(0);
-    }, 1000);
 })
 

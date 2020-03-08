@@ -15,7 +15,7 @@ Feature: View all orders in queue
 
   Scenario: View all orders in queue (Normal Flow)
     When George Cullen requests to view all the orders in queue
-    Then the following items are returned
+    Then the following items are returned for view orders
       | orderId |
       |    1111 |
       |    1112 |

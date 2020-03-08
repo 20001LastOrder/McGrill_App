@@ -1,6 +1,6 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-const utils = require('./Utils');
+const utils = require('../Utils');
 
 let info = {
     name: 'Jayda Slater',
@@ -59,6 +59,10 @@ Given(/^Joe Rangel is logged in as a restaurant owner and owns a restaurant Joe1
 
 Given(/^Joe1 has the following orders$/, async(data)=> {
     orderTable = {};
+    let res = await utils.loginRestaurantOwner({email: owner.email, password: owner.password});
+    await client.assert.equal(res.status, 200);
+    await client.assert.not.equal(res.data.token, '');
+    token = res.data.token;
     //add a new menu item
     let itemRes = await utils.addMenuItem(restaurant, {'Authorization':`Bearer ${token}`, 'email': owner.email}, sample_menu_item);
     await client.assert.equal(itemRes.status, 201);
@@ -95,7 +99,6 @@ When(/^Joe Rangel request to change the status of the order (.+) to (.+)$/, asyn
 });
 
 Then(/^the status of (.+) changes to (.+)$/, async (orderId, newstatus) => {
-    console.error(orderId);
     await client.assert.equal(updatedOrder['_id'], orderTable[parseInt(orderId)]);
     await client.assert.equal(updatedOrder.status, newstatus);
 });

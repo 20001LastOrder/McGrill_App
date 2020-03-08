@@ -1,7 +1,7 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
 const axios = require('axios');
-const utils = require('./Utils');
+const utils = require('../Utils');
 
 let info = {
     name: '',
