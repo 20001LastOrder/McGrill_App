@@ -51,7 +51,7 @@ app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use('/menu/item', jwt, menuItemRouter);
 app.use('/order', jwt, orderRouter);
 app.use('/api/v1',router);
-if(process.env.NODE_ENV === 'development'){
+if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing'){
     app.use('/dev', dev);
 }
 
