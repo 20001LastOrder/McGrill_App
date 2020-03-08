@@ -23,7 +23,6 @@ const sample_menu_item2 = {
   stock: 20
 };
 
-
 export default class Content extends Component {
   listdata = new Array();
 
@@ -43,11 +42,12 @@ export default class Content extends Component {
     items.push(sample_menu_item2);
     counts.push(1);
     counts.push(2);
+    let ctr = 0; 
     items.map(item => (
       this.listdata.push({
         title: item.name,
         description: item.description + ' ' + '$' + item.price,
-
+        index : ctr++
       })));
 
     this.setState({ order_items: items });
@@ -78,7 +78,6 @@ export default class Content extends Component {
     this.setState({ item_order_counts: counts });
   };
 
-  count = 0;
   render() {
     return (
       <div>
@@ -104,14 +103,14 @@ export default class Content extends Component {
                   <Grid container spacing={40} direction="row" justify="center"
                     alignItems="center" spacing={3}>
                     <Grid item xs={5}>
-                      <IconButton onClick={() => this.incrementItem()}>
+                      <IconButton onClick={() => this.incrementItem(item.index)}>
                         <AddCircleIcon></AddCircleIcon></IconButton>
                     </Grid>
                     <Grid item xs={1}>
-                      {this.state.item_order_counts[this.count++]}
+                      {this.state.item_order_counts[item.index]}
                     </Grid>
                     <Grid item xs={3}>
-                      <IconButton onClick={() => this.decreaseItem()}><RemoveCircleIcon></RemoveCircleIcon></IconButton>
+                      <IconButton onClick={() => this.decreaseItem(item.index)}><RemoveCircleIcon></RemoveCircleIcon></IconButton>
                     </Grid>
                   </Grid>
                 </Grid>,
