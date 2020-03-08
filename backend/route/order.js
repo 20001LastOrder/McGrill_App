@@ -26,12 +26,9 @@ router.route('/update').post(async (req, res) => {
             res.status(400).json("requires status");
             return;
         }
-        if(req.body.status!=="IN_PROGRESS"&&req.body.status!=="COMPLETE"){
-            res.status(400).json("status can only be IN_PROGRESS or COMPLETE");
-            return;
-        }
+
         order.status = req.body.status;
-        order.save();
+        await order.save();
         res.status(201).json(order);
         return;
     } catch (err) {

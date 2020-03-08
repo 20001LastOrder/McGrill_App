@@ -68,8 +68,10 @@ export default class UserProfile extends Component {
     //componentDidMount --> 
     async componentDidMount() {
       let self = this;
-      console.log(Auth.isAuthenticated);
-      await axios.get('https://mcgrill-backend.herokuapp.com/user/getUser?email=' + Auth.currentUser, { headers: { Authorization: 'Bearer ' +  Auth.token } })
+      console.log(window.localStorage.getItem('email'));
+      await axios.get('http://localhost:5000/user/getUser?email=' + window.localStorage.getItem('email'), { 
+        headers: { Authorization: 'Bearer ' +  window.localStorage.getItem('token') }
+      })
       .then(res => res.data)
       .then(function(resJson) {
         console.log("json found is:"+resJson);
@@ -148,17 +150,9 @@ render(){
                 fullWidth
                 value={this.state.name}
                 onChange={this.onChangeName}
-                label="First Name"
+                label="Name"
+                id='name'
                 autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
               />
             </Grid>
             <Grid item xs={12}>
@@ -192,6 +186,7 @@ render(){
                 fullWidth
                 name="Street"
                 label="Street"
+                id='street'
                 value={this.state.address.street}
                 onChange={this.onChangeStreet}
                 autoComplete="address"
@@ -204,6 +199,7 @@ render(){
                 fullWidth
                 name="City"
                 label="City"
+                id='city'
                 value={this.state.address.city}
                 onChange={this.onChangeCity}
                 autoComplete="City"
@@ -216,6 +212,7 @@ render(){
                 fullWidth
                 name="Zipcode"
                 label="Zipcode"
+                id='zipcode'
                 value={this.state.address.zip}
                 onChange={this.onChangeZip}
               />

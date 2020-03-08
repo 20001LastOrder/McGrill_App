@@ -3,7 +3,7 @@ Feature: View Cart
 	As a user of the McGrill System, I want to be able to view my cart, so that I know what I have added to the cart
 	
 	Background: 
-	  Given Jayda Slater is logged into as a customer
+	  Given Jayda Slater is logged into the system as a customer
 		Given the following restaurants exists in the system
       | name       |
       | Food Fresh |
