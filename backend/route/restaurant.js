@@ -22,19 +22,38 @@ router.route('/signup').post((req, res) => {
     });
 });
 
-router.route('/menu').get((req, res) => {
-    if (!req.header.name){
-        res.status(400).json("bad request");
-        return
-    }
-    Restaurant.findOne({name: req.headers.name}, (err, restaurant) => {
-        if (!err) {
-            // retrive the restaurant successfully
-            res.status(200).json(restaurant.menuitems);
+router.route('/update').put((req, res) => {
+    RestaurantOwner.findOne({email: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username}, async (err, doc) => {
+        let idx = doc.restaurants.indexOf(req.body._id);
+        if (idx > -1) {
+            let id = req.body._id;
+            delete req.body._id;
+            try {
+                await Restaurant.findOneAndUpdate({ _id: id }, { $set: req.body });
+                let updated = await Restaurant.findOne({ _id: id });
+                res.status(200).json(updated);
+                return;
+            } catch (err) {
+                return res.status(403).json({message: "bad update"});
+            }
         } else {
-            res.status(400).json(err);
+            res.status(400).json({ "err": "no such restaurant under this person" });
+            return;
         }
-    })
+    });
+});
+
+router.route('/menu').get(async (req, res) => {
+    if (!req.param.name){
+        res.status(400).json("requires an restaurant name");
+        return
+    };
+    try{
+        let rest = await Restaurant.findOne({name: req.param.name});
+        res.status(201).json(rest.menuitems);
+    } catch (err) {
+        res.status(500).json(err);
+    }
 });
 
 
@@ -164,7 +183,6 @@ router.route('/getByCategory').get(async (req, res) => {
         return
     }
     try{
-        console.log(req.query.category)
         let result = await Restaurant.find({ category: { $all: req.query.category } });
         res.status(200).json(result);
     } catch(err) {

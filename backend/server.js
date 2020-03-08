@@ -20,7 +20,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const jwt = expressJWT({secret: process.env.AXIOM_IV}).unless({path: [
     '/user/login', '/user/signup', '/owner/login', '/owner/signup', '/restaurant/login', '/restaurant/signup', '/admin/signup', '/admin/login',
-    '/restaurant/all'
+    '/restaurant/all', '/restaurant/menu', '/order/update', '/order/all', '/user/', '/order/create', '/restaurant/getByCategory'
 ]});
 
 app.use(cors());
