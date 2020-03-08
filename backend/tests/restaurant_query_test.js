@@ -59,7 +59,7 @@ module.exports = () => {
         expect(res.body[0].address.city).toBe(owner_normal.restaurant.address.city);
         expect(res.body[0].address.zip).toBe(owner_normal.restaurant.address.zip);
         expect(res.body[0].name).toBe(owner_normal.restaurant.name);
-        expect(res.body[0].category[0]).toBe(owner_normal.restaurant.category);
+        expect(res.body[0].category[0]).toBe(owner_normal.restaurant.category[0]);
       })
   });
 }

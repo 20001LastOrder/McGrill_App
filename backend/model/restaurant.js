@@ -21,9 +21,6 @@ const RestaurantSchema = new Schema({
         type:Date,
         default: new Date()
     },
-    category: {
-      type: String
-    },
     menuitems: [
         {
             type : mongoose.Schema.Types.ObjectId, 
@@ -38,7 +35,7 @@ const RestaurantSchema = new Schema({
     ], 
     category: [
         {
-            type: Number, 
+            type: String, 
             required: false
         }
     ],
