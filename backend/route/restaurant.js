@@ -121,7 +121,7 @@ router.route('/getCurrentOrders').get(async (req, res) => {
                         result = ["no_restaurant_found"]; 
                         return;
                     }
-                    result = resto.orders.filter(order => order.status === "IN_PROGRESS");
+                    result = resto.orders.filter(order => order.status !== "COMPLETE" && order.status !== "CANCELLED");
                     res.status(200).json(result);
             });
             
@@ -146,7 +146,7 @@ router.route('/getPastOrders').get(async (req, res) => {
                         result = ["no_restaurant_found"];
                         return;
                     }
-                    result = resto.orders.filter(order => order.status === "COMPLETED");
+                    result = resto.orders.filter(order => order.status === "COMPLETED" || order.status === "CANCELLED");
                     res.status(200).json(result);
                 });
 
