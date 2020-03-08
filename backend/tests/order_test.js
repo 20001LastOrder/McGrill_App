@@ -14,8 +14,8 @@ const consumer = {
 
 const owner_and_restaurant = {
     owner: {
-        "name": "hattori",
-        "email": "hattori@gmail.com",
+        "name": "hattori1",
+        "email": "hattori11@gmail.com",
         "password": "sakaimasato",
         "address": {
             "street": "boom",
@@ -24,7 +24,7 @@ const owner_and_restaurant = {
         }
     },
     restaurant: {
-        "name": "La Butte Boisee",
+        "name": "La Butte Boisee1",
         "address": {
             "street": "6 Chome 19 6",
             "city": "Tokyo",
@@ -85,7 +85,7 @@ async function createRestaurantAndUserAndFoodAndOrder() {
         .type("json")
         .send(make_order);
     expect(order.statusCode).toEqual(201);
-    obj.order = order;
+    obj.order = order.body ;
     obj.order_id = order.body._id;
 
     return obj;
@@ -94,6 +94,8 @@ async function createRestaurantAndUserAndFoodAndOrder() {
 module.exports = () => {
     describe('Test order status update', () => {
         it('create a new restaurant, a new user, a new order, then change the status to complete', async () => {
+            //clean database first
+            await request(server).post('/dev/clear').send({});
             let obj = await createRestaurantAndUserAndFoodAndOrder();
             let toUpdate = {
                 orderId: obj.order_id,
@@ -110,28 +112,29 @@ module.exports = () => {
 
     describe('Get /restaurant/getCurrentOrders', () => {
         it('should return current orders of the specified restaurant', async () => {
+            await request(server).post('/dev/clear').send({});
             let obj = await createRestaurantAndUserAndFoodAndOrder();
-
             const res = await request(server)
                 .get('/restaurant/getCurrentOrders')
                 .set('Authorization', `Bearer ${obj.token}`)
                 .query({ 'restaurantId': obj.restaurant_id });
 
             expect(res.statusCode).toEqual(200);
-            expect(res.body).toContain(obj.order);
+            expect(res.body.map((item)=>item._id)).toContain(obj.order_id);
 
             for (let i = 0; i < res.body.length; i++)
-                expect(res.body[i].status).toBe("IN_PROGRESS");
+                expect(res.body[i].status).toBe("PENDING");
         })
     });
 
     describe('Get /restaurant/getPastOrders', () => {
         it('should return past orders of the specified restaurant', async () => {
+            await request(server).post('/dev/clear').send({});
             //update order first
             let obj = await createRestaurantAndUserAndFoodAndOrder();
             let toUpdate = {
                 orderId: obj.order_id,
-                status: "COMPLETE"
+                status: "COMPLETED"
             }
             let update = await request(server)
                 .post("/order/update")
@@ -147,7 +150,7 @@ module.exports = () => {
                 .query({ 'restaurantId': obj.restaurant_id });
 
             expect(res.statusCode).toEqual(200);
-            expect(res.body).toContain(obj.order);
+            expect(res.body.map((item)=>item._id)).toContain(obj.order_id);
 
             for (let i = 0; i < res.body.length; i++)
                 expect(res.body[i].status).toBe("COMPLETED");

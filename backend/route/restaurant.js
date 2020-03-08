@@ -108,7 +108,7 @@ router.route('/getItemByType').get(async (req, res) => {
 
 router.route('/getCurrentOrders').get(async (req, res) => {
     if(!req.query.restaurantId){
-        res.status(400).send("bad request");
+        res.status(400).send("Bad request");
         return
     }
     try{
@@ -119,7 +119,7 @@ router.route('/getCurrentOrders').get(async (req, res) => {
                 .exec(function (err, resto) {
                     if(err || !resto){
                         result = ["no_restaurant_found"]; 
-                        return;
+                        res.status(400).json(err);
                     }
                     result = resto.orders.filter(order => order.status !== "COMPLETE" && order.status !== "CANCELLED");
                     res.status(200).json(result);
