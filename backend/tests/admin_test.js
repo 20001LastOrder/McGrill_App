@@ -5,14 +5,13 @@ const server = require('../server');
 const admin_normal1 = {
 	"name":"wenzongxia",
 	"email":"wenzong.xia@mail.mcgill.ca",
-	"password":"123xwz",
+    "password":"123xwz",
     "address" : {
         "street": "2100 Boul de Masionneuve",
         "city": "montreal",
         "zip": "H3H1K6",
     },
-	"firstname": "wenzong",
-	"lastname": "xia"
+	"employeeid": "wenzong",
 }
 
 const admin_incomplete = {
@@ -47,8 +46,7 @@ describe('Post /admin/signup', () => {
     expect(res.body).toHaveProperty('address.street');
     expect(res.body).toHaveProperty('address.city');
     expect(res.body).toHaveProperty('address.zip'); 
-    expect(res.body).toHaveProperty('firstname');
-    expect(res.body).toHaveProperty('lastname');
+    expect(res.body).toHaveProperty('employeeid');
     expect(res.body.name).toBe(admin_normal1.name);
     expect(res.body.email).toBe(admin_normal1.email);
     expect(res.body.address.street).toBe(admin_normal1.address.street.toLowerCase());

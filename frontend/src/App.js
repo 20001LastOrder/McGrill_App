@@ -26,8 +26,9 @@ export const Auth = {
         if (res.data.success) {
           this.token = res.data.token;
           this.isAuthenticated = true;
-          this.currentUser = userinfo.username;
+          this.currentUser = userinfo.email;
           window.localStorage.setItem('token', res.data.token);
+          window.localStorage.setItem('email', userinfo.email);
           console.log(window.localStorage.getItem('token'))
         } else {
           this.isAuthenticated = false;
