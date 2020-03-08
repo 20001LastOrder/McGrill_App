@@ -55,7 +55,7 @@ module.exports = {
             let res = await axios.post('http://localhost:5000/menu/item/create?restaurantId='+restaurantId, body, {headers: header});
             return res;
         }catch(e){
-            //console.log(e);
+            console.log(e);
             throw e;
         }
     },
@@ -70,9 +70,51 @@ module.exports = {
             });
             return res;
         }catch(e){
+            console.log(e);
+            throw e;
+        }
+    },
+
+    /**
+     * @param {string} token
+     * @param {Object} body: needs: restaurantId
+     */
+    searchRestaurant: async function(token, body){
+        try{
+            let res = await axios.get('http://localhost:5000/restaurant/search?restaurantId='+body, {
+                headers:{'Authorization':`Bearer ${token}`}
+            });
+            return res;
+        }catch(e){
+            throw e;
+        }
+    },
+
+    /**
+     * @param {string} token
+     * @param {Object} body: needs: restaurantId
+     */
+    filterByCategory: async function(token, body){
+        try{
+            let res = await axios.get('http://localhost:5000/restaurant/getByCategory?category='+body, {
+                headers:{'Authorization':`Bearer ${token}`}
+            });
+            return res;
+        }catch(e){
             throw e;
         }
     }, 
+    updateStatus: async function(token, body){
+        try{
+            let res = await axios.post('http://localhost:5000/order/update', body, {
+                headers:{'Authorization':`Bearer ${token}`}
+            });
+            return res;
+        }catch(e){
+            console.log(e);
+            throw e;
+        }
+    },
     pause: function(client, ms){
         return new Promise((resolve, reject)=>{
             client.pause(ms, ()=>{
