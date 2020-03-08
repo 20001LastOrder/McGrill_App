@@ -13,7 +13,8 @@ import axios from 'axios';
 import restoHome from './components/restoHome'
 import ProfileSettings from './components/profilesettings';
 import UserOrders from './components/userorders';
-import RestoMain from './components/restaurantMainView';
+import RestoHome from './components/restaurantHome';
+import RestoMenu from './components/restaurantMenu'
 
 const {Sider} = Layout;
 
@@ -180,6 +181,10 @@ function App() {
             window.location.href = '/'
           })
       } />
+
+      {/*Routes for restaurant owner pages*/}
+      <Route path="/owner/home" component={RestoHome}/>
+      <Route path="/owner/menu" component={RestoMenu}/>
       </Layout>
       </Layout>
    </Router>

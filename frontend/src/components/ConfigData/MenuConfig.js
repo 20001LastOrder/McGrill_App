@@ -25,6 +25,10 @@ const MenuConfig = {always:[
                 icon:'bulb',
             }
         ],
+    },
+    {
+        title:'restaurantOwner',
+        key:'/restaurantHome',
     }
 ],
 guest:[
@@ -60,6 +64,29 @@ allUser:[
         key: '/logout',
         icon: 'user'
     }
+],
+restaurantOwner: [
+    {
+        title:'Home',
+        key:'/owner/home',
+        icon: 'home'
+    },
+    {
+        title:'All Orders',
+        key:'/owner/orders',
+        icon:'reconciliation'
+    },
+    {
+        title:'Cancelled Orders',
+        key:'/owner/cancelled',
+        icon:'reconciliation'
+    },
+    {
+        title:'Menu',
+        key:'/owner/menu',
+        icon:'coffee'
+    }
+
 ]
 
 }
