@@ -1,83 +1,26 @@
-import React, {Component} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import Button from '@material-ui/core/Button';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import Typography from '@material-ui/core/Typography';
-import Image from './burger.jpg';
-
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import {List, Avatar, Icon, Pagination, Button, Rate, Popover, Descriptions} from 'antd';
+import 'antd/dist/antd.css'
 const sample_menu_item1 = {
-    name: "burger",
-    description: "desc1",
-    price: 5,
-    sold_out: false,
-    stock: 12
-  };
-  
-  const sample_menu_item2 = {
-    name: "fries",
-    description: "desc2",
-    price: 2,
-    sold_out: false,
-    stock: 20
-  };
+  name: "burger",
+  description: "desc1",
+  price: 5,
+  sold_out: false,
+  stock: 12
+};
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
-  },
-  buttonDisplay:{
-    display: 'inline-block',
-    width: 20,
-    height: 20,
-  },
-  gridList: {
-    width: 500,
-    height: 450,
-  },
-  icon: {
-    color: 'rgba(255, 255, 255, 0.54)',
-  },
-}));
+const sample_menu_item2 = {
+  name: "fries",
+  description: "desc2",
+  price: 2,
+  sold_out: false,
+  stock: 20
+};
 
+export default class Content extends Component{
+    listdata = new Array();
 
-const tileData = [
-  {
-    img: Image,
-    title: 'Restaurant',
-    author: 'Item From Restaurant',
-  },
-];
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
-
-export default class ShoppingCart extends Component {
-    
     constructor(props){
       super(props);
       
@@ -87,67 +30,84 @@ export default class ShoppingCart extends Component {
       };
     }
 
-    incrementItem = index => {
-        let counts = [...this.state.item_order_counts];
-        counts[index]++;
-        this.setState({ item_order_counts: counts });
-      };
-    
-      decreaseItem = index => {
-        let counts = [...this.state.item_order_counts];
-        counts[index]--;
-        this.setState({ item_order_counts: counts });
-      };
-
-      componentDidMount() {
-        let items = [];
-        items.push(sample_menu_item1);
-        items.push(sample_menu_item2);
-        let counts = [];
-        counts.push(0);
-        counts.push(0);
-        this.setState({ order_items: items, item_order_counts: counts });
-      }
-    
-
-  render(){
-   
-  return (
+    componentDidMount() {
+      let items = localStorage.getItem('itemList') ? localStorage.getItem('itemList') : [];
+      let counts = localStorage.getItem('itemQuantity') ? localStorage.getItem('itemQuantity') : [];
+      items.push(sample_menu_item1);
+      items.push(sample_menu_item2);
       
-    <div className={useStyles.root}>
-       
-      <GridList cellHeight={180} className={useStyles.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">My Shopping Cart</ListSubheader>
-        
-        </GridListTile>
-        
-        {tileData.map(tile => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
-            <GridListTileBar
-            
-              title={tile.title}
-              subtitle={<span>{tile.author}</span>}
-              actionIcon={
-                <IconButton aria-label={`info about ${tile.title}`} className={useStyles.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-              
-            />
+
+      items.map(item => (
+        this.listdata.push({
            
-          </GridListTile>
-          
-        ))}
-        <AddCircleIcon></AddCircleIcon>
-        <RemoveCircleIcon></RemoveCircleIcon>
-      </GridList>
+            title: item.name,
+            description:
+                '3425 Rue University, Montréal, QC H3A 2A8',
+            content:
+                'This is RVC',
+            img:
+                'pictures/rvc.png'
+        })));
       
-      
-      <Button variant="contained" color="primary">Checkout</Button>
- 
-    </div>
-  );
-}
+      this.setState({order_items: items});
+      this.setState({item_order_counts:counts});
+    }
+
+
+
+    itemRender = (current, type, originalElement) =>{
+        if (type == 'prev'){
+            return <a>Previous</a>;
+        }
+        if (type == 'next'){
+            return <a>Next</a>;
+        }
+        return originalElement;
+    }
+    
+    render() {
+        return (
+            <div>
+                <List itemLayout="horizontal"
+                      bordered={true}
+                      size={"large"}
+                      pagination={{
+                          onChange:page => {
+                              console.log(page);
+                          },
+                          pageSize:3
+                      }}
+                      dataSource={this.listdata}
+                      renderItem = {item => (
+                          <List.Item
+                              actions={[<Rate allowHalf defaultValue={1.5} />,
+                                      <Button size="small" type={"primary"}>Order</Button>,
+                                  <Popover placement={"left"} content={
+                                      <div>{item.content}
+                                      <br /><b>Operating Hours</b>
+                                          <br /><b>Week Days 7:00AM - 20:30PM</b>
+                                          <br /><b>Weekend 8:00AM - 20:00PM</b></div>
+                                  } title="About this restaurant" trigger="hover">
+                                      <Button size={"small"}>Info</Button></Popover>]}
+                          >
+                              <List.Item.Meta
+                                  avatar={<Popover placement={"right"} content={<img style={{
+                                      display: 'inline-block',
+                                      width: '300px',
+                                      height: '100%',
+                                      padding:10
+                                        }} alt="example" 
+                                                                                     />} trigger="hover">
+                                      
+                                  </Popover>}
+                                  title={<a href={item.href}>{item.title}</a>}
+                                  description={item.description}
+                              />
+                          </List.Item>
+                      )}
+                        >
+                </List>
+            </div>
+        );
+    }
 }
