@@ -5,8 +5,45 @@ import 'antd/dist/antd.css'
 
 export default class Content extends Component{
     listdata = new Array();
+    state = {
+        query: '',
+        data: [],
+        filteredData: []
+      };
+
+      handleInputChange = (event) => {
+        const query = event.target.value;
+
+    this.setState(prevState => {
+      const filteredData = prevState.data.filter(element => {
+        return element.name.toLowerCase().includes(query.toLowerCase());
+      });
+
+      return {
+        query,
+        filteredData
+      };
+    });
+  };
+
+      getData = () => {
+        fetch('https://mcgrill-backend.herokuapp.com/restaurant/all')
+        .then(response => response.json())
+        .then(data => {
+          const { query } = this.state;
+          const filteredData = data.filter(element => {
+            return element.name.toLowerCase().includes(query.toLowerCase());
+          });
+  
+          this.setState({
+            data,
+            filteredData
+          });
+        });
+    };
 
     componentWillMount() {
+        this.getData();
         this.listdata.push({
             href:'www.google.ca',
             title: `Royal Victoria Cafe`,
@@ -57,7 +94,16 @@ export default class Content extends Component{
 
     render() {
         return (
+            
             <div>
+                <form>
+          <input
+            placeholder="Search for..."
+            value={this.state.query}
+            onChange={this.handleInputChange}
+          />
+        </form>
+        <div>{this.state.filteredData.map(i => <p>{i.name}</p>)}</div>
                 <List itemLayout="horizontal"
                       bordered={true}
                       size={"large"}
