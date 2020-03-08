@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {List, Avatar, Icon, Pagination, Button, Rate, Popover, Descriptions} from 'antd';
+import {List, Avatar, Icon, Layout, Pagination, Button, Rate, Popover, Descriptions} from 'antd';
 import 'antd/dist/antd.css'
+import Grid from '@material-ui/core/Grid';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import IconButton from '@material-ui/core/IconButton';
+const {Header} = Layout;
 const sample_menu_item1 = {
   name: "burger",
   description: "desc1",
@@ -35,18 +40,13 @@ export default class Content extends Component{
       let counts = localStorage.getItem('itemQuantity') ? localStorage.getItem('itemQuantity') : [];
       items.push(sample_menu_item1);
       items.push(sample_menu_item2);
-      
-
+      counts.push(1);
+      counts.push(2);
       items.map(item => (
         this.listdata.push({
-           
             title: item.name,
-            description:
-                '3425 Rue University, Montréal, QC H3A 2A8',
-            content:
-                'This is RVC',
-            img:
-                'pictures/rvc.png'
+            description:item.description +' '+'$' + item.price,
+            
         })));
       
       this.setState({order_items: items});
@@ -64,11 +64,28 @@ export default class Content extends Component{
         }
         return originalElement;
     }
+
+    incrementItem = index => {
+        let counts = [...this.state.item_order_counts];
+        counts[index]++;
+        this.setState({ item_order_counts: counts });
+      };
+    
+      decreaseItem = index => {
+        let counts = [...this.state.item_order_counts];
+        counts[index]--;
+        this.setState({ item_order_counts: counts });
+      };
     
     render() {
         return (
             <div>
-                <List itemLayout="horizontal"
+            <Header style={{ background: '#fff', height:"auto", paddingLeft:20}}><span style={{
+                textAlign:"center",
+                paddingLeft:20
+            }}><b>My Shopping Cart</b></span></Header>
+            
+                <List itemLayout="horizontal "
                       bordered={true}
                       size={"large"}
                       pagination={{
@@ -80,10 +97,22 @@ export default class Content extends Component{
                       dataSource={this.listdata}
                       renderItem = {item => (
                           <List.Item
-                              actions={[<Rate allowHalf defaultValue={1.5} />,
-                                      <Button size="small" type={"primary"}>Order</Button>,
+                              actions={[
+                                <Grid item xs={6}>
+    <Grid container spacing={40} direction="row" justify="center"
+  alignItems="center" spacing={3}>
+      <Grid item xs={5}>
+      <IconButton onClick={() => this.incrementItem(index)}>
+        <AddCircleIcon></AddCircleIcon></IconButton>
+      </Grid>
+      <Grid item xs={1}></Grid>
+      <Grid item xs={3}>
+      <IconButton onClick={() => this.decreaseItem(index)}><RemoveCircleIcon></RemoveCircleIcon></IconButton>
+      </Grid>
+    </Grid>
+    </Grid>,
                                   <Popover placement={"left"} content={
-                                      <div>{item.content}
+                                      <div>{}
                                       <br /><b>Operating Hours</b>
                                           <br /><b>Week Days 7:00AM - 20:30PM</b>
                                           <br /><b>Weekend 8:00AM - 20:00PM</b></div>
@@ -107,6 +136,7 @@ export default class Content extends Component{
                       )}
                         >
                 </List>
+                <div><Button variant="contained" color="primary">Checkout</Button></div>
             </div>
         );
     }
