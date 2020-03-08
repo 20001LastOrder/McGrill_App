@@ -64,6 +64,23 @@ router.route('/signup').post(async (req, res) => {
     }
 });
 
+router.route('/delete').delete((req, res) => {
+    User.findOne({email: jwt.verify(req.headers.authorization.split(' ')[1], process.env.AXIOM_IV).username}, (err, doc) => {
+        if(doc == null){
+            res.status(400).json("Something went wrong");
+            return;
+        }
+        if (!err && !doc.isServer) {
+            User.findOneAndRemove({email: doc.email})
+                  .then((doc) => {
+                      res.status(200).json(doc);
+                  })
+                  .catch(({err}) => {res.status(400).json(err)});
+        } else {
+            res.status(400).json(err);
+        }
+    });
+})
 router.route('/update').put(async (req, res) => {
     delete req.body._id;
     delete req.body.email;

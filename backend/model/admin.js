@@ -5,13 +5,7 @@ const Schema = mongoose.Schema;
 const User = require('./user')
 
 const Admin = User.discriminator('Admin', new Schema({
-    firstname: {
-        type: String,
-        trim: true,
-        lowercase: true, 
-        required: true
-    },
-    lastname: {
+    employeeid: {
         type: String,
         trim: true,
         lowercase: true, 

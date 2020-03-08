@@ -1,6 +1,6 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-
+const utils = require('../Utils')
 async function setResOwnInfo(name, email, street, city, zipcode, restaurant_name, restaurant_street, restaurant_city, restaurant_zipcode, pass, confirmpass){
     await client.setValue('input[name=name]', name);
     await client.setValue('input[name=email]', email);
@@ -29,13 +29,13 @@ Given(/^Restaurant owner Bryson Lindsey with email address b.lin@outlook.com, ad
   
 When(/^requests to create a restaurant$/, async () =>{
     await client.click('input[type=submit]');
-    await client.pause(1000);
+    await utils.pause(client, 1000);
 });
   
 When(/^A Restaurant owner Bryson Lindsey with email address b.lin@outlook.com, restaurant RVC Cafeteria, restaurant address 3231 University exists in the system$/, async () =>{
     await setResOwnInfo('Bryson Lindsey', 'b.lin@outlook.com', '3444 Rue Sherbrook', 'Montreal', 'H2E3X4', 'RVC Cafeteria', '3231 University', 'Montreal', 'H2E3X1', 'passWord@333', 'passWord@333');
     await client.click('input[type=submit]');
-    await client.pause(1000);
+    await utils.pause(client, 1000);
     await client.click('li[title=Logout]');
 });
   

@@ -3,7 +3,7 @@ As a user of the McGrill System, I want to add items into the cart
 
   Background: 
     Given the system is on the page of Tim Hortons and logged in as Kurtis
-      And Tim Hortons provides following items
+      Given Tim Hortons provides following items
       | Item                | Price | 
       | Double double       |  2    | 
       | Crispy chicken wrap |  6.5  | 

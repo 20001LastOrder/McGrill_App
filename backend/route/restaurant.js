@@ -15,6 +15,17 @@ router.route('/all').get(async (req, res) => {
     }
 });
 
+router.route('/search').get(async (req, res) => {
+    try{
+        let id = req.query.restaurantId;
+        let restaurant = await Restaurant.findById(id);
+        res.status(200).json(restaurant);
+    }catch(err){
+        res.status(400).json(err)
+    }
+});
+
+
 router.route('/signup').post((req, res) => {
     new Restaurant(req.body).save(function(err, doc) {
         if (err) res.status(400).json(err);
@@ -110,7 +121,7 @@ router.route('/getCurrentOrders').get(async (req, res) => {
                         result = ["no_restaurant_found"]; 
                         return;
                     }
-                    result = resto.orders.filter(order => order.status === "IN_PROGRESS");
+                    result = resto.orders.filter(order => order.status !== "COMPLETE" && order.status !== "CANCELLED");
                     res.status(200).json(result);
             });
             
@@ -135,7 +146,7 @@ router.route('/getPastOrders').get(async (req, res) => {
                         result = ["no_restaurant_found"];
                         return;
                     }
-                    result = resto.orders.filter(order => order.status === "COMPLETED");
+                    result = resto.orders.filter(order => order.status === "COMPLETED" || order.status === "CANCELLED");
                     res.status(200).json(result);
                 });
 
@@ -179,6 +190,7 @@ router.route('/addRestaurantCategory').put(async (req, res) => {
 
 router.route('/getByCategory').get(async (req, res) => {
     if(!req.query.category){
+        console.err(req.query)
         res.status(400).send("bad request");
         return
     }
