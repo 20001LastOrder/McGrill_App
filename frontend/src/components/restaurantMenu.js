@@ -34,9 +34,9 @@ class restaurantMenu extends Component {
 
     submitHandler = (e) => {
         e.preventDefault();
-        this.state.items.push(this.state.create);
-        console.log('input'+this.state.create.name);
-        console.log('items:'+this.state.items);
+        this.setState(prevState => ({
+            items: [...prevState.items,this.state.create]
+        }))
         axios({
             method:'post',
             url:'http://localhost:5000/menu/item/create?restaurantId=' + Auth.currentUser,
@@ -46,8 +46,8 @@ class restaurantMenu extends Component {
         }})
         .then(async (doc) => {
 
-    }).catch((err) => {console.log(err)});
-    }
+         }).catch((err) => {console.log(err)});
+        }
     render() {
         const {
             food_type,
@@ -57,6 +57,7 @@ class restaurantMenu extends Component {
             description
         } = this.state.create;
         const items = this.state.items;
+        console.log('HERE:  '+items[1]);
         return (
         <Fragment>
           <Typography variant="h3" style={{textAlign:'center'}}>Menu</Typography>
