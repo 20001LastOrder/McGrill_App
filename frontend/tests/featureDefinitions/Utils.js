@@ -72,5 +72,12 @@ module.exports = {
         }catch(e){
             throw e;
         }
+    }, 
+    pause: function(client, ms){
+        return new Promise((resolve, reject)=>{
+            client.pause(ms, ()=>{
+                resolve();
+            });
+        })
     }
 }
