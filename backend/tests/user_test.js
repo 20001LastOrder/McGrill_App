@@ -48,6 +48,7 @@ describe('Post /user/signup', () => {
     expect(res.body.address.zip).toBe(consumer.address.zip.toLowerCase());
     expect(res.body).toHaveProperty('password');
     expect(res.body['password']).not.toBe(consumer.password);
+    consumer._id = res.body._id;
     })
 });
 
@@ -105,5 +106,25 @@ describe('Get /user/login', () => {
     expect(res.statusCode).toEqual(400);
     //expect(res.body).toHaveProperty('token');
     })
+});
+
+describe('Put /user/update', () => {
+    it('should update an existing user', async () => {
+        const resLogin = await request(server)
+        .get('/user/login')
+        .set('email', consumer.email).
+        set('password', consumer.password).
+        send();
+        expect(resLogin.statusCode).toEqual(200);
+        expect(resLogin.body).toHaveProperty('token');
+        consumer.name = "sanxiamian";
+        let res2 = await request(server)
+                        .put('/user/update')
+                        .set('Authorization',`Bearer ${ resLogin.body.token }`)
+                        .send(consumer);
+        expect(res2.statusCode).toEqual(200);
+        expect(res2.body._id).toEqual(consumer._id);
+        expect(res2.body.name).toEqual("sanxiamian");
+    });
 });
 }
