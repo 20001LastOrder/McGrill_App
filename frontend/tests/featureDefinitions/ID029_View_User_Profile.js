@@ -63,7 +63,7 @@ Given(/^user (.+) is logged into the McGrill Application$/, async (username) => 
 });
 
 When(/^user (.+) requests to view their user profile$/, async (username) => {
-    await client.url('http://localhost:3000/profilesettings').waitForElementVisible('body', 2000);
+    await client.url('http://localhost:3000/profilesettings').waitForElementVisible('input[id=name]', 4000);
 });
   
 
