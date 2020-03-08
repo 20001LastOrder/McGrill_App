@@ -1,8 +1,6 @@
 dist: xenial
 language: node_js
 
-notifications:
-  slack: mcgrill:6f1Fhu7FfFqCt7rwq5bfxEFK
 services: mongodb
 
 node_js:
@@ -10,7 +8,7 @@ node_js:
 env:
   - NODE_ENV=testing
 addons: # get google-chrome-stable
-  chrome: stable
+  chrome: beta
 
 before_script:
   - sleep 5

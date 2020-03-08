@@ -15,6 +15,17 @@ router.route('/all').get(async (req, res) => {
     }
 });
 
+router.route('/search').get(async (req, res) => {
+    try{
+        let id = req.query.restaurantId;
+        let restaurant = await Restaurant.findById(restaurantId);
+        res.status(200).json(restaurant);
+    }catch(err){
+        res.status(400).json(err)
+    }
+});
+
+
 router.route('/signup').post((req, res) => {
     new Restaurant(req.body).save(function(err, doc) {
         if (err) res.status(400).json(err);
