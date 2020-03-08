@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import ItemCard from "./itemcard";
 import { Container, Row, Col, Button } from "reactstrap";
+import {Tooltip} from "antd";
+import Cart from "./shoppingCart"
+
 
 const sample_menu_item1 = {
   name: "burger",
@@ -19,6 +22,9 @@ const sample_menu_item2 = {
 };
 
 export default class Menu extends Component {
+  listdata = new Array();
+
+
   constructor(props) {
     super(props);
 
@@ -45,6 +51,12 @@ export default class Menu extends Component {
     this.setState({ item_order_counts: newCounts });
   }
 
+  collectData = () => {
+    for(var i=0;i<this.state.menu_items.length;i++){
+      this.listdata[i].count = this.state.item_order_counts[i];
+    }
+  }
+
   componentDidMount() {
     // TODO: this shall change to API call to fetch all menu items of a restaurants
     // Refer to: https://stackoverflow.com/questions/45713138/reactjs-what-is-the-correct-way-to-set-a-state-value-as-array
@@ -55,7 +67,12 @@ export default class Menu extends Component {
     counts.push(0);
     counts.push(0);
     this.setState({ menu_items: items, item_order_counts: counts });
+
+    for(var i=0;i<items.length;i++){
+      this.listdata.push({item:items[i],count:0});
+    }
   }
+
 
   render() {
     var itemCards = this.state.menu_items.map((item, index) => (
@@ -97,6 +114,9 @@ export default class Menu extends Component {
         <Row>
           <Col><Button color="secondary" onClick={this.resetCounts}>Reset</Button></Col>
           <Col><Button color="primary">Add to Cart</Button></Col>
+          <Col>
+              <Cart onClick={this.collectData()} data={this.listdata} />
+          </Col>
         </Row>
         
       </div>
