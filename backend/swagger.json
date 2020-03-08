@@ -103,6 +103,23 @@
         }
       }
     },
+    "/restaurant/all": {
+      "get": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Get all registered restaurants",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
     "/restaurant/getByCategory": {
       "get": {
         "tags": [
@@ -116,7 +133,7 @@
         "parameters": [
           {
             "name": "category",
-            "in": "headers",
+            "in": "header",
             "required": true
           }
         ],
