@@ -56,6 +56,12 @@ export default class App extends Component{
         this.setState({data:change})
     }
 
+    cleanCount=(index)=>{
+        let change = this.state.data
+        change[index].count=0
+        this.setState({data:change})
+    }
+
     render(){
         const{visible, loading} = this.state;
         let renderList = this.state.data
@@ -93,8 +99,9 @@ export default class App extends Component{
                             <List.Item actions={[
                                 <Icon type="minus-circle" onClick={()=>this.decrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>,
                                 <div>{item.count}</div>,
-                                <Icon type="plus-circle" onClick={()=>this.incrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>
-                            ]}>
+                                <Icon type="plus-circle" onClick={()=>this.incrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>,
+                                <Icon type="close-square" onClick={()=>this.cleanCount(item.id)} theme="twoTone" twoToneColor="#fc0303" style={{ fontSize: '32px' }}></Icon>
+                                ]}>
                                 <List.Item.Meta
                                     title={item.item.name}
                                     description={
