@@ -64,13 +64,13 @@ Given(/^user (.+) is logged into the McGrill Application$/, async (username) => 
 
 When(/^user (.+) requests to view their user profile$/, async (username) => {
     await client.url('http://localhost:3000/profilesettings').waitForElementVisible('input[id=name]', 4000);
-    await client.pause(2000);
+    await utils.pause(client, 1000);
 });
   
 
   
 Then(/^user (.+) should get the profile containing (.+), (.+)$/, async (username, usertype, email) => {
-    //await client.expect.element('input[id=name]').value.to.equal(info.name);
+    await client.expect.element('input[id=name]').value.to.equal(info.name);
     await client.expect.element('input[id=email]').value.to.equal(info.email);
     await client.expect.element('input[id=street]').value.to.equal(info.address.street.toLowerCase());
     await client.expect.element('input[id=city]').value.to.equal(info.address.city.toLowerCase());

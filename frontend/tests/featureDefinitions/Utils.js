@@ -72,6 +72,7 @@ module.exports = {
         }catch(e){
             throw e;
         }
+<<<<<<< HEAD
     },
 
     /**
@@ -102,5 +103,14 @@ module.exports = {
         }catch(e){
             throw e;
         }
+=======
+    }, 
+    pause: function(client, ms){
+        return new Promise((resolve, reject)=>{
+            client.pause(ms, ()=>{
+                resolve();
+            });
+        })
+>>>>>>> 818af743ee4a7ebf184d82fead5b3c812fc89261
     }
 }

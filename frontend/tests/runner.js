@@ -12,7 +12,11 @@ server.ready.then(()=>{
         slash = '/'
     }
 
+<<<<<<< HEAD
     const options = ['--require', 'tests/cucumber.conf.js', '--require', 'tests/featureDefinitions', '--format', 'node_modules/cucumber-pretty', 'tests/features/ID040_Filter_Restaurants_by_category.feature']
+=======
+    const options = ['--require', 'tests/cucumber.conf.js', '--require', 'tests/featureDefinitions', '--format', 'node_modules/cucumber-pretty', 'tests/features']
+>>>>>>> 818af743ee4a7ebf184d82fead5b3c812fc89261
     const cmd = '.' + slash + 'node_modules' + slash + '.bin' + slash + 'cucumber-js' 
     var testServer = spawn(cmd, options, { stdio: 'inherit', shell: true });
     testServer.on('error', function(err) {
