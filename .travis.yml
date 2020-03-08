@@ -8,7 +8,7 @@ node_js:
 env:
   - NODE_ENV=testing
 addons: # get google-chrome-stable
-  chrome: stable
+  chrome: beta
 
 before_script:
   - sleep 5
