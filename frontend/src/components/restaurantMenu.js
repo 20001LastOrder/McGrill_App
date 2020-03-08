@@ -39,7 +39,7 @@ class restaurantMenu extends Component {
         }))
         axios({
             method:'post',
-            url:'http://localhost:5000/menu/item/create?restaurantId=' + Auth.currentUser,
+            url:'http://localhost:5000/menu/item/create?restaurantId=' + '5e648544a8b75434d08510b5',
             body: this.state.create,
             headers: {
             'Content-Type': 'application/json'
