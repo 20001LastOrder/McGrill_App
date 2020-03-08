@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
-import color from '@material-ui/core/colors/amber';
+import { Grid, Typography, Button } from '@material-ui/core';
+import axios from 'axios';
+import orderModal from './restaurantOrder'
 
 class restaurantHome extends Component {
     constructor(){
@@ -12,15 +12,33 @@ class restaurantHome extends Component {
             readyOrders: ["#9875"]
         }
     }
+    async queryOrders(){
+        try{
+            let response = await axios({method: 'get', url: 'http://localhost:5000/getCurrentOrders',
+                data: {}, 
+              headers: {'Content-Type': 'application/json'}
+            });
+            console.log(response);
+          }catch(err){
+            console.log(err.response);
+          }
+    }
+    componentWillMount() {
 
+    }
+    handleOnClick=(e) => {
+       return <orderModal></orderModal>
+
+    }
     getPendingOrders=function() {
         return this.state.pendingOrders.map((x) => {
             return (<Grid item xs
                 style={{background: "#FFF06E",
                         marginTop:"40px", marginLeft:"40px",
                         padding:"40px",
-                        borderRadius: 20}}>{x}</Grid>);
-        });
+                        borderRadius: 20}}
+                   ><Button  onClick={this.handleOnClick}>{x}</Button></Grid>);
+            });
     }
 
     getCurrentOrders=function() {
