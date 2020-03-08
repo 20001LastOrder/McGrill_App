@@ -23,6 +23,19 @@ let owner = {
         zip: 'H2TT9H'
     }
 }
+let restaurant_temp = {
+    name: 'shitang',
+    address: {
+        "street": "2200 Boul de Masionneuve",
+        "city": "montreal",
+        "zip": "H3H1M6"
+    }
+}
+
+let owners = [];
+let restaurant_tables = {};
+let customer = {};
+let restaurant = [];
 
 Given(/^Kurtis is logged in as customer$/, async()=> {
     await client.url('http://localhost:3000/login').waitForElementVisible('body', 2000);
@@ -37,24 +50,38 @@ Given(/^Kurtis is logged in as customer$/, async()=> {
     customer.token = res.data.token;
 });
 
+Given(/^the following restaurants exist in the system for search$/, async(data) =>  {
+    owners = []
+    restaurant_tables = {};
+    menu_items = {};
+    let tables = data.hashes()
+    
+    for(let i = 0; i < tables.length; i++){
+        owner.email = `owner${i}@gmail.com`;
+        restaurant_temp.name = tables[i].restaurant;
+        let res = await utils.signupRestaurantOwner({owner: owner, restaurant: restaurant_temp});
+        //replace the password with real password
+        res.data.password = owner.password;
+        owners.push(res.data);
+        restaurant_tables[restaurant_temp.name] = res.data.restaurants[0];
+        await client.assert.equal(res.status, 201);
+    }
+
+});
+
 When(/^Kurtis searches for Boustan$/, async()=> {
     
+    let res = await utils.searchRestaurant(customer.token,restaurant_tables['Boustan']);
+    await client.assert.equal(res.status, 200);
+    restaurant = res.data;
 });
 
-When(/^Kurtis searches for restaurant on Rue Sherbrook$/, async()=> {
-    
-});
 
-When(/^Kurtis searches for Subway but used sub to search$/, async()=> {
-    
-});
-
-Then(/^Tim Hortons and Boustan should be listed$/, async()=> {
-    
-});
-
-Then(/^the restaurant Subway should be listed$/, async()=> {
-    
+Then(/^the restaurant Boustan should be listed for search$/, async()=> {
+    await client.assert.equal(restaurant.name, 'Boustan');
+    await client.assert.equal(restaurant.address.city.toLowerCase, restaurant_temp.address.city.toLowerCase);
+    await client.assert.equal(restaurant.address.street.toLowerCase, restaurant_temp.address.street.toLowerCase);
+    await client.assert.equal(restaurant.address.zip.toLowerCase, restaurant_temp.address.zip.toLowerCase);
 });
   
 //ignore error case
