@@ -14,6 +14,7 @@ import restoHome from './components/restoHome'
 import ProfileSettings from './components/profilesettings';
 import UserOrders from './components/userorders';
 import RestoMain from './components/restaurantMainView';
+import ShoppingCart from './components/shoppingcart';
 
 const {Sider} = Layout;
 
@@ -172,7 +173,7 @@ function App() {
       <Route path="/" exact component={HomePage} />
       <Route path="/profilesettings" component={ProfileSettings} />
       <Route path="/userorders" component={UserOrders} />
-
+      <Route path="/shoppingcart" component={ShoppingCart} />
       {/* /menu is temporarily here to be deleted once restaurant's own url is set */}
       <Route path="/menu" component={MenuPage} />
       <Route path="/restaurants/all" component={restoHome} />
