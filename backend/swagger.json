@@ -143,6 +143,33 @@
           }
         }
       }
+    },
+    "/order/create": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Create an order",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -161,6 +188,29 @@
       },
       "xml": {
         "name": "User"
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "sold_out": {
+          "type": "boolean"
+        },
+        "stock": {
+          "type": "number"
+        }
+      },
+      "xml": {
+        "name": "Order"
       }
     }
   }
