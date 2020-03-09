@@ -1,35 +1,28 @@
 const {client} = require('nightwatch-api');
 const {Given, Then, When} = require('cucumber');
-Given(/^the system is on the page of Tim Hortons and logged in as Kurtis$/, async()=> {
-    
+Given(/^the system is on the page of menu page and logged in as Kurtis$/, async()=> {
+    await client.url('http://localhost:3000/menu').waitForElementVisible('body', 2000);
 });
 
-When(/^Kurtis add a double double into the cart$/, async()=> {
-    
+When(/^Kurtis add a burger into the cart$/, async()=> {
+    await client.click('button[id = plus0]')
 });
 
-When(/^Kurtis add two crispy chicken wraps into the cart$/, async()=> {
-    
+When(/^Kurtis add two fries into the cart$/, async()=> {
+    await client.click('button[id = plus1]')
+    await client.click('button[id = plus1]')
 });
 
-When(/^Kurtis add one crispy chicken wrap and two grill chicken wrap into cart$/, async()=> {
-    
+Then(/^one burger should be listed in the cart$/, async()=> {
+    await client.click('button[id = cartPic]')
+    await client.expect.element('li[id=burger]').to.be.present;
 });
 
-Then(/^one double double should be listed in the cart$/, async()=> {
-    
+Then(/^two fries are listed in the cart$/, async()=> {
+    await client.click('button[id = cartPic]')
+    await client.expect.element('li[id=fries]').to.be.visible;
 });
 
-Then(/^two crispy chicken wraps are listed in the cart$/, async()=> {
-    
-});
 
-Then(/^one crispy chicken wrap and two grill chicken wrap should be listed in the cart$/, async()=> {
-    
-});
-
-Given(/^Tim Hortons provides following items$/, async()=> {
-    
-});
 
 //ignore error case

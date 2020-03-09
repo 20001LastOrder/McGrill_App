@@ -69,7 +69,7 @@ export default class App extends Component{
         return(
             <div>
                 <Tooltip title="My cart">
-                <Button type="primary" shape={"circle"} onClick={this.showModal}>
+                <Button id='cartPic' type="primary" shape={"circle"} onClick={this.showModal}>
                     <Icon type="shopping-cart" />
                 </Button>
                 </Tooltip>
@@ -91,10 +91,10 @@ export default class App extends Component{
                         dataSource={renderList}
                         renderItem={item =>(
                             <List.Item actions={[
-                                <Icon type="minus-circle" onClick={()=>this.decrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>,
+                                <Icon type="minus-circle" onClick={()=>this.decrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }} id={item.item.name+'-minus'}></Icon>,
                                 <div>{item.count}</div>,
-                                <Icon type="plus-circle" onClick={()=>this.incrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>
-                            ]}>
+                                <Icon type="plus-circle" onClick={()=>this.incrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }} id={item.item.name+'-plus'}></Icon>
+                            ]} id={item.item.name}>
                                 <List.Item.Meta
                                     title={item.item.name}
                                     description={
@@ -105,7 +105,7 @@ export default class App extends Component{
                                         height={100}
                                         alt="logo"
                                         src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                                    />}
+                                    id = {item.item.name} />}
                                 />
                             </List.Item>
                         )
