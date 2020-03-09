@@ -46,11 +46,16 @@ export default class Menu extends Component {
   
 
   componentDidMount() {
-    let items = localStorage.getItem('itemList') ? localStorage.getItem('itemList') : [];
-    let counts = localStorage.getItem('itemQuantity') ? localStorage.getItem('itemQuantity') : [];
     
-    this.setState({order_items: items});
-    this.setState({item_order_counts:counts});
+    // TODO: this shall change to API call to fetch all menu items of a restaurants
+    // Refer to: https://stackoverflow.com/questions/45713138/reactjs-what-is-the-correct-way-to-set-a-state-value-as-array
+    let items = [];
+    items.push(sample_menu_item1);
+    items.push(sample_menu_item2);
+    let counts = [];
+    counts.push(0);
+    counts.push(0);
+    this.setState({ menu_items: items, item_order_counts: counts });
   }
 
   

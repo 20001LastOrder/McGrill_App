@@ -13,6 +13,7 @@ const orderRouter = require('./route/order');
 const config = require('./config')[process.env.NODE_ENV];
 const swaggerUI = require('swagger-ui-express');
 const swaggerDoc = require('./swagger.json');
+const dev = require('./route/dev_ops');
 
 require('dotenv').config();
 
@@ -50,7 +51,9 @@ app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use('/menu/item', jwt, menuItemRouter);
 app.use('/order', jwt, orderRouter);
 app.use('/api/v1',router);
-
+if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing'){
+    app.use('/dev', dev);
+}
 
 var server = app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
