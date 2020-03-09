@@ -112,3 +112,11 @@ Given(/^order 1111 is complete$/, ()=> {
 When(/^NonUser requests change the status of order 1111$/,  () => {
 
 });
+
+Then('A {string} Message is issued', function (string) {
+    // Write code here that turns the phrase above into concrete actions
+})
+
+Given('NonUser is not logged into the system', function () {
+    // Write code here that turns the phrase above into concrete actions
+});
