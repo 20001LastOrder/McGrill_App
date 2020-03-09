@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import ItemCard from "./itemcard";
 import { Container, Row, Col, Button } from "reactstrap";
+import {Tooltip} from "antd";
+import Cart from "./shoppingCartDi"
+
 
 const sample_menu_item1 = {
   name: "burger",
@@ -19,6 +22,9 @@ const sample_menu_item2 = {
 };
 
 export default class Menu extends Component {
+  listdata = new Array();
+
+
   constructor(props) {
     super(props);
 
@@ -39,14 +45,19 @@ export default class Menu extends Component {
     counts[index]--;
     this.setState({ item_order_counts: counts });
   };
+
   resetCounts = () => {
     let newCounts = this.state.item_order_counts.fill(0);
     this.setState({ item_order_counts: newCounts });
-  };
-  
+  }
+
+  collectData = () => {
+    for(var i=0;i<this.state.menu_items.length;i++){
+      this.listdata[i].count = this.state.item_order_counts[i];
+    }
+  }
 
   componentDidMount() {
-    
     // TODO: this shall change to API call to fetch all menu items of a restaurants
     // Refer to: https://stackoverflow.com/questions/45713138/reactjs-what-is-the-correct-way-to-set-a-state-value-as-array
     let items = [];
@@ -56,9 +67,12 @@ export default class Menu extends Component {
     counts.push(0);
     counts.push(0);
     this.setState({ menu_items: items, item_order_counts: counts });
+
+    for(var i=0;i<items.length;i++){
+      this.listdata.push({item:items[i],count:0});
+    }
   }
 
-  
 
   render() {
     var itemCards = this.state.menu_items.map((item, index) => (
@@ -86,7 +100,7 @@ export default class Menu extends Component {
                 </div>
               </Col>
               <Col style={{ paddingLeft: "2px", paddingRight: "0px" }}>
-                <Button onClick={() => this.incrementItem(index)}>+</Button>
+                <Button onClick={() => this.incrementItem(index)} id={'plus'+index}>+</Button>
               </Col>
             </Row>
           </Col>
@@ -99,10 +113,10 @@ export default class Menu extends Component {
         <div>{itemCards}</div>
         <Row>
           <Col><Button color="secondary" onClick={this.resetCounts}>Reset</Button></Col>
-          <Col><Button color="primary" onClick={() => {
-              localStorage.setItem('itemList', this.state.menu_items);
-              localStorage.setItem('itemQuantity', this.state.item_order_counts);
-          }}>Add to Cart</Button></Col>
+          <Col><Button color="primary" id='addCart'>Add to Cart</Button></Col>
+          <Col>
+              <Cart onClick={this.collectData()} data={this.listdata} />
+          </Col>
         </Row>
         
       </div>

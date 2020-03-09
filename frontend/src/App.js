@@ -14,7 +14,7 @@ import restoHome from './components/restoHome'
 import ProfileSettings from './components/profilesettings';
 import UserOrders from './components/userorders';
 import RestoMain from './components/restaurantMainView';
-import ShoppingCart from './components/shoppingcart';
+import ShoppingCart from './components/shoppingCartDi';
 
 const {Sider} = Layout;
 
