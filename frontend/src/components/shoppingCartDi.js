@@ -69,7 +69,7 @@ export default class App extends Component{
         return(
             <div>
                 <Tooltip title="My cart">
-                <Button type="primary" shape={"circle"} onClick={this.showModal}>
+                <Button id='cartPic' type="primary" shape={"circle"} onClick={this.showModal}>
                     <Icon type="shopping-cart" />
                 </Button>
                 </Tooltip>

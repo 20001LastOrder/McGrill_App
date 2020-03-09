@@ -1,146 +1,118 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import { List, Avatar, Icon, Layout, Pagination, Button, Rate, Popover, Descriptions } from 'antd';
-import 'antd/dist/antd.css'
-import Grid from '@material-ui/core/Grid';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import IconButton from '@material-ui/core/IconButton';
-const { Header } = Layout;
-const sample_menu_item1 = {
-  name: "burger",
-  description: "desc1",
-  price: 5,
-  sold_out: false,
-  stock: 12
-};
+import {List,Tooltip, Modal, Button, Icon} from "antd";
 
-const sample_menu_item2 = {
-  name: "fries",
-  description: "desc2",
-  price: 2,
-  sold_out: false,
-  stock: 20
-};
 
-export default class Content extends Component {
-  listdata = new Array();
+export default class App extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            visible: false,
+            data:[]
+        };
+    }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      order_items: [],
-      item_order_counts: []
+    showModal = () =>{
+        this.setState({
+            visible: true,
+        })
     };
-  }
 
-  componentDidMount() {
-    let items = localStorage.getItem('itemList') ? localStorage.getItem('itemList') : [];
-    let counts = localStorage.getItem('itemQuantity') ? localStorage.getItem('itemQuantity') : [];
-    items.push(sample_menu_item1);
-    items.push(sample_menu_item2);
-    counts.push(1);
-    counts.push(2);
-    let ctr = 0; 
-    items.map(item => (
-      this.listdata.push({
-        title: item.name,
-        description: item.description + ' ' + '$' + item.price,
-        index : ctr++
-      })));
-
-    this.setState({ order_items: items });
-    this.setState({ item_order_counts: counts });
-  }
-
-
-
-  itemRender = (current, type, originalElement) => {
-    if (type == 'prev') {
-      return <a>Previous</a>;
+    handleOk = () =>{
+        this.setState({loading:true});
+        setTimeout(()=>{
+            this.setState({loading:false,visible:false});
+        }, 3000)
     }
-    if (type == 'next') {
-      return <a>Next</a>;
+
+    handleCancel = () =>{
+        this.setState({visible: false});
+    };
+
+    getTotalPrice = () =>{
+        let sum = 0;
+        this.state.data.forEach(
+            (item)=>{
+                sum = sum+(item.count*item.item.price)
+            }
+        )
+        return sum
     }
-    return originalElement;
-  }
 
-  incrementItem = index => {
-    let counts = [...this.state.item_order_counts];
-    counts[index]++;
-    this.setState({ item_order_counts: counts });
-  };
+    componentDidMount() {
+        this.setState({data:this.props.data})
+    }
 
-  decreaseItem = index => {
-    let counts = [...this.state.item_order_counts];
-    counts[index]--;
-    this.setState({ item_order_counts: counts });
-  };
+    incrementCount=(index)=>{
+        let change = this.state.data
+        change[index].count++
+        this.setState({data:change})
+    }
 
-  render() {
-    return (
-      <div>
-        <Header style={{ background: '#fff', height: "auto", paddingLeft: 20 }}><span style={{
-          textAlign: "center",
-          paddingLeft: 20
-        }}><b>My Shopping Cart</b></span></Header>
+    decrementCount=(index)=>{
+        let change = this.state.data
+        change[index].count--
+        this.setState({data:change})
+    }
 
-        <List itemLayout="horizontal "
-          bordered={true}
-          size={"large"}
-          pagination={{
-            onChange: page => {
-              console.log(page);
-            },
-            pageSize: 3
-          }}
-          dataSource={this.listdata}
-          renderItem={item => (
-            <List.Item
-              actions={[
-                <Grid item xs={6}>
-                  <Grid container spacing={40} direction="row" justify="center"
-                    alignItems="center" spacing={3}>
-                    <Grid item xs={5}>
-                      <IconButton onClick={() => this.incrementItem(item.index)}>
-                        <AddCircleIcon></AddCircleIcon></IconButton>
-                    </Grid>
-                    <Grid item xs={1}>
-                      {this.state.item_order_counts[item.index]}
-                    </Grid>
-                    <Grid item xs={3}>
-                      <IconButton onClick={() => this.decreaseItem(item.index)}><RemoveCircleIcon></RemoveCircleIcon></IconButton>
-                    </Grid>
-                  </Grid>
-                </Grid>,
-                <Popover placement={"left"} content={
-                  <div>{}
-                    <br /><b>Operating Hours</b>
-                    <br /><b>Week Days 7:00AM - 20:30PM</b>
-                    <br /><b>Weekend 8:00AM - 20:00PM</b></div>
-                } title="About this restaurant" trigger="hover">
-                  <Button size={"small"}>Info</Button></Popover>]}
-            >
-              <List.Item.Meta
-                avatar={<Popover placement={"right"} content={<img style={{
-                  display: 'inline-block',
-                  width: '300px',
-                  height: '100%',
-                  padding: 10
-                }} alt="example"
-                />} trigger="hover">
-
-                </Popover>}
-                title={<a href={item.href}>{item.title}</a>}
-                description={item.description}
-              />
-            </List.Item>
-          )}
-        >
-        </List>
-        <div><Button variant="contained" color="primary">Checkout</Button></div>
-      </div>
-    );
-  }
+    render(){
+        const{visible, loading} = this.state;
+        let renderList = this.state.data
+        for(var i=0; i<renderList.length;i++){
+            renderList[i].id=i
+        }
+        renderList= renderList.filter(item=>{
+            return item.count !==0;
+        })
+        let totalPrice = this.getTotalPrice();
+        return(
+            <div>
+                <Tooltip title="My cart">
+                <Button type="primary" shape={"circle"} onClick={this.showModal}>
+                    <Icon type="shopping-cart" />
+                </Button>
+                </Tooltip>
+                <Modal
+                    visible={visible}
+                    title="Here are your items"
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    footer={[
+                        <a key="total" style={{paddingRight:5}}>Total:</a>,
+                        <a key="totalprice" style={{paddingRight:7, color:"red"}}>${totalPrice}</a>,
+                        <Button key="submit" type="primary" shape={"round"} size={"small"} loading={loading} onClick={this.handleOk}>
+                            Order all of these!
+                        </Button>,
+                    ]}
+                >
+                    <List
+                        itemLayout={"horizontal"}
+                        dataSource={renderList}
+                        renderItem={item =>(
+                            <List.Item actions={[
+                                <Icon type="minus-circle" onClick={()=>this.decrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>,
+                                <div>{item.count}</div>,
+                                <Icon type="plus-circle" onClick={()=>this.incrementCount(item.id)} theme="twoTone" style={{ fontSize: '32px' }}></Icon>
+                            ]}>
+                                <List.Item.Meta
+                                    title={item.item.name}
+                                    description={
+                                        <div ><Icon type="dollar" style={{ fontSize: '20px', paddingRight:5}} theme="outlined"></Icon>{item.item.price}</div>
+                                    }
+                                    avatar={<img
+                                        width={200}
+                                        height={100}
+                                        alt="logo"
+                                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                    />}
+                                />
+                            </List.Item>
+                        )
+                        }
+                    />
+                </Modal>
+            </div>
+        )
+    }
 }
