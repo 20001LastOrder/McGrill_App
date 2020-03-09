@@ -12,7 +12,7 @@ When(/^Kurtis remove a burger from the cart$/, async()=> {
 
 Then(/^the cart should only have one fries left$/, async()=> {
     await client.expect.element('li[id=fries]').to.be.visible;
-    await client.expect.element('li[id=burger]').to.be.invisible;
+    await client.expect.element('li[id=burger]').to.be.not.present;
 
 });
 
