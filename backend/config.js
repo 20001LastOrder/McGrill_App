@@ -3,7 +3,7 @@ prod = {
 }
 
 dev = {
-    'dburi': 'mongodb+srv://q53677610:admin@cluster0-7depn.mongodb.net/test?retryWrites=true&w=majority'
+    'dburi': 'mongodb://q53677610:admin@cluster0-shard-00-00-7depn.mongodb.net:27017,cluster0-shard-00-01-7depn.mongodb.net:27017,cluster0-shard-00-02-7depn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority'
 }
 
 test = {
